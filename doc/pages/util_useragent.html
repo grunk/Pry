@@ -1,0 +1,26 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Util_UserAgent</strong> permet l'identification de navigateur.<br />
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Vérification d'un navigateur<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$ua = new UserAgent($_SERVER['HTTP_USER_AGENT']);
+	if($ua->isMobile()){ echo 'Navigateur mobile'; }
+	//Ajout d'un type de navigateur mobile
+	$ua->addMobile('Mon Mobile');
+	$mesMobiles = array('mobile 1', 'mobile2');
+	$ua->addMobile($mesMobiles);
+	//Retrait d'un type de mobile
+	$ua->removeMobile('Nokia');]]>
+</script>
+<p>
+	Vérification d'un navigateur<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$ua = new UserAgent($_SERVER['HTTP_USER_AGENT']);
+	var_dump($ua->isAndroid());]]>
+</script>

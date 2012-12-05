@@ -1,0 +1,25 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Crypt</strong> permet de crypter et decrypter des fichiers.<br />
+	<br />
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Cryptage et décryptage d'un fichier en 3DES (mode par défaut). Consulter l'api pour les paramètres possible pour le constructeur<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$key = 'lOredvksghvpaj45Skfo8dk4'; // Clé de cryptage
+	$fileclear = 'test/test.txt'; //Fichier original
+	$filecrypt = 'test/test_crypt.txt'; //Fichier crypté
+	$filedecrypt = 'test/test_decrypt.txt'; //Fichier décrypté
+
+	$crypter = new Crypt($key);
+	$crypter->crypt(new FileManager($fileclear), new FileManager($filecrypt),false);
+	$crypter->decrypt(new FileManager($filecrypt), new FileManager($filedecrypt),false);
+]]>
+</script>
+
+<div class="alert alert-warn">
+	File_Crypt demande l'utilisation de Fil_FileManager
+</div>

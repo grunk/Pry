@@ -1,0 +1,19 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>HTTPDownload</strong> permet de simplifier les téléchargements via PHP.<br />
+	Il n'est pas recommandé d'utiliser cette classe pour télécharger des fichier très volumineux. Il faudra alors lui préféré une solution basé sur l'entête X-SendFile.
+</p>
+<h2>Exemple</h2>
+<p>
+	Envoi d'un fichier :<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$file	= 'fichier.pdf';
+	$http  	= new HTTPDownload($file);
+	$http->setName('monfichier.pdf');
+	$http->download();]]>
+</script>
+
+<div class="alert alert-info">
+	La méthode  <strong>setName</strong> est optionnelle. Elle permet de définir le nom qu'aura le fichier en arrivant sur le pc de l'utilisateur. très utile dans les cas où on stock les fichiers avec des noms aléatoires.
+</div>

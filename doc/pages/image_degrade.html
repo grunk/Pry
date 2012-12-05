@@ -1,0 +1,22 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Image_DegradeCouleur</strong> permet de créer un dégradé de couleur.<br />
+</p>
+<h2>Exemple</h2>
+  <p>
+	Création d'un dégradé horizontal bleu de 110px x 110px :<br />
+  </p>
+	<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+		$image = new DegradeCouleur(110,110);
+		$image->startColor = $image->hexToRgb('28abe2');
+		$image->endColor   = $image->hexToRgb('2d3192');
+
+		$image->direction  = Image_DegradeCouleur::DEGRADE_HORIZONTAL;
+		$image->degrade();
+		$image->setType(Image_DegradeCouleur::IMG_JPG);
+		$image->display();]]>
+	</script>
+	<p>
+		Ce code va générer un dégradé équivalent à celui ci : 
+		<img src="img/degrade.png" /><br /><br />
+	</p>

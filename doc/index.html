@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Pry Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Documentation framework Pry">
+    <meta name="author" content="Olivier ROGER">
+	
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/shCore.js"></script>
+	<script type="text/javascript" src="js/shBrushJScript.js"></script>
+	<script type="text/javascript" src="js/shBrushPhp.js"></script>
+	<script type="text/javascript" src="js/shBrushXml.js"></script>
+	<script type="text/javascript" src="js/shBrushPlain.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="css/shThemeRDark.css"/>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">Documentation Pry Framework</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav" id="menuContainer">
+
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9" id="content">
+			<h2>Présentation</h2>
+			<p>Pry est un framework qui peut être utilisé comme un simple ensemble de librairie ou comme un framework MVC.<br /> Pour le détails de chaque composant utilisez le menu ci contre, pour l'initialisation MVC voir ci dessous</p>
+			<h2>Initialisation MVC</h2>
+			<p><a href="application.zip">Télécharger une application de démo</a></p>
+			<h3>1- Structure de base</h3>
+			<p>
+				Commencez par créer un dossier qui servira de racine pour votre application.
+				Dans ce dossier créer un dossier <em>"pub"</em> qui servira à déposer tous les fichiers publics (index , image , css, js ...).
+				Toujours à la racine , créer un dossier <em>"includes"</em> qui contiendras les sous dossiers suivants : 
+				<ul>
+					<li>config</li>
+					<li>controllers</li>
+					<li>models</li>
+					<li>view</li>
+				</ul>
+				
+				Ce qui au final donne quelque chose comme ceci :<br /> 
+				<img src="img/arbo.png" />
+				
+				<strong>Note : </strong> Cette structure est seulement conseillée , vous pouvez organisez vos dossiers comme bon vous semble.<br />
+			</p>
+			<h3>2- Vhost</h3>
+			<p>Une fois la structure générale du projet mise en place il faut créer un vhost qui pointera directement dans le dossier <em>"pub"</em> crée auparavant : 
+			
+			<script type="syntaxhighlighter" class="brush: plain"><![CDATA[
+			<VirtualHost *:80>
+				DocumentRoot "D:\www\Pry\application\pub"
+				ServerName monsite.com
+
+				<Directory D:\www\Pry\application\pub>
+					DirectoryIndex index.php
+					AllowOverride All
+					Order allow,deny
+					Allow from all
+				</Directory>
+			</VirtualHost>]]>
+			</script>
+			<br />
+			Encore une fois l'utilisation d'un vhost n'est pas indispensable mais permet de clairement séparer les documents publics des fichiers n'ayants pas besoin d'être accessibles depuis le web. Dans le cas ou vous n'utilisez pas de vhost il sera plus simple de déplacer l'index.php à la racine du dossier de l'application.
+			</p>
+			
+			<h3>3- Index.php (bootstrap) &amp; htaccess</h3>
+			<p>
+				Créer dans <em>"pub"</em> un htaccess qui va rediriger les requêtes sur l'index dans un paramètre url : 
+				<script type="syntaxhighlighter" class="brush: plain"><![CDATA[
+				RewriteEngine On
+				RewriteCond %{REQUEST_FILENAME} !-d
+				RewriteCond %{REQUEST_FILENAME} !-f
+				RewriteCond %{REQUEST_FILENAME} !favicon.ico$
+				RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]]]>
+				</script>
+				
+				Toujours dans le dossier <em>"pub"</em> créez maintenant un index.php qui va initialiser le framework : 
+				
+				<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+					define("CONF_MODE",'dev'); //Définition d'une constante pour le mode de config
+					ini_set('display_errors', 'on');
+
+					require_once "../../Pry/Pry.php"; // Inclusion de l'autoloader du framework
+					require_once '../../Pry/Twig/Autoloader.php'; // Inclusion autoloader de twig moteur de template
+
+					//Autoload
+					Pry::register(); // On enregistre les différents autoloader
+
+					//Config
+					try
+					{
+						$configIni = new Config_Ini('../includes/config/config.ini',CONF_MODE); // Lecture du fichier de config
+						Util_Registry::set('Config',$configIni); // Sauvegarde de l'objet config
+						define('ROOT_PATH',$configIni->root.DIRECTORY_SEPARATOR); // Définition de la racine du projet
+					}
+					catch(Exception $e){
+						echo $e->getMessage();
+					}
+
+
+					//Réglage horaire
+					date_default_timezone_set('Europe/Paris');
+					//Moteur de template
+					Twig_Autoloader::register();
+					$loader = new Twig_Loader_Filesystem(ROOT_PATH.'includes/view/'); // Définition du dossier des vues
+					$twig 	= new Twig_Environment($loader, array(
+					  'cache' 		=> false/*ROOT_PATH.'includes/template/cache/'*/,
+					  'auto_reload'	=> false,
+					  'trim_blocks' => true
+					));
+					
+					$view = array();
+					//Enregistrement de l'objet twig et de la variable de vue
+					Util_Registry::set('twig',$twig);
+					Util_Registry::set('view',$view);
+					
+					// Initialisation du controller
+					$router = Controller_Router::getInstance();
+					$router->setPath(ROOT_PATH.'includes/controllers/');
+
+					$router->load();]]>
+				</script>
+			</p>
+			<h3>4- Fichier de config</h3>
+			<p>
+				Si vous lancez votre application dans l'état vous aurez des erreurs puisqu'il manque encore des fichiers.
+				Dans "includes/config" créez un fichier de config "config.ini" avec comme contenu minimal : 
+				
+				<script type="syntaxhighlighter" class="brush: plain"><![CDATA[
+				[dev]
+				root	         = D:/www/Pry/application
+				url             = http://localhost/Pry/application]]>
+				</script>
+				
+				La section [dev] correspond au mode de config défini au tout début de l'index. On peut ainsi définir plusieurs mode de configuration.
+				Il est également possible d'implémenter de l'héritage avec la synthaxe [nouvelleSection:sectionMere].
+				Exemple de fichier plus complet : 
+				<script type="syntaxhighlighter" class="brush: plain"><![CDATA[
+				[prod:dev]
+				database.params.username = prod_username
+				database.params.password = super_secret_password
+				database.params.dbname = prod_db
+
+				url = http://mywebsite.com/
+				root = /var/www
+
+				[dev]
+				database.adapter = pdo_mysql
+				database.params.host = localhost
+				database.params.username = root
+				database.params.password = 
+				database.params.dbname = test
+				root	         = D:/www/Pry/application
+				url             = http://localhost/Pry/application
+				</script>
+			</p>
+			<h3>5- Controllers &amp; vues</h3>
+			<p>
+				Par défaut le framework attends à minima le controller index. Créer donc dans "includes/controllers/" le fichier index.php avec pour contenu : 
+				<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+					class indexController extends Controller_BaseController
+					{
+						public function __construct($req, $codeLangue = 'fr')
+						{
+							parent::__construct($req, $codeLangue);
+						}
+
+						public function index()
+						{
+							$template           = $this->template->loadTemplate('index/index.html');
+							echo $template->render($this->view);
+						}
+						
+					}]]>
+				</script>
+				
+				Le controller va charger la vue index , il faut donc créer le fichier "index.html" dans "includes/view/index".
+				
+				Le framework utilise également le controller "errorController" par défaut il faut donc le créer sur le même model que indexController.
+			</p>
+			<h3>6- Test</h3>
+			<p>
+				A ce stade vous devriez être en mesure de lancer voter application
+			</p>
+			
+			<h3>7- BDD / Authentification / Session ...</h3>
+			<p>
+				Le bootstrap proposé est relativement simple. Vous pourrez par exempl avoir besoin d'initialiser une connexion à une bdd et la rendre disponible dans toute l'application. Un exemple utilisant Zend_Db intégré au framework : <br />
+				<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+					//Début bootstrap avec lecture du fichie de config
+					try
+					{
+						$options = $configIni->database->params->toArray()
+									+ array('driver_options'=>
+											array(PDO::MYSQL_ATTR_INIT_COMMAND  =>'SET NAMES UTF8;',
+												  PDO::ATTR_EMULATE_PREPARES    => false,
+												  PDO::ATTR_ERRMODE             => PDO::ERRMODE_EXCEPTION));
+
+						$sql = Zend_Db::factory($configIni->database->adapter,$options);
+						$sql->getConnection();
+
+						Util_Registry::set('Db',$sql); // Ebnregistrement de l'objet Zend_Db accessible via $this->db dans les controllers
+					}
+					catch(Zend_Db_Adapter_Exception $e){
+						echo $e->getError();
+					}]]>
+					
+				</script>
+			</p>
+			<h3>8- Url et paramètre</h3>
+			<p>
+			Les url en mode MVC fonctionne comme ceci : http://monsite.com/nomController/nomAction<br />
+			Par exemple l'url http://site.com/article/lire fera appel au controller articleController et à sa méthode lire()<br /><br />
+			
+			Pour passer des paramètres dans une url il faut utiliser la synthaxe suivante : <br />
+			http://site.com/nomController/nomAction/nomParam/valeur/nomParam2/valeur<br />
+			Par exemple : http://site.com/article/lire/id/15/page/2
+			</p>
+		</div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Prynel 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/menu.js"></script>
+  </body>
+</html>

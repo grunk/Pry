@@ -1,0 +1,27 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Registery</strong> est un conteneur qui permet de stocker des valeuers et des objets .<br />
+	Voir zend_registry pour plus de détail
+	
+</p>
+<h2>Exemple</h2>
+<p>
+	Ajout d'une valeur dans le registre<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	Registry::set('nom',321654);]]>
+</script>
+<p>
+	Récupération d'une valeur dans le registre<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	Registry::get('nom');]]>
+</script>
+
+<p>
+	Test d'une valeur dans le registre<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	if(Registry::isRegistered('nom'))
+	   echo Registry::get('nom');]]>
+</script>

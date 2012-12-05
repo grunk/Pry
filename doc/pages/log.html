@@ -1,0 +1,40 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Log</strong> permet d'écrire des journaux.<br />
+</p>
+<h2>Exemple</h2>
+<p>
+	Ecriture d'un log dans un fichier mensuel limité à 5 lignes avant écrasement des logs précédents :<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	
+	$writer = new Pry\Log\Writer\File('test');
+	$writer->setDuration(Pry\Log\Writer\File::MONTHLY);
+	$writer->setLineLimit(5);
+	$log = new Pry\Log\Log($writer);
+	$log->error('message '.date('H:i:s'));]]>
+</script>
+
+<p>
+	Ecriture d'un log sur un serveur syslog :<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	
+	$writer = new Pry\Log\Writer\Syslog('172.16.12.227');
+	$writer->setApp('PHP');
+	$writer->setFacility(1);
+	$writer->setSeverity(Pry\Log\Writer\Syslog::ERROR);
+	$log = new Pry\Log\Log($writer);
+	$log->write('Message test');]]>
+</script>
+
+<h2>Ajout de writer</h2>
+<p>
+	Il est possible d'ecrire de nouveau writer pour Log_Log simplement en étendant <strong>Log_Writer_Abstract</strong>.<br />
+	Actuellement 3 writers sont disponibles :
+	<ul>
+		<li>Fichier</li>
+		<li>Base de données</li>
+		<li>Syslog</li>
+	</ul>
+</p>

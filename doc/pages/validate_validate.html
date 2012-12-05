@@ -1,0 +1,42 @@
+<h2>Présentation</h2>
+<p>
+	Le composant <strong>Validate</strong> permet d'effectuer des validations de données à l'aide des différents validateurs disponibles.<br />
+	Une validation peux se faire de deux façons différentes :
+</p>
+<h2>Exemple</h2>
+<p>
+	Utilisation de la factory Validate. Utile lorsque l'on souhaite utiliser plusieurs validateurs<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$factory = new Validate();
+	$factory ->addValidator('Date','fr', 'pas une date fr'); // le second paramètre est une option qui sera passé au validateurs (optionnelle)
+	var_dump($factory ->isValid('2004-12-12 10:15:23'));]]>
+</script>
+<div class="alert alert-info">
+Le second paramètre de <strong>addValidator()</strong> est optionnel et sera passé au constructeur du validateur. Consulter l'API des validateurs afin de voir si il supporte ou non cette option.<br />
+Le dernier paramètre représente le message qui sera retourné en cas de non validation de la donnée.
+</div>
+<p>
+	Utilisation du validator directement<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$validator = new Pr\Validate\Validator\Date('fr');
+	var_dump($validator->isValid('27/08/09'));]]>
+</script>
+
+<h2>Ajout de validateur</h2>
+<p>
+	Pour créer des validateurs supplémentaires il suffit d'étendre <strong>Validate_Abstract</strong>.<br />
+	Actuellement neuf validateurs sont disponibles : 
+</p>
+<ul>
+	<li>Alnum : Validation de caractère alphanumérique</li>
+	<li>Alpha : Validateur de chaine de caractères (inclus espace et -)</li>
+	<li>CP : Validation de code postaux français (et corse)</li>
+	<li>Date : Validation de date au format fr/us/sql/sql datetime</li>
+	<li>Digit : Validation de nombre</li>
+	<li>Email : Validation d'adresse email. Equivalent de Util_String::isMail()</li>
+	<li>Equal : Validation d'égalité</li>
+	<li>Interval : Vérifie si une valeur numérique est comprise dans un interval</li>
+	<li>Time : Validation d'une heure au format HH:ii:ss</li>
+</ul>

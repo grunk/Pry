@@ -1,0 +1,38 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>File_FolderManager</strong> permet de gérer les dossiers et les opérations associées.<br />
+	<br />
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Lister récursivement un dossier<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$folder = new FolderManager('test');
+	$folder->listRecursive();
+]]>
+</script>
+
+<p>
+	Lister récursivement un dossier mais en appliquant des filtres sur les types de fichier<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$folder = new FolderManager('test');
+	$folder->setFilter(array('doc','pdf')); // Ne liste que les .doc et .pdf
+	$folder->listRecursive();
+]]>
+</script>
+
+<p>
+	Zipper tous les fichier d'un dossier (non récursif)<br /> Si des filtres sont définis ils s'appliqueront.
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$folder = new FolderManager('test');
+	$foler->ZipFiles('archive.zip');
+]]>
+</script>
+
+<div class="alert alert-info">
+	Consulter l'API pour voir toutes les possibilité de la classe
+</div>

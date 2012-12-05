@@ -1,0 +1,21 @@
+<h2>Présentation</h2>
+<p>
+	La classe abstraite <strong>BaseController</strong> permet d'ajouter des fonctionnalité utile à tous les controller d'une application.<br />
+	Dans le cas ou l'application n'utiliserait pas Twig les propriété $view et $template pourrait être vide , idem pour $db.
+<br />
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Création d'une classe héritant de BaseController. L'utilisation du paramètre de lang est optionnel dans le cas d'un site non multilangue<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	class myController extends BaseController
+	{
+		public function  __construct($params)
+		{
+			parent::__construct($params,'fr');
+		}
+	}
+]]>
+</script>

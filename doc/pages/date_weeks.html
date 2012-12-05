@@ -1,0 +1,17 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Weeks</strong> permet de gérer un semainier. Il offre la possibilité de trouver les bornes d'une semaine données ainsi que toutes les dates la composant<br />
+	<br />
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Semaine en cours<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$date = new Weeks(date('W'),2012);
+	var_dump($date->getBoundaries()); // Retourne le lundi et le dimanche de la semaine
+	var_dump($date->computeDays()); // calcule et retourne tous les jours de la semaine
+	var_dump($date->computeNextPrev()); // Calcul les numéros de semaine suivante et précédente
+	var_dump($date->getMysqlDays()); // Retourne les jours de la semaine au format mysql ]]>
+</script>

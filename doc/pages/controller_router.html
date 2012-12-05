@@ -1,0 +1,80 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Router</strong> permet la mise en place d'un pattern MVC ainsi que d'url "propre" pouvant être redéfini à volonté avec des règle de routage.<br />
+	L'utilisation du Router nécessite la mise en place d'une htaccess redirigeant toutes les requêtes vers la page index.php : 
+	<br />
+</p>
+<p> Exemple d'htaccess récrivant toutes les requêtes vers index.php sauf le dossier pub et les extensions spéicifiées</p>
+<script type="syntaxhighlighter" class="brush: plain"><![CDATA[
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !favicon.ico$
+	RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</script>
+<div class="alert alert-info">
+	L'index.php étant le lieu de passage commun de tous les scripts il est fortement conseillé de le faire le plus léger possible et de n'y inclure que le nécessaire et de spécialiser ensuite chaque controller.
+</div>
+
+<h2>Exemple</h2>
+<p>
+	Exemple minimal permettant de démarrer le router :<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$router = Router::getInstance();
+	$router->setPath(ROOT_PATH.'includes/controllers/'); // Dossier où sont situés les controllers
+	$router->load(); // Démarrage de l'application]]>
+</script>
+<br />
+<p>Création de règle de routage permettant de rediriger l'url test/regles/x/hello vers le controller index et l'action withRule. X étant un paramètre au choix qui sera ensuite passé au controller avec sa clé (ici id) </p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$router = Router::getInstance();
+	$router->setPath(ROOT_PATH.'includes/controllers/'); // Dossier où sont situés les controllers
+	$router->addRule('test/regles/:id/hello', array('controller' => 'index','action' => 'withRule'));
+	$router->load(); // Démarrage de l'application ]]>
+</script>
+<br />
+<div class="alert">
+	Les fonctions multilangues sont expérimentales et non pas été suffisament testé
+</div>
+<p>
+	Activation du support du multilangue. Cela permet d'avoir des url de la forme monsite.com/codeLangue/controller/action/paramName/paramValue<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$router = Router::getInstance();
+	$router->setPath(ROOT_PATH.'includes/controllers/'); // Dossier où sont situés les controllers
+	$router->setMultiLangue(true);
+	$router->load(); // Démarrage de l'application ]]>
+</script>
+<br />
+<p>
+	Activation du multilingue et définition d'url multilingue. Cela permet d'avoir des url du type monsite.com/index/recherche qui devient monsite.com/index/search dans une autre langue.<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$router = Router::getInstance();
+	$router->setPath(ROOT_PATH.'includes/controllers/'); // Dossier où sont situés les controllers
+	$urlTraduction = array(
+		'fr'=>array(
+			'accueil'=>array( // Nom controller de base
+				'controllerName'	=> 'index', // Nom traduit
+				'actionsNames'		=> array( // Lien traduction => nom action
+					'presentation'	=> 'index',
+					'liste'			=> 'list',
+					'recherche'		=> 'search'
+				)
+			)
+		),
+		'en'=>array(
+			'accueil'=>array( 
+				'controllerName'	=> 'index',
+				'actionsNames'		=> array(
+					'slideshow'		=> 'index',
+					'list'			=> 'list',
+					'research'		=> 'search'
+				)
+			)
+		)
+	);
+	$router->setControllerTraduction($urlTraduction);
+	$router->load(); // Démarrage de l'application ]]>
+</script>

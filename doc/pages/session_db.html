@@ -1,0 +1,33 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>DbStorage</strong> permet d'utiliser les session avec une base de données plutôt que de passer par le système classique de PHP.<br />
+	La table gérant les sessions devra contenir au minimum 3 colonnes : 
+	<ul>
+		<li>Une colonne pour un id</li>
+		<li>Une colonne pour les données</li>
+		<li>Une colonne pour un temps (datetime)</li>
+	</ul>
+</p>
+<h2>Exemple</h2>
+<p>
+	Configuration des sessions pour utiliser la base de données<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$sessionTable = array(
+	'db_table'    => 'php_sessions',
+	'db_id_col'   => 'id',
+	'db_data_col' => 'data',
+	'db_time_col' => 'ttl');
+	
+	//$sql est ici un obje Zend_Db_Abstract
+	$sess = DbStorage::getInstance($sql,$sessionTable, 3600);
+	//Inialisation de la session
+	Session::getInstance('PrynSess',60,false);
+	$sess->login = 'oroger';
+
+	var_dump($_SESSION);]]>
+</script>
+
+<div class="alert alert-info">
+	La classe n'a pas complètement été testé , elle est disponible ici à titre expérimental.
+</div>

@@ -1,0 +1,18 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>File_FileCSV</strong> est une extension de File_FileManager qui permet de créer directement des fichiers au format CSV
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Création d'un fichier avec 3 colonnes ayant pour séparateur ";"<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$csv = new FileCSV('test/test.csv',';');
+	$csv->addColumns(array('Col 1','Col2','Col3'));
+	$csv->addLine(array('Val11','Val12','Val13'));
+	$csv->addBlankLine();
+	$csv->addLine('Val11;Val12;Val13'); // Il possible d'ajouter une ligne directement
+	$csv->close();
+]]>
+</script>

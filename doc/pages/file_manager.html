@@ -1,0 +1,50 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>File_FileManager</strong> est un wrapper des fonction de fichier classique de PHP. Elle apporte également des fonctions utilies pour les fichiers
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Récupération des informations d'un fichier (extension , nom , taille , type)<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$file = new FileManager('test.txt');
+	//Retourne les infos du fichier
+	$fichier = $file->getInfo();
+	var_dump($fichier);
+]]>
+</script>
+<p>
+	Ecriture de 10 lignes dans dans un fichier<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$file = new FileManager('test/test.txt');
+	$file->open(FileManager::ADD); // Ouverture en mode ajout
+	for($i=0; $i < 10; $i++)
+		$file->writeLine('Ligne '.$i);
+	$file->close();
+]]>
+</script>
+<p>
+	Ecriture dans un fichier à une ligne particulière<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$file = new FileManager('test/test.txt');
+	$file->open(FileManager::READ_WRITE_ADD);
+	$file->insertLine('insertion',6);
+	$file->close();
+]]>
+</script>
+
+<p>
+	Suppression d'un fichier<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$file = new FileManager('test/test.txt');
+	$file->delete();
+]]>
+</script>
+
+<div class="alert alert-info">
+	Pour les opérations simple d'écriture / lecture il est conseillé de préférer file_get_contents et file_put_contents
+</div>

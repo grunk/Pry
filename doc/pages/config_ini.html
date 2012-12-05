@@ -1,0 +1,38 @@
+<h2>Présentation</h2>
+<p>
+	Les classes <strong>Config et Ini</strong> sont basées sur Zend_Config et permettent la lecture de fichier de configuration au format ini.<br />
+	Il est possible de créer un héritage entre les sections du fichier ini à l'aide de l'opérateur ":". Par exemple [dev:prod] signifie que la section dev va hériter de la section prod.<br />
+	De même si les clé du fichier contiennent un ".", il sera considéré comme un opérateur de séparation afin de créer des sous propriétés : db.host , db.dbname, mail.from, mail.type ...
+<br />
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Lecture d'un fichier config.ini et lecture de la propriété db.host<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	try {
+		$ini = new Ini('config.ini');
+		echo $ini->db->host;
+	} catch(Exception $e) {
+		echo $e->getError();
+	}
+]]>
+</script>
+<p>Si le fichier contient plusiers section il est possible de n'en lire qu'une : </p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	try {
+		$ini = new Ini('config.ini','lasection');
+		echo $ini->db->host;
+	} catch(Exception $e) {
+		echo $e->getError();
+	}
+]]>
+</script>
+<p>L'objet config peut être construit à partir d'un tableau. Cela peut permettre de mettre en cache une configuration et de la recharger à la demande : </p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$array = $ini->toArray();
+	$ini2  = new Config($array);
+	echo $ini2->db->host;
+]]>
+</script>

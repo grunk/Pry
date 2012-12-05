@@ -1,0 +1,17 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Session</strong> permet d'enrichir l'utilisation des session PHP avec notamment la possibilité de vérifier la validité d'une session ou encore de regénérer un token d'identification pour augmenter la sécurité.<br />
+	
+</p>
+<h2>Exemple</h2>
+<p>
+	Définition d'une session avec 1 sec de durée de vie , puis check de la session après 3 sec<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$sess = Session::getInstance('PrynSess',1);
+	$sess->login = "oroger";
+	var_dump($_SESSION);
+	sleep(3);
+	$sess->check();
+	var_dump($_SESSION);]]>
+</script>

@@ -1,0 +1,34 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Util</strong> regroupe des méthodes statiques pouvant être utiles dans les actions d'authentifications.
+	<br />
+</p>
+
+<h2>Exemple</h2>
+<h3 style="margin-left:30px">passwordComplexity</h3>
+<p>
+	Permet de mesurer la complexiter d'un mot de passe en fonction de critères permettant d'ajouter ou retirer des points<br />
+	Les points sont attribués comme suit : <br />
+	Ajout : 
+	<ul>
+		<li>minuscule = +(longueur - nbMinuscule)*nbMinuscule</li>
+		<li>majuscule = +((longueur - nbMajuscule)*nbMajuscule)+3</li>
+		<li>chiffre   = nbChiffre*4</li>
+		<li>autre     = nbAutre*8</li>
+	</ul>
+	Retrait : 
+	<ul>
+		<li>nombre charactère identique * 3</li>
+		<li>nombre minuscule consécutive * 2</li>
+		<li>nombre majuscule consécutive * 2</li>
+		<li>nombre chiffre consécutif * 2</li>
+		<li>nombre autre</li>
+	</ul>
+	On considère un score de 0 à 33 comme mauvais , de 33 à 66 comme moyen, de 66 à 100 comme bon et de 100+ comme excellent
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	echo Util::passwordComplexity('test'); // 5
+	echo Util::passwordComplexity('Te5t l0ng'); //53
+	echo Util::passwordComplexity('m0!d3P4$sCoMpleX'); //152
+]]>
+</script>

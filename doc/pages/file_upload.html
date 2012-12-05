@@ -1,0 +1,34 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>File_Upload</strong> permet l'envoi de un ou plusieurs fichier de manière sécurisé.<br />
+	Par défaut la classe accepte les extensions jpg,png,gif,zip,rar,avi,wmv,mpg,pdf,doc,docx,xls,txt et les mimes image/gif,image/jpeg,image/png,text/plain,application/pdf.<br />
+	Le troisième paramètre optionnel du constructeur permet de définir comment vérifier les types mimes. Par défaut le type mime envoyé par HTTP est utilisé , il est conseillé d'utiliser MIME_CHECK_FINIFO si l'extension finfo est disponible.
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Envoi d'un fichier<br />
+</p>
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+	<form enctype="multipart/form-data" method="post" action="upload.php">
+		<input type="file" name="files[]" />
+		<input type="hidden" name="MAX_FILE_SIZE" value="128000">
+		<input type="submit" value="envoyer" />
+	</form>
+]]>
+</script>
+
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	try{
+		$upload = new Upload('files','/test/upload/');
+		//Ajout d'extension
+		$upload->addExtension(array('perso','perso2')); //Ajout d'extension autorisé
+		//Ajotu de type mime
+		$upload->addMimeType('test/pry');
+		$upload->upload();
+	}
+	catch(Util_ExceptionHandler $e){
+		echo $e->getError();
+	}
+]]>
+</script>

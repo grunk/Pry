@@ -1,0 +1,52 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Request</strong> permet de gérer facilement une requête HTTP et son contenu.<br />
+	Un objet Net_Request est accessible directement dans un controller qui héritera de Controller_BaseController.<br /><br />
+	Il est possible d'appliquer un filtre sur les méthodes get() et getPost() : 
+	<ul>
+		<li>int</li>
+		<li>float</li>
+		<li>string</li>
+		<li>email</li>
+		<li>url</li>
+	</ul>
+</p>
+<h2>Exemples</h2>
+<p>
+	Récupération simple des paramètres POST <br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$r = new Request();
+	$r->getParams('POST');
+	]]>
+</script>
+
+<p>
+	Filtrage des paramètres POST reçus <br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$r = new Request();
+	
+	$r->setDefaultMethod('post'); // Défini la méthode par défaut de getParam(s)
+	
+	$r->setFilter(array(
+		'test' => FILTER_SANITIZE_NUMBER_INT,
+		'email'=> FILTER_VALIDATE_EMAIL
+	),'post');
+	
+	$r->getParam('test');
+	
+	]]>
+</script>
+
+<p>
+	Récupération de données et filtrage indépendants <br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$r = new Request();
+	
+	$r->getPost('page','int'); //Récupération post
+	$r->get('page','int'); // Récupération get
+	
+	]]>
+</script>

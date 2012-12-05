@@ -1,0 +1,26 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Image_Image</strong> permet la création d'image et/ou la manipulation d'image existante.<br />
+</p>
+<h2>Exemple</h2>
+  <p>
+	Création d'une image en 480*320 fond noir , bordure vert et ajout d'une autre image en surimpression :<br />
+  </p>
+	<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+		$img = new Image(null,480,320);
+		$img->setType(Image_Image::IMG_PNG);
+		$img->setBgColor(0,0,0);
+		$img->setBorder(4,'#00ff00');
+
+		$img->addLogo('clock.png');
+		$img->mergelogo('ct');
+		$img->display();]]>
+	</script>
+	<p>
+		Création d'une miniature à partir d'une image existante.
+	</p>
+	<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+		$img = new Image('image.jpg');
+		$img->miniaturise(180,120);
+		]]>
+	</script>

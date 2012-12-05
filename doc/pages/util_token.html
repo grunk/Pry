@@ -1,0 +1,31 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Token</strong> permet de générer des tokens et de les vérifier.<br />
+	Cette classe peut êtr utilisé pour sécuriser des formulaire des attaque CSRF.
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Création d'un formulaire protéger par un token<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$token = Token::genToken(10);]]>
+</script>
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+	<form>
+		<input type="text" name="text" />
+		<input type="hidden" name="csrf_protect" value="<?= $token ?>" />
+	</form>]]>
+</script>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	if(!empty($_POST))
+	{
+		if(Token::checkToken())
+			echo 'token validé';
+		else
+			echo 'token invalide';
+	}]]>
+</script>
+<div class="alert">
+L'élément contenant le token doit impérativement se nommer <strong>csrf_protect</strong>
+</div>

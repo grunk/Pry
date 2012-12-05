@@ -1,0 +1,18 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Image_Gauge</strong> permet de créer une jauge avec aiguille positionnée à une valeur définie.<br />
+</p>
+<h2>Exemple</h2>
+  <p>
+	Création d'une jauge avec aiguille à 30% :<br />
+  </p>
+	<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+		$gauge = new Gauge(30);
+		$gauge->draw();
+		$gauge->display();]]>
+	</script>
+	<p>
+		Par défaut la classe utilise les images disponibles dans le dossier Image/Ressource du framework : 
+		<img src="img/gauge.png" /><br /><br />
+		il est possible dé définir d'autre image (voir API)
+	</p>

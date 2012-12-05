@@ -1,0 +1,16 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Traitement</strong> permet d'appliquer certains effet à une image.<br />
+</p>
+<h2>Exemple</h2>
+  <p>
+	Transformation d'une image en noir et blanc :<br />
+  </p>
+	<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+		$img = new Traitement(new Image('test.jpg'));
+		$img->greyScale();]]>
+	</script>
+	
+	<div class="alert">
+		La plus part des effets requierts la présence de <strong>imagefilter</strong>
+	</div>

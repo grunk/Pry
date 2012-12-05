@@ -1,0 +1,37 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Form_Form</strong> permet la création de formulaire. Cet ensemble de classe permet notamment d'utiliser des composant de formulaire avancé et des critères de validation de manière simplifiée.<br />
+</p>
+<h2>Exemple</h2>
+  <p>
+	Création d'un formulaire :<br />
+  </p>
+	<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+		$form = new Form('monForm');
+		$form->setPostedValue($_POST); // Préremplie le formulaire en cas d'erreur
+
+		$form->action('url/fichier')
+			->setAttributes('id','monid'); // Définition de l'action et d'une id pour le formulaire
+			
+		$form->add('Text','nom')
+			  ->label('Test Tooltip')
+			  ->id('nom')
+			  ->value('Mon nom')
+			  ->minLength(5)
+			  ->info('Ceci est un tooltip')
+			  ->setErrorClass('errorForm');
+			  
+		if($form->isValid($_POST))
+			echo 'Formulaire posté et validé';
+		else
+			echo $form;]]>
+	</script>
+	<div class="alert alert-info">
+		L'utilisation de certains éléments ou options nécessitent l'inclusion de certains plugins jquery tels que : 
+		<ul>
+			<li>GcColor (colorpicker)</li>
+			<li>JqueryUI (datepicker,slider,autocomplete)</li>
+			<li>JqueryUI MultiSelect Widget (select avdc option multi)</li>
+			<li>Spinbox (numeric stepper)</li>
+		</ul>
+	</div>

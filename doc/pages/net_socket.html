@@ -1,0 +1,18 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Socket</strong> facilite l'utilisation des socket PHP.<br />
+</p>
+<h2>Exemple</h2>
+<p>
+	Connexion à une socket avec définition d'un timeout maximal de 5sec :<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	try {
+	$sock = new Socket();
+	$sock->connect('192.168.1.1',1234,5);
+	$sock->write('hello');
+	$sock->disconnect();
+	} catch(Exception $e) {
+		$e->getMessage();
+	}]]>
+</script>

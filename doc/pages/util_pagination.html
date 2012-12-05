@@ -1,0 +1,24 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Pagination</strong> permet de créer une pagination à partir d'un ensemble de données.<br />
+	
+</p>
+<h2>Exemple</h2>
+<p>
+	Affichage d'une pagination<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$pager = new Pagination($total); // total = nombre total d'élément
+	$pagin = $pager->create();
+	$data = $sql->query('SELECT id FROM planning LIMIT '.$pager->itemMini.','.$pager->nbItemParPage);
+	foreach($pagin as $tab)
+	{
+		if($tab['encours'])
+			echo $tab['page'];
+		else
+			echo' <a href="?p='.$tab['page'].'">'.$tab['page'].'</a> ';
+	}]]>
+</script>
+<div class="alert alert-info">
+Le mode de pagination peut être personnalisé via le constructeur. Consulter l'API pour plus de détails.
+</div>

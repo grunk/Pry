@@ -1,0 +1,19 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Bcrypt</strong> permet de hasher des chaines de manière sécurisé.<br />
+	L'algorithme Bcrypt est lent ce qui limite les attaques par force brute. De plus la méthode de hashage prévient l'utilisation de table de comparaison type rainbowtable
+<br />
+<div class="alert">
+	Plus le nombre d'itération demandé à l'algorithme de hashage est grand plus le temps nécessaire sera long. On peut arrivé à dépasser plusieurs seconde ou minute selon la machine et les paramètres<br />
+</div>
+
+<h2>Exemple</h2>
+<p>
+	Hash d'un mot de passe puis vérification
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+ $bcrypt = new Bcrypt(10);
+ $hashed = $bcrypt->hash('monpassword');
+ var_dump($bcrypt->check('monpassword',$hashed));
+]]>
+</script>

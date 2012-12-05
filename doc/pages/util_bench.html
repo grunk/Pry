@@ -1,0 +1,21 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>Bench</strong> permet de mesurer le temps d'execution d'un script.<br />
+	
+</p>
+<h2>Exemple</h2>
+<p>
+	Mesure d'un temps d'execution avec ajout de point de mesures intermediaires<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$bench = new Bench();
+	$bench->start();
+	//Ici du code à mesurer
+	$bench->add_flag('inter1');
+	//Autre partie de code
+	$bench->add_flag('inter2');
+	//Autre partie de code
+	$bench->stop();
+	
+	var_dump($bench->result());]]>
+</script>

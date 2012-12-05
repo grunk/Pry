@@ -1,0 +1,21 @@
+<h2>Présentation</h2>
+<p>
+	La classe <strong>ACL</strong> permet de gérer des roles et des permissions pour les utilisateurs.<br />
+	Chaque rôle peut disposer de 0 ou plusieurs permissions.
+	<br />
+</p>
+
+<h2>Exemple</h2>
+<p>
+	Ajout d'un rôle administrateur avec les permission "read" et "write". Ajout d'une permission "delete" , puis test des permissions.<br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+  $ACL = new ACL();
+  $ACL->addRole('administrateur',array('read','write'));
+  $ACL->addPermission('administrateur','delete');
+  if($ACL->hasPermission('write'))
+	  echo 'ok'
+  else
+	  echo 'KO';
+]]>
+</script>
