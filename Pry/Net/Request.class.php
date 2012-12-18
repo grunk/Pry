@@ -243,7 +243,7 @@ class Request
      */
     public function isPost()
     {
-        if($this->getHeader('REQUEST_METHOD') == 'POST') {
+        if($this->getServer('REQUEST_METHOD') == 'POST') {
             return true;
         }
         
@@ -256,7 +256,7 @@ class Request
      */
     public function isGet()
     {
-        if($this->getHeader('REQUEST_METHOD') == 'GET') {
+        if($this->getServer('REQUEST_METHOD') == 'GET') {
             return true;
         }
         
