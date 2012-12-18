@@ -312,13 +312,16 @@ class Request
                     return floatval($this->{$type}[$name]);
                     break;
                 case 'string' :
-                    return filter_var($this->{$type}[$name], FILTER_SANITIZE_STRING);
+                    $str = filter_var($this->{$type}[$name], FILTER_SANITIZE_STRING);
+                    return ($str != false) ? $str : null;
                     break;
                 case 'email' :
-                    return filter_var($this->{$type}[$name], FILTER_VALIDATE_EMAIL);
+                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_EMAIL);
+                    return ($str != false) ? $str : null;
                     break;
                 case 'url' :
-                    return filter_var($this->{$type}[$name], FILTER_VALIDATE_URL);
+                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_URL);
+                    return ($str != false) ? $str : null;
                     break;
                 default :
                     return $this->{$type}[$name];
