@@ -68,7 +68,7 @@ abstract class BaseController
      */
     public function redirect($url)
     {
-        header('Location: ' . $this->view['url'] . $url);
+        header('Location: /' . $url);
         exit;
     }
 
