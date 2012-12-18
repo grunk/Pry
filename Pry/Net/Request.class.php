@@ -236,7 +236,33 @@ class Request
         if (isset($this->filters[$type]))
             $this->filters[$type]['isFiltered'] = false;
     }
-
+    
+    /**
+     * Vérifie si la requête est de type post
+     * @return boolean
+     */
+    public function isPost()
+    {
+        if($this->getHeader('REQUEST_METHOD') == 'POST') {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Vérifie si la requête est de type get
+     * @return boolean
+     */
+    public function isGet()
+    {
+        if($this->getHeader('REQUEST_METHOD') == 'GET') {
+            return true;
+        }
+        
+        return false;
+    }
+    
     /**
      * Vérifie la validité de la méthode demandé
      * @param string $method
