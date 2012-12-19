@@ -323,6 +323,10 @@ class Request
                     $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_URL);
                     return ($str != false) ? $str : null;
                     break;
+                case 'ip' :
+                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_IP);
+                    return ($str != false) ? $str : null;
+                    break;
                 default :
                     return $this->{$type}[$name];
             }
