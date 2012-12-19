@@ -131,24 +131,25 @@ class Request
      * Récupère une valeur POST
      * @param string $name Nom de la valeur POST
      * @param string $dataType Type de données pour appliquer un filtres.
-     * Types autorisés int,float,string,email,url
+     * @param mixed $flag Flag optionnel à utiliser pour le filtre
+     * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function getPost($name, $dataType = null)
+    public function getPost($name, $dataType = null,$flag = null)
     {
-        return $this->getWithFilter($name, 'post', $dataType);
+        return $this->getWithFilter($name, 'post', $dataType, $flag);
     }
 
     /**
      * Récupère une valeur GET
      * @param string $name Nom de la valeur GET
      * @param string $dataType Type de données pour appliquer un filtres.
-     * Types autorisés int,float,string,email,url
+     * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function get($name, $dataType = null)
+    public function get($name, $dataType = null,$flag = null)
     {
-        return $this->getWithFilter($name, 'get', $dataType);
+        return $this->getWithFilter($name, 'get', $dataType, $flag);
     }
 
     /**
@@ -297,8 +298,9 @@ class Request
      * @param string $name Nom du paramètre
      * @param string $type Type de paramètre
      * @param string $dataType Type de données attendu
+     * @param mixed $flag Flag optionnel à utiliser
      */
-    protected function getWithFilter($name, $type, $dataType)
+    protected function getWithFilter($name, $type, $dataType,$flag = null)
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
         if (isset($this->{$type}[$name]))
@@ -312,19 +314,19 @@ class Request
                     return floatval($this->{$type}[$name]);
                     break;
                 case 'string' :
-                    $str = filter_var($this->{$type}[$name], FILTER_SANITIZE_STRING);
+                    $str = filter_var($this->{$type}[$name], FILTER_SANITIZE_STRING,$flag);
                     return ($str != false) ? $str : null;
                     break;
                 case 'email' :
-                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_EMAIL);
+                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_EMAIL,$flag);
                     return ($str != false) ? $str : null;
                     break;
                 case 'url' :
-                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_URL);
+                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_URL,$flag);
                     return ($str != false) ? $str : null;
                     break;
                 case 'ip' :
-                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_IP);
+                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_IP,$flag);
                     return ($str != false) ? $str : null;
                     break;
                 default :
