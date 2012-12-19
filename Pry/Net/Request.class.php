@@ -227,6 +227,12 @@ class Request
     {
         return $this->getParam($name);
     }
+    
+    public function __isset($name)
+    {
+        $tmp = $this->getParam($name);
+        return isset($tmp);
+    }
 
     public function add($params, $type = null)
     {
