@@ -46,7 +46,7 @@ $myView = new Pry\View\View();
 $myView->setViewBase(ROOT_PATH.'includes/view/');
 
 //Session
-$session = Pry\Session\Session::getInstance('PrynWeb3Session');
+$session = Pry\Session\Session::getInstance('SessionName');
 
 /*
 $auth = new Pry\Auth\Auth($session, $sql);
