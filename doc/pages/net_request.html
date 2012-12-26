@@ -1,7 +1,7 @@
 <h2>Présentation</h2>
 <p>
 	La classe <strong>Request</strong> permet de gérer facilement une requête HTTP et son contenu.<br />
-	Un objet Net_Request est accessible directement dans un controller qui héritera de Controller_BaseController.<br /><br />
+	Un objet Request est accessible directement dans un controller qui héritera de Controller_BaseController.<br /><br />
 	Il est possible d'appliquer un filtre sur les méthodes get() et getPost() : 
 	<ul>
 		<li>int</li>
@@ -9,6 +9,7 @@
 		<li>string</li>
 		<li>email</li>
 		<li>url</li>
+		<li>ip</li>
 	</ul>
 </p>
 <h2>Exemples</h2>
@@ -16,6 +17,10 @@
 	Récupération simple des paramètres POST <br />
 </p>
 <script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	require('../Pry/Pry.php');
+	use Pry\Net\Request;
+	Pry::register();
+
 	$r = new Request();
 	$r->getParams('POST');
 	]]>
@@ -47,6 +52,17 @@
 	
 	$r->getPost('page','int'); //Récupération post
 	$r->get('page','int'); // Récupération get
+	
+	]]>
+</script>
+
+<p>
+	Récupération d'entête HTTP <br />
+</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	$r = new Request();
+	
+	echo $r->getHeader('Accept-Charset');
 	
 	]]>
 </script>

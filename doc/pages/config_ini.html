@@ -11,12 +11,28 @@
 	Lecture d'un fichier config.ini et lecture de la propriété db.host<br />
 </p>
 <script type="syntaxhighlighter" class="brush: php"><![CDATA[
+	use Pry\Config\Ini;
+	use Pry\Config\Config;
+
+	require('../Pry/Pry.php');
+	Pry::register();
+
+
+	// Config de base
 	try {
-		$ini = new Ini('config.ini');
+		$ini = new Ini('config.ini','prod');
 		echo $ini->db->host;
+		
 	} catch(Exception $e) {
 		echo $e->getError();
 	}
+
+
+	// Rechargement de config depuis un export.
+	// Utile pour mise en cache par exemple
+	$array = $ini->toArray();
+	$ini2 = new Config($array);
+	var_dump($ini2->db->host);
 ]]>
 </script>
 <p>Si le fichier contient plusiers section il est possible de n'en lire qu'une : </p>

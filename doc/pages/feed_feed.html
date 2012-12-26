@@ -10,6 +10,10 @@
 	Création d'un flux ATOM et affichage :<br />
   </p>
 	<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+		use Pry\Feed\Feed;
+		require('../Pry/Pry.php');
+		Pry::register();
+
 		$feed = new Feed();
 		//Attribut du flux
 		$feed->setTitle('AFNIC - Actualites')

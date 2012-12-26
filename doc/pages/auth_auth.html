@@ -1,8 +1,8 @@
 <h2>Présentation</h2>
 <p>
-	La classe <strong>Auth</strong> permet de faciliter l'authentification d'un utilisateur ayant ses identifiants stocké dans une bdd.<br />
+	La classe <strong>Auth</strong> permet de faciliter l'authentification d'un utilisateur ayant ses identifiants stockés dans une bdd.<br />
 	La table doit posséder au minimum un champs "login" et un champs "mot de passe" , le nom de ces champs étant configurable.<br />
-	Les mots de passe stockés doivent avoir été hashé via la classe Auth_Bcrypt.<br />
+	Les mots de passe stockés doivent avoir été hashé via la classe <a href="auth_bcrypt.html">Bcrypt</a>.<br />
 <br />
 <div class="alert">
 	L'utilisation de la classe Auth implique l'utilisation d'un objet <a href="session_session.html">Session</a><br />
@@ -21,32 +21,70 @@
 	Configuration de l'objet Auth et identification d'un utilisateur ayant transféré ses identifiants via $_POST.
 </p>
 <script type="syntaxhighlighter" class="brush: php"><![CDATA[
-  $objSession = Session_Session::getInstance('nomSession');
-  $auth = new Auth($objSession);
-  $auth->setUserTable('user'); //Table des utilisateur
-  $auth->setUserField('nom'); // Champs de login
-  $auth->setPwdField('pwd'); // Champs de password
-  
-  $auth->setHashRounds(10); // Nombre d'itération utilisé pour le hash
-  $auth->setAutoLogin(false);
-  
-  $auth->login($_POST['login'],$_POST['pass']); //Des vérifications peuvent/doivent être effectué sur les données $_POST
-  
-  if(!$auth->error)
-  {
+	use Pry\Config\Ini;
+	use Pry\Session\Session;
+	use Pry\Auth\Auth;
+
+	require('../Pry/Pry.php');
+	Pry::register();
+	
+	//Lecture configuration
+	try{
+		$configIni = new Ini('config.ini','dev');
+	}
+	catch(Exception $e){
+		echo $e->getError();
+	}
+
+	//BDD
+	try{
+		$sql = Zend_Db::factory($configIni->database->adapter, $configIni->database->toArray());
+		$sql->getConnection();
+	}
+	catch(Zend_Db_Adapter_Exception $e){
+		echo $e->getError();
+	}
+
+	$sess 	= Session::getInstance();
+	$auth 	= new Auth($sess,$sql);
+	//On défini les paramètres 
+	$auth->setUserTable('user'); //Table des utilisateur
+	$auth->setUserField('nom'); // Champs de login
+	$auth->setPwdField('pwd'); // Champs de password
+	$auth->setAutologTokenField('tokencookie');
+	$auth->setHashRounds(10);
+	$auth->setAutoLogin(false);
+	$auth->setTimeOutSession(3600);
+
+	$login='test';
+	$pass = 'testpass';
+	//Authentification
+	$auth->login($login,$pass);
+	if(!$auth->error)
+	{
+		echo 'identification réussie';
+	}
+	else
+	{
+		echo $auth->getErrorType();
+	}
+
+	//Méthode utile une fois logué : 
 	if($auth->isLogged())
 	{
-		echo 'Utilisateur authentifié';
+		echo'Utilisateur connecté';
 	}
-  }
-  else
-  {
-	echo $auth->displayError();
-  }
+	else
+	{
+		echo 'non connecté';
+	}
+
+	//Déconnexion
+	$auth->logout();
 ]]>
 </script>
 <br />
 <h2>Remarques</h2>
 <p>
-	La classe ne supporte plus les hash faible tels que md5 et sha. C'est l'algorithme bcrypt qui est utilisé via la classe Auth_Bcrypt.
+	La classe ne supporte plus les hash faible tels que md5 et sha. C'est l'algorithme bcrypt qui est utilisé via la classe Bcrypt.
 </p>
