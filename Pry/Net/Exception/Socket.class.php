@@ -20,7 +20,7 @@ namespace Pry\Net\Exception;
  * @copyright  2007-2012 Prynel
  *
  */
-class Socket extends Exception
+class Socket extends \Exception
 {
 
     private $context;
