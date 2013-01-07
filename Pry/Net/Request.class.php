@@ -233,7 +233,12 @@ class Request
         $tmp = $this->getParam($name);
         return isset($tmp);
     }
-
+    
+    /**
+     * Ajoute un paramètre à la requête
+     * @param mixed $params Valeur à ajouter
+     * @param string [$type] Type de requête
+     */
     public function add($params, $type = null)
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
@@ -264,6 +269,22 @@ class Request
     public function isGet()
     {
         if($this->getServer('REQUEST_METHOD') == 'GET') {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Vérifie si la requête est de type Ajax.
+     * Cet header est en général fourni par tous les FW js mais peut cependant
+     * être absent dans certains cas.
+     * @return boolean
+     */
+    public function isXmlHttpRequest()
+    {
+        $xhttp = $this->getServer('HTTP_X_REQUESTED_WITH');
+        if(!empty($xhttp) && strtolower($xhttp) == 'xmlhttprequest') {
             return true;
         }
         
