@@ -32,7 +32,7 @@ abstract class BaseController
 
     /**
      * Requête utilisé pour atteindre le controller
-     * @var Net_Request
+     * @var Pry\Net\Request
      */
     protected $request;
 
