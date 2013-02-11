@@ -7,7 +7,9 @@
  * @copyright  2007-2010 Prynel
  *
  */
-class errorController extends Controller_BaseController
+ use Pry\Controller\BaseController;
+ 
+class errorController extends BaseController
 {
     public function __construct($req, $codeLangue = 'fr')
     {
@@ -19,9 +21,9 @@ class errorController extends Controller_BaseController
      */
     public function index()
     {
-		$this->view['text'] = 'Le module que vous demandez n\'existe pas';
-        $template           = $this->template->loadTemplate('error/index.html');
-		echo $template->render($this->view);
+		$this->view->set('text','Le module que vous demandez n\'existe pas');
+        $this->view->load('error/index.html');
+		$this->view->render();
     }
 
 }

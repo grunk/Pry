@@ -1,5 +1,5 @@
 <?php
-
+// Définition des constantes et inclusions indispensables
 define("CONF_MODE", 'dev');
 ini_set('display_errors', 'on');
 define("INC_VENDOR_PATH", realpath(dirname(__FILE__)) . '../../vendor');
@@ -7,15 +7,16 @@ set_include_path(INC_VENDOR_PATH . PATH_SEPARATOR . get_include_path());
 
 use Pry\Util\Registry;
 
-require_once "../Pry/Pry.php";
-//Autoload
+require_once "../../Pry/Pry.php";
+
+//Autoload du framework
 Pry::register();
 
-//Config
+// Lecture fichier de config dans le mode souhaité
 try {
-    $configIni = new Pry\Config\Ini('includes/config/config.ini', CONF_MODE);
-    Registry::set('Config', $configIni);
-    define('ROOT_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+    $configIni = new Pry\Config\Ini('../includes/config/config.ini', CONF_MODE);
+    Registry::set('Config', $configIni); // On sauvegarde l'objet de config
+    define('ROOT_PATH', $configIni->root); // Définition de la racine de l'appli
 } catch (Exception $e) {
     echo $e->getMessage();
 }
@@ -46,7 +47,7 @@ $myView = new Pry\View\View();
 $myView->setViewBase(ROOT_PATH.'includes/view/');
 
 //Session
-$session = Pry\Session\Session::getInstance('SessionName');
+//$session = Pry\Session\Session::getInstance('SessionName');
 
 /*
 $auth = new Pry\Auth\Auth($session, $sql);

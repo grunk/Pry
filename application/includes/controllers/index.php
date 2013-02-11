@@ -12,34 +12,33 @@ use Pry\Controller\BaseController;
 
 class indexController extends BaseController
 {
-	private $auth;
-	
-	private $viewData = array();
-    
-    public function __construct($req, $codeLangue = 'fr')
+
+    private $auth;
+
+    public function __construct($requete, $codeLangue = 'fr')
     {
-        parent::__construct($req, $codeLangue);
+        parent::__construct($requete, $codeLangue);
     }
 
     public function index()
-	{
-		echo 'Action = '.$this->request->action.'<br />';
-		echo 'Controller = '.$this->request->controller.'<br />';
-		
-		echo 'param ID = '.$this->request->id.'<br />';
-		echo 'param form = '.$this->request->getParam('input','post');
+    {
+	echo 'Action = ' . $this->request->action . '<br />';
+        echo 'Controller = ' . $this->request->controller . '<br />';
 
-		//Gestion de la vue avec View_View
-		
-		$this->view->controller = $this->request->controller;
-		$this->view->set('action',$this->request->action);
-		
-		echo 'param ID = '.$this->request->id.'<br />';
-		echo 'param form = '.$this->request->getParam('input','post');
+        echo 'param ID = ' . $this->request->id . '<br />';
+        echo 'param form = ' . $this->request->getParam('input', 'post');
+
+        //Gestion de la vue avec View_View
+
+        $this->view->controller = $this->request->controller;
+        $this->view->set('action', $this->request->action);
+
+        echo 'param ID = ' . $this->request->id . '<br />';
+        echo 'param form = ' . $this->request->getParam('input', 'post');
         $this->view->load('index/index.html');
-		$this->view->render();
-	}
-    
+        $this->view->render();
+    }
+
 }
 
 ?>
