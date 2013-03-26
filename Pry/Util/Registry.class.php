@@ -66,7 +66,7 @@ class Registry extends \ArrayObject
     public static function setInstance(Registry $registry)
     {
         if (self::$_registry !== null) {
-            throw new Exception('Registry is already initialized');
+            throw new \Exception('Registry is already initialized');
         }
 
         self::setClassName(get_class($registry));
@@ -96,11 +96,11 @@ class Registry extends \ArrayObject
     public static function setClassName($registryClassName = 'Registry')
     {
         if (self::$_registry !== null) {
-            throw new Exception('Registry is already initialized');
+            throw new \Exception('Registry is already initialized');
         }
 
         if (!is_string($registryClassName)) {
-            throw new Exception("Argument is not a class name");
+            throw new \Exception("Argument is not a class name");
         }
 
         self::$_registryClassName = $registryClassName;
@@ -132,7 +132,7 @@ class Registry extends \ArrayObject
         $instance = self::getInstance();
 
         if (!$instance->offsetExists($index)) {
-            throw new OutOfBoundsException("No entry is registered for key '$index'");
+            throw new \OutOfBoundsException("No entry is registered for key '$index'");
         }
 
         return $instance->offsetGet($index);
