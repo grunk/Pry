@@ -59,7 +59,8 @@ class File extends WriterAbstract
      */
     protected function _write($message, $level)
     {
-        $prefixe = ($this->mode == self::MODE_MINI) ? '' : '[' . date("d/m/Y - H:i:s") . '] (' . $this->txtSeverity[$level] . ') ';
+        $prefixe = ($this->mode == self::MODE_MINI) ? '' : 
+            '[' . date("d/m/Y - H:i:s"). ' - '. $_SERVER['REMOTE_ADDR'] . '] (' . $this->txtSeverity[$level] . ') ';
 
         $file         = $this->txtSeverity[$level] . '.log';
         $prefixe_file = $this->getPrefixe();
