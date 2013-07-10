@@ -28,7 +28,7 @@ use Pry\File\Util;
  * 
  * @category Pry
  * @package File
- * @version 2.1.0
+ * @version 2.1.1
  * @author Olivier ROGER <oroger.fr>
  */
 class Upload
@@ -573,7 +573,7 @@ class Upload
         if ($this->fileName == '')
             $this->fileNameTmp = substr($this->_nom, 0, strrpos($this->_nom, '.'));
         else
-            $this->fileNameTmp = $this->filename;
+            $this->fileNameTmp = $this->fileName;
 
         if ($this->cleanName)
             $this->fileNameTmp = Strings::clean($this->fileNameTmp);
