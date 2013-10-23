@@ -336,26 +336,20 @@ class Request
             {
                 case 'int' :
                     return intval($this->{$type}[$name]);
-                    break;
                 case 'float' :
                     return floatval($this->{$type}[$name]);
-                    break;
                 case 'string' :
                     $str = filter_var($this->{$type}[$name], FILTER_SANITIZE_STRING,$flag);
                     return ($str != false) ? $str : null;
-                    break;
                 case 'email' :
                     $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_EMAIL,$flag);
                     return ($str != false) ? $str : null;
-                    break;
                 case 'url' :
                     $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_URL,$flag);
                     return ($str != false) ? $str : null;
-                    break;
                 case 'ip' :
                     $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_IP,$flag);
                     return ($str != false) ? $str : null;
-                    break;
                 default :
                     return $this->{$type}[$name];
             }
@@ -387,5 +381,3 @@ class Request
     }
 
 }
-
-?>
