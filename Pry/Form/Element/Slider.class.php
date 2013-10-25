@@ -150,5 +150,3 @@ class Slider extends Hidden
     }
 
 }
-
-?>

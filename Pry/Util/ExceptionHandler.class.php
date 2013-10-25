@@ -70,5 +70,3 @@ class ExceptionHandler extends \Exception
     }
 
 }
-
-?>

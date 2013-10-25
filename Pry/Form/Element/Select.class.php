@@ -221,5 +221,3 @@ class Select extends Multi
     }
 
 }
-
-?>

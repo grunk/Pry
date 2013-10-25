@@ -125,7 +125,6 @@ class Image
             if (!is_readable($img))
             {
                 throw new Image_Exception('Le fichier n\'est pas ouvert en lecture');
-                exit;
             }
             $info         = getimagesize($img);
             $this->width  = $info[0];
@@ -137,7 +136,6 @@ class Image
             if ($this->source == false)
             {
                 throw new Exception('Format d\'image non supporté. Seul les formats JPG,PNG ou GIF sont admis');
-                exit;
             }
             $this->couleur   = imagecolorallocate($this->source, 187, 3, 33);
             $this->poids     = filesize($img);
@@ -164,7 +162,6 @@ class Image
             else
             {
                 throw new Exception('Si aucune image source n\'est fournie la taille est obligatoire');
-                exit;
             }
         }
     }
@@ -483,7 +480,7 @@ class Image
             imagealphablending($tempImg, false);
             imagesavealpha($tempImg, true);
             $transparence = imagecolorallocatealpha($tempImg, 255, 255, 255, 127);
-            imagefilledrectangle($tempImg, 0, 0, $newW, $newH, $transparence);
+            imagefilledrectangle($tempImg, 0, 0, $cropW, $cropH, $transparence);
             imagecolortransparent($tempImg, $transparence);
         }
 
@@ -654,5 +651,3 @@ class Image
     }
 
 }
-
-?>

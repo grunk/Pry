@@ -67,7 +67,7 @@ class Ferie
     private function computeDay()
     {
         //Paques
-        $tsPaques       = @easter_date($this->annee);
+        $tsPaques       = easter_date($this->annee);
         $this->tabDay[] = date("Y-m-d", $tsPaques + 86400);
         //Ascencion
         $this->tabDay[] = date("Y-m-d", strtotime('+39 days', $tsPaques));
@@ -98,5 +98,3 @@ class Ferie
     }
 
 }
-
-?>

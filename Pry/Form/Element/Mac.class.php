@@ -60,5 +60,3 @@ class Mac extends Text
     }
 
 }
-
-?>

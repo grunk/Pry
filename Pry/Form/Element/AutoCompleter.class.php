@@ -191,5 +191,3 @@ class AutoCompleter extends Text
     }
 
 }
-
-?>

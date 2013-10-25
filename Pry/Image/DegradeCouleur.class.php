@@ -139,5 +139,3 @@ class DegradeCouleur extends Image
     }
 
 }
-
-?>

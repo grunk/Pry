@@ -21,5 +21,3 @@ interface OnAutoLoginEvent
 {
     public function onAutoLogin($login);
 }
-
-?>

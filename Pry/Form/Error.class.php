@@ -39,5 +39,3 @@ abstract class Error
     const NUMERIC  = 'Ce champs requiert un format numérique';
 
 }
-
-?>

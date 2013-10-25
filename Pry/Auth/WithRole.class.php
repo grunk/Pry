@@ -47,5 +47,3 @@ abstract class WithRole
         return $this->ACL->hasPermission($perm);
     }
 }
-
-?>

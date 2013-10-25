@@ -165,5 +165,3 @@ class Date extends Text
     }
 
 }
-
-?>

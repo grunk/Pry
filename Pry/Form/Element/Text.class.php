@@ -126,5 +126,3 @@ class Text extends Input
     }
 
 }
-
-?>

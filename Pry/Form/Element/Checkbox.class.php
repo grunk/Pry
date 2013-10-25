@@ -115,5 +115,3 @@ class Checkbox extends Input
     }
 
 }
-
-?>

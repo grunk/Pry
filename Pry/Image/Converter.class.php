@@ -24,7 +24,7 @@ class Converter extends Image
 {
 
     /**
-     * Nouvelle image créer
+     * Nouvelle image créee
      *
      * @var ressource
      */
@@ -43,7 +43,6 @@ class Converter extends Image
         $this->type   = $info[2]; // 1:gif; 2:jpg; 3:png; 4:swf; 5:psd; 6:bmp; 7:tiff
         $this->copie  = null;
         $this->source = $this->createFromType($img);
-        $this->type   = $typeOut;
     }
 
     /**
@@ -60,5 +59,3 @@ class Converter extends Image
     }
 
 }
-
-?>

@@ -61,5 +61,3 @@ class Ip extends Text
     }
 
 }
-
-?>

@@ -96,5 +96,3 @@ class DatePicker extends Date
     }
 
 }
-
-?>

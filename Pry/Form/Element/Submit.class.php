@@ -61,5 +61,3 @@ class Submit extends Input
     }
 
 }
-
-?>

@@ -502,5 +502,3 @@ abstract class Field
      */
     abstract public function __toString();
 }
-
-?>

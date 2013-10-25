@@ -288,5 +288,3 @@ class File extends Input
     }
 
 }
-
-?>

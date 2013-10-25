@@ -111,5 +111,3 @@ class Colorpicker extends Text
     }
 
 }
-
-?>

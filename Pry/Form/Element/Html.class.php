@@ -40,5 +40,3 @@ class Html extends Field
     }
 
 }
-
-?>

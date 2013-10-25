@@ -107,5 +107,3 @@ class Textarea extends Field
     }
 
 }
-
-?>

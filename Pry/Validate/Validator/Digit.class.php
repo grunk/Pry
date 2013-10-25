@@ -51,5 +51,3 @@ class Digit extends ValidateAbstract
     }
 
 }
-
-?>

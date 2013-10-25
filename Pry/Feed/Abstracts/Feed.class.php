@@ -209,5 +209,3 @@ abstract class Feed
     }
 
 }
-
-?>

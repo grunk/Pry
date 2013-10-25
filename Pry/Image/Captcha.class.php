@@ -218,5 +218,3 @@ class Captcha extends Image
     }
 
 }
-
-?>

@@ -185,5 +185,3 @@ class NumericStepper extends Text
     }
 
 }
-
-?>

@@ -20,7 +20,7 @@ define('ROOT_LIB', dirname(__DIR__ . '../') . DIRECTORY_SEPARATOR);
 class Pry
 {
 
-    private static $version = '1.0.0 alpa1';
+    private static $version = 'Pry';
 
     /**
      * Retourne la revision du framework
@@ -59,5 +59,3 @@ class Pry
     }
 
 }
-
-?>

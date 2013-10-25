@@ -40,4 +40,3 @@ class Exception extends ExceptionHandler
         return $retour;
     }
 }
- ?>

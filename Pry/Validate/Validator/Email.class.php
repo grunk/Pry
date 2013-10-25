@@ -48,5 +48,3 @@ class Email extends ValidateAbstract
     }
 
 }
-
-?>

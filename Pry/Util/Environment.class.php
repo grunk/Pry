@@ -118,5 +118,3 @@ class Environment
             return 'Unknown';
     }
 }
-
-?>

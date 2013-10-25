@@ -71,5 +71,3 @@ abstract class ValidateAbstract
      */
     abstract protected function isValid($string);
 }
-
-?>

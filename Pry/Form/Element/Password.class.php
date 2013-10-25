@@ -38,5 +38,3 @@ class Password extends Text
     }
 
 }
-
-?>

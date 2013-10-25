@@ -175,5 +175,3 @@ class Gauge extends Image
     }
 
 }
-
-?>

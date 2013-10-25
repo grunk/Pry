@@ -46,5 +46,3 @@ class Email extends Text
     }
 
 }
-
-?>
