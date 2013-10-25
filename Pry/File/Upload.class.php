@@ -28,7 +28,7 @@ use Pry\File\Util;
  * 
  * @category Pry
  * @package File
- * @version 2.1.1
+ * @version 2.1.2
  * @author Olivier ROGER <oroger.fr>
  */
 class Upload
@@ -38,12 +38,12 @@ class Upload
     const MIME_CHECK_FINFO    = 2;
     const MIME_CHECK_MIMETYPE = 3;
     const MIME_CHECK_NONE     = 4;
-    const REQUIRE_ALL = 1;
-    const REQUIRE_YES = 2;
-    const REQUIRE_NO  = 3;
-    const WMODE_OVERWRITE = 1;
-    const WMODE_COPY      = 2;
-    const WMODE_CANCEL    = 3;
+    const REQUIRE_ALL         = 1;
+    const REQUIRE_YES         = 2;
+    const REQUIRE_NO          = 3;
+    const WMODE_OVERWRITE     = 1;
+    const WMODE_COPY          = 2;
+    const WMODE_CANCEL        = 3;
 
     /**
      * Taille max en octet du fichier
@@ -149,23 +149,23 @@ class Upload
      */
     public function __construct($dir, $fieldName, $mimeCheck = 1)
     {
-        $this->maxFileSize = str_replace('M', '', ini_get('upload_max_filesize')) * 1024 * 1024;
-        $this->uploadDir   = $this->checkPath($dir);
-        $this->magicFile   = '';
-        $this->mimeCheck   = intval($mimeCheck);
-        $this->writeMode   = self::WMODE_OVERWRITE;
-        $this->required    = self::REQUIRE_NO;
-        $this->extensions  = array('jpg', 'png', 'gif', 'zip', 'rar', 'avi', 'wmv', 'mpg', 'pdf', 'doc', 'docx', 'xls', 'txt');
-        $this->mime = array('image/gif', 'image/jpeg', 'image/png', 'text/plain', 'application/pdf');
+        $this->maxFileSize   = str_replace('M', '', ini_get('upload_max_filesize')) * 1024 * 1024;
+        $this->uploadDir     = $this->checkPath($dir);
+        $this->magicFile     = '';
+        $this->mimeCheck     = intval($mimeCheck);
+        $this->writeMode     = self::WMODE_OVERWRITE;
+        $this->required      = self::REQUIRE_NO;
+        $this->extensions    = array('jpg', 'png', 'gif');
+        $this->mime          = array('image/gif', 'image/jpeg', 'image/png', 'text/plain', 'application/pdf');
         $this->fieldName     = $fieldName;
         $this->fileName      = '';
         $this->fileNameTmp   = '';
         $this->prefix        = '';
         $this->suffix        = '';
         $this->uploadedFiles = array();
-        $this->secureMode = false;
-        $this->cleanName  = false;
-        $this->errors     = array();
+        $this->secureMode    = false;
+        $this->cleanName     = false;
+        $this->errors        = array();
     }
 
     /**
@@ -194,7 +194,7 @@ class Upload
                 if ($this->mimeCheck == self::MIME_CHECK_FINFO)
                 {
                     $finfo       = new finfo(FILEINFO_MIME, $this->magicFile);
-                    $this->_mime = @$finfo->file(realpath($this->_temp));
+                    $this->_mime = $finfo->file(realpath($this->_temp));
                     // Peut retourner des mime du style : "text/plain; charset=utf-8"
                     $posVirgule  = strpos($this->_mime, ';');
                     if ($posVirgule !== false)
@@ -212,24 +212,24 @@ class Upload
                         if ($this->checkMime())
                         {
                             $this->buildName();
-                            if (!$this->write())
+                            if ( ! $this->write() )
                             {
-                                $this->errors[$i] = "Impossible d'�crire sur le disque";
+                                $this->errors[$i] = "Impossible d'écrire sur le disque";
                             }
                         }
                         else
                         {
-                            $this->errors[$i] = "Ce type de fichier n'est pas autoris�";
+                            $this->errors[$i] = "Ce type de fichier n'est pas autorisé";
                         }
                     }
                     else
                     {
-                        $this->errors[$i] = "L'extension du fichier n'est pas autoris�e";
+                        $this->errors[$i] = "L'extension du fichier n'est pas autorisée";
                     }
                 }
                 else
                 {
-                    $this->errors[$i] = "Le fichier d�passe la limite de taille autoris�e";
+                    $this->errors[$i] = "Le fichier dépasse la limite de taille autorisée";
                 }
             }
             else
@@ -238,6 +238,7 @@ class Upload
                     $this->errors[$i] = "Erreur pendant l'upload. Fichier trop volumineux ?";
             }
         }
+        
         return $this->getError();
     }
 
@@ -551,12 +552,10 @@ class Upload
     {
         if ($this->mimeCheck != self::MIME_CHECK_NONE)
         {
-            if ($this->secureMode)
-            {
+            if ($this->secureMode) {
                 if (!in_array($this->_mime, $this->mime) || strpos($this->_mime, 'application') || preg_match("/.php$|.php3$|.php5$|.inc$|.js$|.exe$/i", $this->_ext))
                     return false;
-            } else
-            {
+            } else {
                 if (!in_array($this->_mime, $this->mime))
                     return false;
             }
@@ -591,7 +590,4 @@ class Upload
             return true;
         return false;
     }
-
 }
-
-?>
