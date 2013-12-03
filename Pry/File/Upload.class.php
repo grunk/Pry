@@ -469,8 +469,7 @@ class Upload
     private function checkPath($path)
     {
         $path = trim($path);
-        if ($path[0] == '/')
-            $path = substr($path, 1);
+        
         if (!is_dir($path))
             throw new \InvalidArgumentException($path . ' n\'est pas un répertoire valide');
         if (!is_writable($path))
