@@ -25,6 +25,8 @@ class Request
     protected $headers;
     protected $get;
     protected $post;
+    protected $put;
+    protected $delete;
     protected $cookie;
     protected $request;
     protected $file;
@@ -38,6 +40,12 @@ class Request
         $this->cookie  = $_COOKIE;
         $this->file    = $_FILES;
         $this->request = $_REQUEST;
+        
+        if($this->isPut())
+            parse_str(file_get_contents("php://input"),$this->put);
+        
+        if($this->isDelete())
+            parse_str(file_get_contents("php://input"),$this->delete);
     }
 
     /**
@@ -51,6 +59,11 @@ class Request
         $this->file    = $_FILES;
         $this->request = $_REQUEST;
         $this->headers = null;
+        if($this->isPut())
+            parse_str(file_get_contents("php://input"),$this->put);
+        
+        if($this->isDelete())
+            parse_str(file_get_contents("php://input"),$this->delete);
     }
 
     /**
@@ -138,6 +151,32 @@ class Request
     public function getPost($name, $dataType = null,$flag = null)
     {
         return $this->getWithFilter($name, 'post', $dataType, $flag);
+    }
+    
+    /**
+     * Récupère une valeur PUT
+     * @param string $name Nom de la valeur PUT
+     * @param string $dataType Type de données pour appliquer un filtres.
+     * @param mixed $flag Flag optionnel à utiliser pour le filtre
+     * Types autorisés int,float,string,email,url,ip
+     * @return mixed
+     */
+    public function getPut($name, $dataType = null,$flag = null)
+    {
+        return $this->getWithFilter($name, 'put', $dataType, $flag);
+    }
+    
+    /**
+     * Récupère une valeur PUT
+     * @param string $name Nom de la valeur PUT
+     * @param string $dataType Type de données pour appliquer un filtres.
+     * @param mixed $flag Flag optionnel à utiliser pour le filtre
+     * Types autorisés int,float,string,email,url,ip
+     * @return mixed
+     */
+    public function getDelete($name, $dataType = null,$flag = null)
+    {
+        return $this->getWithFilter($name, 'delete', $dataType, $flag);
     }
 
     /**
@@ -263,6 +302,32 @@ class Request
     }
     
     /**
+     * Vérifie si la requête est de type put
+     * @return boolean
+     */
+    public function isPut()
+    {
+        if($this->getServer('REQUEST_METHOD') == 'PUT') {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Vérifie si la requête est de type Delete
+     * @return boolean
+     */
+    public function isDelete()
+    {
+        if($this->getServer('REQUEST_METHOD') == 'DELETE') {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Vérifie si la requête est de type get
      * @return boolean
      */
@@ -298,7 +363,7 @@ class Request
      */
     protected function isValidMethod($method)
     {
-        return in_array($method, array('get', 'post', 'request', 'cookie'));
+        return in_array($method, array('get', 'post', 'request', 'cookie', 'put', 'delete'));
     }
 
     /**
