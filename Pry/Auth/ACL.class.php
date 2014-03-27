@@ -104,6 +104,16 @@ class ACL
 
         return false;
     }
+    
+    /**
+     * Vérifie qu'un role existe
+     * @param string $roleName nom du role
+     * @return boolean
+     */
+    public function hasRole($roleName)
+    {
+        return in_array($roleName, $this->roles);
+    }
 
     /**
      * Méthode magique pour sérialiser correctement les données
