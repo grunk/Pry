@@ -99,12 +99,12 @@ class Strings
         //Voyelles
         $voy    = 'aAeEuUyY123465789'; // pas de o et i pour éviter confusion
         $genere = '';
-        $genere.= $cons[rand(0, 41)]; // On commence forcément par une lettre
+        $genere.= $cons[mt_rand(0, 41)]; // On commence forcément par une lettre
         for ($i = 1; $i <= ($taille - 1); $i++) {
             if ($i % 2 == 0)
-                $genere.=$cons[(rand(0, strlen($cons) - 1))];
+                $genere.=$cons[(mt_rand(0, strlen($cons) - 1))];
             else
-                $genere.=$voy[(rand(0, strlen($voy) - 1))];
+                $genere.=$voy[(mt_rand(0, strlen($voy) - 1))];
         }
         return $genere;
     }
