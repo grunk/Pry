@@ -50,40 +50,44 @@ class Bench // Amel bench ? ==>[]
     }
 
     /**
-     * Départ.
      * Lance le début du calcul de temps
-     *
+     * @return float µtime de départ
      */
     public function start()
     {
         $this->start = $this->get_micro();
+        return $this->start;
     }
 
     /**
      * Prend un temps intermédiaire.
      *
      * @param $nom Nom du temps intermédiaire
+     * @return float delay entre début et ajout du flag
      */
     public function add_flag($nom)
     {
         $top                  = $this->get_micro() - $this->start;
         $this->resultat[$nom] = $top;
+        
+        return $top;
     }
 
     /**
      * Arrete le calcul.
-     *
+     * @return float µtime à l'arret
      */
     public function stop()
     {
-        $end                     = $this->get_micro() - $this->start;
-        $this->resultat['total'] = $end;
+        $end                     = $this->get_micro() ;
+        $this->resultat['total'] = $end - $this->start;
+        return $end;
     }
 
     /**
      * Donne les tableau de résultat.
      *
-     * @return Tableau de résultats.
+     * @return array Tableau avec comme clé les flags et "total".
      */
     public function result()
     {
