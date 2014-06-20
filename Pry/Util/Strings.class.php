@@ -139,16 +139,16 @@ class Strings
      * @access public
      * @param string $string Chaine à vérifier
      * @static
-     * @return La chaine modifié si trop de maj ou la chaine original si ok
+     * @return true si trop de majuscule , false sinon
      */
     public static function hasTooMuchCaps($string)
     {
         $seuil          = strlen($string) / 2;
         $correspondance = similar_text($string, strtolower($string));
         if ($correspondance < $seuil)
-            return strtolower($string);
+            return true;
 
-        return $string;
+        return false;
     }
 
     /**
