@@ -2,7 +2,7 @@
 
 /**
  * This file is part of a Prynel's project
- * (c) Olivier Roger <oroger@prynel.com>
+ * (c) Olivier Roger <oroger.fr>
  */
 
 namespace tests\units\Pry\Util;
