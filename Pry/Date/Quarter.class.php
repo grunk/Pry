@@ -1,8 +1,12 @@
 <?php
-
-/**
- * This file is part of a Prynel's project
- * (c) Olivier Roger <oroger@prynel.com>
+/*
+ * Pry Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * 
  */
 namespace Pry\Date;
 /**
