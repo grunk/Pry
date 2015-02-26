@@ -27,7 +27,7 @@ class Quarter
      */
     public static function getCurrent()
     {
-        return Quarter::getFromDate(new DateTime());
+        return Quarter::getFromDate(new \DateTime());
     }
     
     /**
