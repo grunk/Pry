@@ -38,7 +38,7 @@ class Quarter
     public static function getNext(\DateTime $date = null)
     {
         if(empty($date))
-            $date   = new DateTime();
+            $date   = new \DateTime();
         
         $month  = $date->format('n');
         $year   = $date->format('Y');
@@ -64,7 +64,7 @@ class Quarter
     public static function getPrevious(\DateTime $date = null)
     {
         if(empty($date))
-            $date   = new DateTime();
+            $date   = new \DateTime();
         
         $month  = $date->format('n');
         $year   = $date->format('Y');
