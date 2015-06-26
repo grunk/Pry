@@ -16,7 +16,7 @@ namespace Pry\Util;
  * 
  * @category Pry
  * @package Util
- * @version 1.0.0
+ * @version 1.1.0
  * @author Olivier ROGER <oroger.fr>
  *
  */
@@ -143,31 +143,64 @@ class CommandLineBuilder
     
     /**
      * Construit la ligne de commande et la retourne
+     * @param string $order L'ordre des éléments dans la ligne de commande. P pour parameter
+     * O pour option and L pour long options. Par défaut fixé à POL
      * @return string Ligne de commande
      */
-    public function get()
+    public function get($order = 'POL')
     {
         $command = $this->command;
         
-        foreach($this->params as $param)
-            $command .= SPACE.$param;
-        
-        foreach ($this->options as $option => $value)
+        foreach(str_split($order) as $letter)
         {
-            $command .= SPACE.$this->optionChar.$option;
-            if(!empty($value))
-                $command .= SPACE.$value;
-        }
-        
-        foreach($this->longOptions as $option => $value)
-        {
-            $command .= SPACE.$this->longOptionChar.$option;
-            if(!empty($value))
-                $command .= '='.$value;
+            if($letter == 'P')
+                $command .= $this->getParams();
+            
+            if($letter == 'O')
+                $command .= $this->getOptions();
+            
+            if($letter == 'L')
+                $command .= $this->getLongOptions();
         }
         
         return $command;
     }
+    
+    private function getParams()
+    {
+        $p = '';
+        foreach($this->params as $param)
+            $p .= SPACE.$param;
+        
+        return $p;
+    }
+    
+    private function getOptions()
+    {
+        $o = '';
+        foreach ($this->options as $option => $value)
+        {
+            $o .= SPACE.$this->optionChar.$option;
+            if(!empty($value))
+                $o .= SPACE.$value;
+        }
+        
+        return $o;
+    }
+    
+    private function getLongOptions()
+    {
+        $lo = '';
+        foreach($this->longOptions as $option => $value)
+        {
+            $lo .= SPACE.$this->longOptionChar.$option;
+            if(!empty($value))
+                $lo .= '='.$value;
+        }
+        
+        return $lo;
+    }
+    
     
     public function __toString()
     {
