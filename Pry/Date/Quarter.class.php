@@ -165,4 +165,27 @@ class Quarter
             new \DateTime('last day of December '.$year)
         );
     }
+    
+    /**
+     * Retourne le trimestre demandé
+     * @param int $quarter entre 1 et 4
+     * @param int $year
+     * @return array Date de début et fin du trimestre
+     */
+    public static function get($quarter, $year)
+    {
+        switch ($quarter)
+        {
+            case 1:
+                return Quarter::getQ1($year);
+            case 2:
+                return Quarter::getQ2($year);
+            case 3:
+                return Quarter::getQ3($year);
+            case 4:
+                return Quarter::getQ4($year);
+            default:
+                Quarter::getCurrent();
+        }
+    }
 }
