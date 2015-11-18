@@ -415,6 +415,12 @@ class Request
                 case 'ip' :
                     $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_IP,$flag);
                     return ($str != false) ? $str : null;
+                case 'intarray' :
+                    return array_filter($this->{$type}[$name], function($v){return intval($v);});
+                case 'floatarray' :
+                    return array_filter($this->{$type}[$name], function($v){return floatval($v);});
+                case 'stringarray':
+                    return filter_var($this->{$type}[$name],FILTER_SANITIZE_STRING,FILTER_REQUIRE_ARRAY);
                 default :
                     return $this->{$type}[$name];
             }
