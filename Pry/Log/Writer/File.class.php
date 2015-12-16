@@ -27,8 +27,11 @@ class File extends WriterAbstract
     private $folder;
     private $lineLimit;
 
-    public function __construct($path)
+    public function __construct($path,$create = false)
     {
+        if(!file_exists($path) && $create)
+            mkdir($path, 0777, true);
+        
         if (!is_dir($path) || !is_writable($path))
             throw new \InvalidArgumentException('Le dossier spécifié n\'existe pas ou n\'est pas ouvert en écriture');
         else
