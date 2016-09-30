@@ -92,10 +92,21 @@ class Token
     {
         if (!isset($_SESSION))
             throw new \Exception('Can\'t check token if there is no session available');
-
-        if (isset($_REQUEST['csrf_protect']) && !empty($_REQUEST['csrf_protect']))
+        
+        $method = $_SERVER['REQUEST_METHOD'];
+        $param = (isset($_REQUEST['csrf_protect'])) ? $_REQUEST['csrf_protect'] : null;
+        
+        if($method == 'PUT' || $method == 'DELETE')
         {
-            if ($_REQUEST['csrf_protect'] == $_SESSION['csrf_protect']['token'])
+            $datas = array();
+            parse_str(file_get_contents('php://input'),$datas);
+            $param = (isset($datas['csrf_protect'])) ? $datas['csrf_protect'] : null;
+        }
+        
+        
+        if (isset($param) && !empty($param))
+        {
+            if ($param == $_SESSION['csrf_protect']['token'])
             {
                 if ($_SESSION['csrf_protect']['ttl'] - time() > 0)
                 {
