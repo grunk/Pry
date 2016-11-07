@@ -162,9 +162,12 @@ class Session
      */
     public function refresh($delete_old = true)
     {
-        session_regenerate_id($delete_old);
-        if (!is_null($this->sessionTTL))
-            $_SESSION['ttl'] = time() + $this->sessionTTL;
+        if(session_id() !== '')
+        {
+            session_regenerate_id($delete_old);
+            if (!is_null($this->sessionTTL))
+                $_SESSION['ttl'] = time() + $this->sessionTTL;
+        }
     }
 
     /**
