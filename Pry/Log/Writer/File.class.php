@@ -62,8 +62,14 @@ class File extends WriterAbstract
      */
     protected function _write($message, $level)
     {
+        $ip = '';
+        if(!empty(getenv('HTTP_X_FORWARDED_FOR')))
+            $ip = getenv('HTTP_X_FORWARDED_FOR');
+        else
+            $ip = getenv('REMOTE_ADDR');
+        
         $prefixe = ($this->mode == self::MODE_MINI) ? '' : 
-            '[' . date("d/m/Y - H:i:s"). ' - '. $_SERVER['REMOTE_ADDR'] . '] (' . $this->txtSeverity[$level] . ') ';
+            '[' . date("d/m/Y - H:i:s"). ' - '. $ip . '] (' . $this->txtSeverity[$level] . ') ';
 
         $file         = $this->txtSeverity[$level] . '.log';
         $prefixe_file = $this->getPrefixe();
