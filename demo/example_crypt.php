@@ -24,8 +24,8 @@ $crypter->decrypt(new FileManager($filecrypt), new FileManager($filedecrypt),fal
 
 echo 'En clair : <br />';
 var_dump(file_get_contents('test/test.txt'));
-echo 'CryptÈ : <br />';
+echo 'Chiffr√© : <br />';
 var_dump(file_get_contents('test/test_crypt.txt'));
-echo 'DÈCryptÈ : <br />';
+echo 'D√©chiffr√© : <br />';
 var_dump(file_get_contents('test/test_decrypt.txt'));
 ?>
