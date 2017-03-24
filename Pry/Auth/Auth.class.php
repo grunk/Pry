@@ -149,7 +149,7 @@ class Auth
      * @param Session_Session $session
      * @access public
      */
-    public function __construct(Session $session, \Zend_Db_Adapter_Abstract $db)
+    public function __construct(Session $session, \PDO $db)
     {
         $this->oDB               = $db;
         $this->userTable         = 'user';
@@ -283,6 +283,7 @@ class Auth
 
             if ($this->checkUser($login))
             {
+
                 $prepare = $this->oDB->prepare('SELECT ' . $this->autologTokenField . ' FROM ' . $this->userTable . ' WHERE ' . $this->userField . ' = :logCookie');
                 $prepare->execute(array(':logCookie' => $login));
                 $data        = $prepare->fetchColumn();
@@ -424,17 +425,11 @@ class Auth
     /**
      * Hash le mot de pass dans l'algo souhaité
      *
-     * @param string $algo
      * @param string $pass
      * @return string
      */
     private function hashPass($pass)
     {
-        /* if ($this->pwdHash != 'nohash')
-          return hash($this->pwdHash, $pass);
-          else
-          return $pass; */
-
         $bCrypt = new Bcrypt($this->hashRounds);
         return $bCrypt->hash($pass);
     }

@@ -19,7 +19,7 @@ namespace Pry\Db;
  * 
  * <code>
  * $interval = new NestedTree('category');
- * $interval->setDB($objetZendDBAdapter);
+ * $interval->setDB($objetPDO);
  * echo $interval->getHTMLTree();
  * $interval->setCurrent(5);
  * $interval->addChild('Fils de 5');
@@ -39,7 +39,7 @@ class NestedTree
 
     /**
      * Objet base de données
-     * @var Zend_Db_Adapter_Abstract
+     * @var \PDO
      */
     protected $oSql = null;
 
@@ -110,7 +110,7 @@ class NestedTree
         $this->current    = array();
     }
 
-    public function setDB(Zend_Db_Adapter_Abstract $db)
+    public function setDB(\PDO $db)
     {
         $this->oSql = $db;
     }
@@ -169,7 +169,7 @@ class NestedTree
 							VALUES(:nom,:left,:right,:level)');
         $prepare->execute(array(':nom' => $nom, ':left' => $leftB, ':right' => $rightB, ':level' => $level));
 
-        return $this->oSql->last_id();
+        return $this->oSql->lastInsertId();
     }
 
     /**
@@ -269,14 +269,14 @@ class NestedTree
      * @access public
      * @return array
      */
-    public function getChilds($direct = false, $option = null)
+    public function getChildren($direct = false, $option = null)
     {
         if (empty($this->oSql))
             throw new \RuntimeException("No db object set. Please use setDB() first");
 
         $this->checkCurrent();
 
-        $childs = array();
+        $children = array();
         if (!empty($option))
         {
             if (self::LEAFONLY == $option)
@@ -298,9 +298,9 @@ class NestedTree
 									  	AND `' . $this->rightBound . '` < ' . $this->current['right'] . $option);
 
         while ($result   = $child->fetch(PDO::FETCH_ASSOC))
-            $childs[] = $result;
+            $children[] = $result;
 
-        return $childs;
+        return $children;
     }
 
     /**
@@ -332,7 +332,7 @@ class NestedTree
         $prepare->execute(array(':nom' => $nom, ':left' => $this->current['right'], ':right' => $this->current['right'] + 1, ':level' => $this->current['level'] + 1));
 
         $this->current['right']+=2;
-        return $this->oSql->last_id();
+        return $this->oSql->lastInsertId();
     }
 
     /**
