@@ -59,6 +59,7 @@ class Request
         $this->file    = $_FILES;
         $this->request = $_REQUEST;
         $this->headers = null;
+        
         if($this->isPut())
             parse_str(file_get_contents("php://input"),$this->put);
         
@@ -167,8 +168,8 @@ class Request
     }
     
     /**
-     * Récupère une valeur PUT
-     * @param string $name Nom de la valeur PUT
+     * Récupère une valeur DELETE
+     * @param string $name Nom de la valeur DELETE
      * @param string $dataType Type de données pour appliquer un filtres.
      * @param mixed $flag Flag optionnel à utiliser pour le filtre
      * Types autorisés int,float,string,email,url,ip
