@@ -12,6 +12,7 @@
 namespace Pry\Auth;
 
 use Pry\Auth\ACL;
+
 /**
  * Classe abstraite à étendre par toute classe utilisateur souhaitant utiliser les roles/permissions
  * @package Auth
@@ -22,12 +23,12 @@ use Pry\Auth\ACL;
  */
 abstract class WithRole
 {
-    /** @var Pry\Auth\ACL */
+    /** @var Pry\Auth\ACL**/
     protected $ACL;
     
     /**
      * Défini l'objet d'ACL gérant les roles et permissions
-     * @param Auth_ACL $acl L'objet ACL 
+     * @param ACL $acl L'objet ACL
      */
     abstract public function setACL(ACL $acl);
     

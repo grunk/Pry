@@ -1,8 +1,4 @@
 Pry Framework
 ===
 
-Another PHP 5 Framework. Require at least PHP 5.3
-
-[API](http://pry.oroger.fr/api/)
-
-[Documentation & Example](http://pry.oroger.fr/doc/)
+The PSR branch is a feature branch with the goal to make Pry PSR compliant

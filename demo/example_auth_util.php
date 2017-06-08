@@ -16,6 +16,3 @@ Pry::register();
 //Instanciation , $sql = objet sql
 
 echo Util::passwordComplexity('m0!d3P4$sCoMpleX');
-
-
-?>
