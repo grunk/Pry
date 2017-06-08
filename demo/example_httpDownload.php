@@ -14,11 +14,11 @@ use Pry\Net\HTTPDownload;
 
 Pry::register();
 
-$file			= 'fichier.pdf';
-$racine     = ROOT_PATH.'pub/upload/fichier/';
+$file			= 'test.csv';
+$racine     = 'test/';
 $fichier    = $racine.$file;
 
 $http       = new HTTPDownload($fichier);
-$http->setName('monfichier.pdf'); // Change le nom du fichie rque recevra l'utilisateur. fichier.pdf sur le serveur , il arrivera renommé monfichier.pdf chez le client
-$http->download(); // Lance le téléchargement
+$http->setName('myfile.csv'); // Change the name of the downloaded file.
+$http->download(); // Start download
 ?>

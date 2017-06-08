@@ -15,7 +15,7 @@ Pry::register();
 if(isset($_POST['MAX_FILE_SIZE']))
 {
 	try{
-	$upload = new Upload('/test/','files');
+	$upload = new Upload('test/','files');
 	//Ajout d'extension
 	$upload->setAllowedExtensions(array('perso','perso2'));
 	//Ajotu de type mime

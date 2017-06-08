@@ -13,7 +13,7 @@ $feed->setTitle('AFNIC - Actualites')
  		->setId('http://www.afnic.fr/');
 
 	$entry = $feed->createEntry();
-	//$entry->setAuthor(array('name'=>'OR-'.$i,'email'=>'oroger@prynel.com'));
+	//$entry->setAuthor(array('name'=>'OR-'.$i,'email'=>'demo@demo.com'));
 	$entry->setTitle('[Digipryn v5] Carré blanc sur les images');
 	//$entry->setDate('2010-01-28');
 	$entry->setContent('UN carré blanc apparait sur l\'interface');
@@ -24,7 +24,7 @@ $feed->setTitle('AFNIC - Actualites')
 	$feed->setEntry($entry);
 	
  
-  header('Content-Type : application/xml; charset=utf-8');
+  header('Content-Type: text/xml');
   echo $feed->build('Atom');
 
  ?>
