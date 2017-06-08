@@ -58,8 +58,11 @@ class Crypt
      */
     public function __construct($key, $cipher = MCRYPT_3DES, $mode = MCRYPT_MODE_NOFB)
     {
-        if (!extension_loaded('mcrypt'))
-            throw new \Exception('Extension mcrypt nécessaire');
+        if (version_compare(PHP_VERSION, '7.1.0') >= 0) {
+			throw new \Exception('This PHP version is not supported');
+		}
+		if (!extension_loaded('mcrypt'))
+            throw new \Exception('Mcrypt extension not available');
 
         $this->cipher = $cipher;
         $this->mode   = $mode;
