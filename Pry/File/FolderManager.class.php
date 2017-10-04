@@ -20,7 +20,7 @@ use Pry\Util\Strings;
  * Gestion de dossier
  * @category Pry
  * @package File
- * @version 1.4.0
+ * @version 1.5.0
  * @author Olivier ROGER <oroger.fr>
  *
  */
@@ -290,6 +290,24 @@ class FolderManager
             }
         }
         $folder = null; // Libère l'itérateur sinon erreur d'accès lors de la suppression
+    }
+    
+    /**
+     * Delete file if older than $ageInSec
+     * @param int $ageInSec age in sec
+     * @since 1.5.0
+     */
+    public function removeFilesSince($ageInSec)
+    {
+        $folder = new Filter(new \DirectoryIterator($this->dossier));
+        $folder->setExtension($this->filtre);
+        foreach ($folder as $file) {
+            if ($file->isFile() && !$file->isDot() && time() - $file->getCTime() > $ageInSec)
+            {
+                unlink($file->getPathname());
+            }
+        }
+        $folder = null;
     }
 
     /**
