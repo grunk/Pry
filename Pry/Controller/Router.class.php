@@ -19,8 +19,9 @@ use Pry\Net\Request;
  * Gère les routes classiques ainsi que les règles de routages
  * <code>
  * $router = Router::getInstance();
- * $router->setPath(ROOT_PATH.'includes/controllers/'); // Chemin vers les controlleurs
  * $router->addRule('test/regles/:id/hello',array('controller'=>'index','action'=>'withRule'));
+ * $router->setPath(ROOT_PATH . 'application/controllers/');
+ * $router->setNamespace('application\\controllers');
  * </code>
  * Nécessite une règle de routage du type RewriteRule ^(.*)$ index.php?url=$1 [QSA,L] dans le serveur web
  * 
@@ -63,8 +64,8 @@ class Router
      * @var array
      */
     private $rules;
-
-    /**
+	
+	/**
      * Chemin vers le dossier contenant les controllers
      * @var string
      */
@@ -129,6 +130,12 @@ class Router
      * @var Net_Request
      */
     private $request;
+	
+    /**
+    * Namespace used for controllers
+    * @var string
+    */
+    private $ns;
 
     /**
      * Singleton de la classe
@@ -178,14 +185,13 @@ class Router
         $this->controller = (!empty($this->controller)) ? $this->controller : $this->defaultController;
         $this->action     = (!empty($this->action)) ? $this->action : $this->defaultAction;
         $ctrlPath         = str_replace('_', '/', $this->controller); // Gestion des sous dossiers dans les controllers
-        $this->file       = realpath($this->path) . DIRECTORY_SEPARATOR . $ctrlPath . '.php';
+        $this->file       = realpath($this->path) . DIRECTORY_SEPARATOR . $ctrlPath . 'Controller.php';
 
         //Enrichissement de la requête
         $this->params['action']     = $this->action;
         $this->params['controller'] = $this->controller;
         $this->request->add($this->params);
 
-        //is_file bien plus rapide que file_exists
         if (!is_file($this->file))
         {
             header("Status: 404 Not Found");
@@ -194,10 +200,7 @@ class Router
             $this->file       = $this->path . $this->controller . '.php';
         }
 
-        //Inclusion du controller
-        include $this->file;
-
-        $class = $this->controller . 'Controller';
+        $class = $this->ns.'\\'.$this->controller.'Controller';
 
         if (!empty($this->codeLangue))
         {
@@ -336,8 +339,8 @@ class Router
             }
         }
     }
-
-    /**
+	
+	/**
      * Défini le chemin des controllers
      * @param string $path
      */
@@ -345,9 +348,8 @@ class Router
     {
         if (is_dir($path) === false)
         {
-            throw new \InvalidArgumentException('Controller invalide : ' . $path);
+            throw new \InvalidArgumentException('Controller\'s folder is invalid : ' . $path);
         }
-
         $this->path = $path;
     }
 
@@ -417,6 +419,15 @@ class Router
     public function getParameters()
     {
         return $this->params;
+    }
+	
+    /**
+     * Définie le namespace à utiliser pour les controllers
+     * @param string $ns
+     */
+    public function setNamespace($ns)
+    {
+        $this->ns = $ns;
     }
 
     /**
