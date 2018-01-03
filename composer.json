@@ -3,7 +3,7 @@
     "description": "Pry Framework",
     "type": "library",
     "license": "MIT",
-	"version": "1.0.0"
+	"version": "1.0.0",
     "minimum-stability": "stable",
     "require": {
 		"php": ">=5.6.0"
