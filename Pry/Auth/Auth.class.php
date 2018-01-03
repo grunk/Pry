@@ -145,7 +145,7 @@ class Auth
     /**
      * Constructeur
      * 
-     * @param Zend_Db_Adapter_Abstract $db Objet Zend Db
+     * @param PDO $db Objet Zend Db
      * @param Session_Session $session
      * @access public
      */
