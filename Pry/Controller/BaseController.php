@@ -79,6 +79,15 @@ abstract class BaseController
         if ($this->view instanceof \Pry\View\View)
             $this->view->controller = $this->request->controller;
     }
+    
+    /**
+     * Set the default db object
+     * @param \PDO $db
+     */
+    public function setDb($db)
+    {
+        $this->db = $db;
+    }
 
     abstract public function index();
 }
