@@ -32,13 +32,13 @@ abstract class BaseController
 
     /**
      * Requête utilisé pour atteindre le controller
-     * @var Pry\Net\Request
+     * @var \Pry\Net\Request
      */
     protected $request;
 
     /**
      * Objet base de données
-     * @var Zend_Db_Adapter_Abstract 
+     * @var \PDO 
      */
     protected $db;
 
@@ -76,7 +76,7 @@ abstract class BaseController
     {
         $this->view = $view;
 
-        if ($this->view instanceof Pry\View\View)
+        if ($this->view instanceof \Pry\View\View)
             $this->view->controller = $this->request->controller;
     }
 

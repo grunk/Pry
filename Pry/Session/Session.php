@@ -54,7 +54,7 @@ class Session
     /**
      * Instance du singleton
      *
-     * @var Session_Session
+     * @var \Pry\Session\Session
      */
     static private $instance;
 

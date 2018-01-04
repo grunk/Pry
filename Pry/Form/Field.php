@@ -31,7 +31,7 @@ abstract class Field
     /**
      * Formulaire
      *
-     * @var Form_Form Formulaire
+     * @var \Pry\Form\Form
      * @access protected
      */
     protected $form;
@@ -134,7 +134,7 @@ abstract class Field
     /**
      * Validateur
      *
-     * @var Validate_Validate
+     * @var \Pry\Validate\Validate
      * @since 1.0.1
      */
     protected $validator;

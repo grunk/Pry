@@ -26,7 +26,7 @@ class Log
     /**
      * Driver d'ecriture du log
      *
-     * @var Log_Writer_Abstract
+     * @var \Pry\Log\Writer\WriterAbstract
      */
     private $writer;
     private $severity = array();

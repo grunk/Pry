@@ -37,13 +37,13 @@ class FileManager
     /**
      * Ressource de fichier
      * @access private
-     * @var SplFileObject
+     * @var \SplFileObject
      */
     private $fileHandler = null;
 
     /**
      * Information de fichier
-     * @var SplFileInfo
+     * @var \SplFileInfo
      */
     private $fileInfo;
 

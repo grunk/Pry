@@ -28,7 +28,7 @@ class Bd extends WriterAbstract
 
     /**
      * Objet base de données
-     * @var Zend_Db_Adapter_Abstract
+     * @var \PDO
      */
     private $oSql;
 

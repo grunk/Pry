@@ -48,7 +48,7 @@ class Weeks
 
     /**
      * Instance des jours fériés
-     * @var Date_Ferie
+     * @var \Pry\Date\Ferie
      */
     public $ferie;
 

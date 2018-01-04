@@ -25,7 +25,7 @@ class DbStorage extends Session
 {
 
     /**
-     * @var Zend_Db_Adapter_Abstract 
+     * @var \PDO 
      */
     private $dbh;
 

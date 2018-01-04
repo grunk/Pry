@@ -23,7 +23,7 @@ use Pry\Auth\ACL;
  */
 abstract class WithRole
 {
-    /** @var Pry\Auth\ACL**/
+    /** @var \Pry\Auth\ACL**/
     protected $ACL;
     
     /**

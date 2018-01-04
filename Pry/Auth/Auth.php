@@ -124,7 +124,7 @@ class Auth
 
     /**
      * Durée de vie de l'authentification
-     * @var type 
+     * @var int 
      */
     private $timeOutSession;
 

@@ -29,7 +29,7 @@ class Rss implements Interfaces
     /**
      * Objet feed
      * @access private
-     * @var Feed_Feed
+     * @var \Pry\Feed\Feed
      */
     private $feed;
 
@@ -43,7 +43,7 @@ class Rss implements Interfaces
     /**
      * Objet Document DOM
      * @access private
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     private $DOM;
 

@@ -37,7 +37,7 @@ class Router
     /**
      * Instance du router
      * @static
-     * @var Controller_Router
+     * @var \Pry\Controller\Router
      */
     static private $instance;
 
@@ -127,7 +127,7 @@ class Router
 
     /**
      * Requete HTTP
-     * @var Net_Request
+     * @var \Pry\Net\Request
      */
     private $request;
 	

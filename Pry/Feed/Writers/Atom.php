@@ -43,7 +43,7 @@ class Atom implements Interfaces
     /**
      * Objet Document DOM
      * @access private
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     private $DOM;
 

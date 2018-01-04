@@ -89,7 +89,7 @@ class Image
     private $copie;
 
     /**
-     * @var Image_Image autre image a coller sur l image d origine
+     * @var \Pry\Image\Image autre image a coller sur l image d origine
      * @access private
      */
     private $logo;
