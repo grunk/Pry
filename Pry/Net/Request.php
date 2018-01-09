@@ -86,6 +86,7 @@ class Request
      */
     public function getHeader($name)
     {
+        $name = strtolower($name);
         $this->getHeaders();
         return (isset($this->headers[$name])) ? $this->headers[$name] : null;
     }
@@ -448,7 +449,7 @@ class Request
         }
         else
         {
-            return getallheaders();
+            return array_change_key_case(getallheaders(),CASE_LOWER);
         }
     }
 
