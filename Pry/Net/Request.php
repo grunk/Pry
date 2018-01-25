@@ -399,32 +399,48 @@ class Request
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
         if (isset($this->{$type}[$name]))
         {
+            $param = $this->{$type}[$name];
             switch ($dataType)
             {
                 case 'int' :
-                    return intval($this->{$type}[$name]);
+                    return intval($param);
                 case 'float' :
-                    return floatval($this->{$type}[$name]);
+                    return floatval($param);
                 case 'string' :
-                    $str = filter_var($this->{$type}[$name], FILTER_SANITIZE_STRING,$flag);
+                    $str = filter_var($param, FILTER_SANITIZE_STRING,$flag);
                     return ($str != false) ? $str : null;
                 case 'email' :
-                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_EMAIL,$flag);
+                    $str =  filter_var($param, FILTER_VALIDATE_EMAIL,$flag);
                     return ($str != false) ? $str : null;
                 case 'url' :
-                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_URL,$flag);
+                    $str =  filter_var($param, FILTER_VALIDATE_URL,$flag);
                     return ($str != false) ? $str : null;
                 case 'ip' :
-                    $str =  filter_var($this->{$type}[$name], FILTER_VALIDATE_IP,$flag);
+                    $str =  filter_var($param, FILTER_VALIDATE_IP,$flag);
                     return ($str != false) ? $str : null;
                 case 'intarray' :
-                    return array_filter($this->{$type}[$name], function($v){return intval($v);});
+                {
+                    if(is_array($param))
+                        return array_filter($param, function($v){return intval($v);});
+                    else
+                        return array();
+                }
                 case 'floatarray' :
-                    return array_filter($this->{$type}[$name], function($v){return floatval($v);});
+                {
+                    if(is_array($param))
+                        return array_filter($param, function($v){return floatval($v);});
+                    else
+                        return array();
+                }
                 case 'stringarray':
-                    return filter_var($this->{$type}[$name],FILTER_SANITIZE_STRING,FILTER_REQUIRE_ARRAY);
+                {
+                    if(is_array($param))
+                        return filter_var($param,FILTER_SANITIZE_STRING,FILTER_REQUIRE_ARRAY);
+                    else
+                        return array();
+                }
                 default :
-                    return $this->{$type}[$name];
+                    return $param;
             }
         }
         else
