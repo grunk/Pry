@@ -100,6 +100,7 @@ class FolderManager
                             $liste[$compteur]['name']  = $name;
                             $liste[$compteur]['size']  = round($file->getSize() / 1024, 3);
                             $liste[$compteur]['depth'] = $folder->getDepth();
+                            $liste[$compteur]['path'] = $file->getPathName();
                             $compteur++;
                     }
             }            
