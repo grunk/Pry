@@ -87,17 +87,22 @@ class FolderManager
      * @since 1.1.0
      * @return array
      */
-    public function listRecursive()
+    public function listRecursive($showFile = true, $showDot = true)
     {
         $folder = new Filter(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->dossier), true));
         $folder->setExtension($this->filtre);
         $liste  = array();
         $compteur = 0;
         foreach ($folder as $file) {
-            $liste[$compteur]['name']  = $file->getFilename();
-            $liste[$compteur]['size']  = round($file->getSize() / 1024, 3);
-            $liste[$compteur]['depth'] = $folder->getDepth();
-            $compteur++;
+            if(($showFile || (!$showFile && $file->isDir()))) {
+                    $name = $file->getFilename();
+                    if($showDot || ($name != '.' && $name != '..')) {
+                            $liste[$compteur]['name']  = $name;
+                            $liste[$compteur]['size']  = round($file->getSize() / 1024, 3);
+                            $liste[$compteur]['depth'] = $folder->getDepth();
+                            $compteur++;
+                    }
+            }            
             //echo str_repeat('-',$folder->getDepth()).' '.$file.'<br />';
         }
         return $liste;
