@@ -1,0 +1,21 @@
+{
+    "name": "pry/sampleapp",
+    "description": "Sample app using Pry framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Olivier",
+            "email": "private@mail.com"
+        }
+    ],
+	"repositories": [
+	{
+		"type": "vcs",
+		"url": "https://github.com/grunk/Pry"
+	}],
+    "minimum-stability": "stable",
+    "require": {
+		"pry/pry" : "@dev"
+	}
+}

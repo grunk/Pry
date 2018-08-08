@@ -1,14 +1,10 @@
 <?php
+require_once '../../vendor/autoload.php';
 
 define("CONF_MODE", 'dev');
 ini_set('display_errors', 'on');
 
 use Pry\Util\Registry;
-
-require_once '../../../Pry/Pry.php';
-
-//Autoload
-Pry::register();
 
 //Config
 try {

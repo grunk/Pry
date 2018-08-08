@@ -1,0 +1,53 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "08624736ab15bc35cb268c5d7c6370ca",
+    "packages": [
+        {
+            "name": "pry/pry",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grunk/Pry.git",
+                "reference": "14a65b9720c8623af4de2e75331a4066ed294041"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grunk/Pry/zipball/14a65b9720c8623af4de2e75331a4066ed294041",
+                "reference": "14a65b9720c8623af4de2e75331a4066ed294041",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pry\\": "Pry"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Pry Framework",
+            "support": {
+                "source": "https://github.com/grunk/Pry/tree/master",
+                "issues": "https://github.com/grunk/Pry/issues"
+            },
+            "time": "2018-04-12T09:14:30+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "pry/pry": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
