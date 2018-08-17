@@ -65,82 +65,82 @@ class Auth
      * @access private
      * @var Zend_Db_Adapter_Abstract
      */
-    private $oDB;
+    protected $oDB;
 
     /**
      * Type d'erreur rencontrée
      * @access private
      * @var int $errorType
      */
-    private $errorType;
+    protected $errorType;
 
     /**
      * Message d'erreur
      * @access private
      * @var string $errorMsg
      */
-    private $errorMsg;
+    protected $errorMsg;
 
     /**
      * Table des utilisateurs
      * @access public
      * @var string $userTable
      */
-    private $userTable;
+    protected $userTable;
 
     /**
      * Champs du nom d'utilisateur
      * @access public
      * @var string $userField
      */
-    private $userField;
+    protected $userField;
 
     /**
      * Champs du mot de passe
      * @access public
      * @var string $pwdField
      */
-    private $pwdField;
+    protected $pwdField;
 
     /** Champs contenant le token d'autologin */
-    private $autologTokenField;
+    protected $autologTokenField;
 
     /** Nombre d'itération pour l'algo bcrypt */
-    private $hashRounds;
+    protected $hashRounds;
 
     /**
      * Connexion automatique
      * @access public
      * @var boolean $autoLogin
      */
-    private $autoLogin;
+    protected $autoLogin;
 
     /**
      * Option des cookies
      * @access public
      * @var array $cookieOption
      */
-    private $cookieOption;
+    protected $cookieOption;
 
     /**
      * Durée de vie de l'authentification
      * @var int 
      */
-    private $timeOutSession;
+    protected $timeOutSession;
 
     /**
      * Erreur lors de l'identification
      *
      * @var boolean $error
      */
-    public $error;
+    protected $error;
 
     /**
      * Session
      *
      * @var Session_Session
      */
-    private $session;
+    protected $session;
 
     /**
      * Constructeur
@@ -272,7 +272,7 @@ class Auth
      *
      * @return boolean
      */
-    private function loginCookie()
+    protected function loginCookie()
     {
         if (isset($_COOKIE['' . $this->cookieOption['name'] . '']))
         {
@@ -336,7 +336,7 @@ class Auth
      *
      * @param string $login
      */
-    private function createCookie($login)
+    protected function createCookie($login)
     {
         $token = $this->generateRandomToken();
         $value = $login . '|' . $token;
@@ -350,7 +350,7 @@ class Auth
         ));
     }
 
-    private function generateRandomToken()
+    protected function generateRandomToken()
     {
         $token = '';
         $char  = '+-*$=)_!?./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -384,7 +384,7 @@ class Auth
      * @param string $user
      * @return boolean
      */
-    private function checkUser($user)
+    protected function checkUser($user)
     {
         $prepare = $this->oDB->prepare('SELECT ' . $this->userField . ' FROM ' . $this->userTable . ' WHERE ' . $this->userField . ' = :user');
         $prepare->execute(array(':user' => $user));
@@ -406,7 +406,7 @@ class Auth
      * @access private
      * @return boolean
      */
-    private function checkPass($login, $pass)
+    protected function checkPass($login, $pass)
     {
         $prepare = $this->oDB->prepare('SELECT ' . $this->pwdField . ' FROM ' . $this->userTable . ' WHERE ' . $this->userField . ' = :login');
         $prepare->execute(array(':login' => $login));
@@ -428,7 +428,7 @@ class Auth
      * @param string $pass
      * @return string
      */
-    private function hashPass($pass)
+    protected function hashPass($pass)
     {
         $bCrypt = new Bcrypt($this->hashRounds);
         return $bCrypt->hash($pass);
