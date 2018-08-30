@@ -528,5 +528,14 @@ class Auth
     {
         $this->autoLoginEvent = $event;
     }
+    
+    /**
+     * Une erreur est elle levée
+     * @return boolean
+     */
+    public function hasError()
+    {
+        return $this->error;
+    }
 
 }
