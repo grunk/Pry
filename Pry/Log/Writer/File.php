@@ -62,7 +62,6 @@ class File extends WriterAbstract
      */
     protected function _write($message, $level)
     {
-        $ip = '';
         if(!empty(getenv('HTTP_X_FORWARDED_FOR')))
             $ip = getenv('HTTP_X_FORWARDED_FOR');
         else

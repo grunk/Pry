@@ -30,6 +30,8 @@ class Converter extends Image
      */
     private $newimg;
 
+    private $copie;
+
     /**
      * Constructeur
      *

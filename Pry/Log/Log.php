@@ -33,7 +33,7 @@ class Log
 
     /**
      * Constructeur
-     * @param Log_Writer_Abstract $writer
+     * @param \Pry\Log\Writer\WriterAbstract $writer
      */
     public function __construct($writer)
     {

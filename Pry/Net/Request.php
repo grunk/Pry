@@ -127,7 +127,7 @@ class Request
      * Retourne l'ensemble des pramètres de type $type
      * @param string $type Peut être get|post|request|cookie
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getParams($type = null)
     {
@@ -235,8 +235,8 @@ class Request
      * @param string $type Le type de requête
      * @see http://github.com/bdelespierre/php-axiom/tree/master/libraries/axiom/axRequest.class.php
      * @see http://php.net/manual/fr/function.filter-var-array.php
-     * @return \Controller_Request
-     * @throws InvalidArgumentException En cas de type invalide
+     * @return Request
+     * @throws \InvalidArgumentException En cas de type invalide
      */
     public function setFilter(array $filtre, $type = null)
     {
@@ -372,7 +372,7 @@ class Request
      * Applique les filtres défini
      * @param string $type le type de requête
      * @return boolean
-     * @throws RuntimeException Si les filtres échoue
+     * @throws \RuntimeException Si les filtres échoue
      */
     protected function applyFilters($type)
     {
@@ -385,6 +385,8 @@ class Request
             throw new \RuntimeException('Filtres invalide');
 
         $this->filters['isFiltered'] = true;
+
+        return true;
     }
 
     /**

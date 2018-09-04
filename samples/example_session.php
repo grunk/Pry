@@ -23,7 +23,7 @@ $sess->check();
 var_dump($_SESSION);
 */
 
-// Session géré par BDD
+// Session gÃ©rÃ© par BDD
 try{
 	$configIni = new Pry\Config\Ini('config.ini','dev');
 }

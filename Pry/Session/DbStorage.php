@@ -36,6 +36,12 @@ class DbStorage extends Session
     private $ttl;
     static private $instance;
 
+    /**
+     * DbStorage constructor.
+     * @param \PDO $dbh
+     * @param array $opts
+     * @param int $ttl
+     */
     private function __construct($dbh, $opts, $ttl)
     {
         $this->dbh     = $dbh;
@@ -55,10 +61,10 @@ class DbStorage extends Session
 
     /**
      * Singleton
-     * @param Zend_Db_Adapter_Abstract $dbh Objet bdd
+     * @param \PDO $dbh Objet bdd
      * @param array $opts Option de config de la table
      * @param int $ttl Durée de vie de la session en seconde
-     * @return Session_DbStorage 
+     * @return DbStorage
      */
     public static function getInstance($dbh, array $opts, $ttl = null)
     {
@@ -78,6 +84,12 @@ class DbStorage extends Session
         
     }
 
+    /**
+     * Destroy session
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
     public function sessionDestroy($id)
     {
         $db_table  = $this->options['db_table'];
@@ -96,6 +108,11 @@ class DbStorage extends Session
         return true;
     }
 
+    /**
+     * @param $lifetime
+     * @return bool
+     * @throws \Exception
+     */
     public function sessionGC($lifetime)
     {
         $db_table    = $this->options['db_table'];
@@ -113,6 +130,11 @@ class DbStorage extends Session
         return true;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
     public function sessionRead($id)
     {
         // get table/columns
@@ -152,7 +174,10 @@ class DbStorage extends Session
         $db_id_col   = $this->options['db_id_col'];
         $db_time_col = $this->options['db_time_col'];
 
-        $sessionExist = $this->dbh->fetchCol('SELECT COUNT(*) FROM ' . $db_table . ' WHERE ' . $db_id_col . ' = ?', $id);
+        $stmt = $this->dbh->prepare('SELECT COUNT(*) FROM '.$db_table.' WHERE '.$db_id_col.' = ?');
+        $stmt->bindParam(1, $id, \PDO::PARAM_STR, 255);
+        $stmt->execute();
+        $sessionExist = $stmt->fetchColumn(0);
 
         if ($sessionExist)
         {

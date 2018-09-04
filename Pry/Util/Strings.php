@@ -266,6 +266,8 @@ class Strings
             return true;
         if (!$dot && preg_match($regexNoDot, $mail))
             return true;
+
+        return false;
     }
 
     /**

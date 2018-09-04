@@ -30,8 +30,8 @@ class FileCSV extends FileManager
     private $glue;
 
     /**
-     * Nobre de colonne du fichier
-     * @var unknown_type
+     * Nombre de colonne du fichier
+     * @var int
      */
     private $nbCols;
 

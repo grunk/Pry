@@ -53,7 +53,7 @@ class View
     /**
      * Défini le dossier de base contenant les vues
      * @param string $path
-     * @throws InvalidArgumentException Si le dossier n'existe pas
+     * @throws \InvalidArgumentException Si le dossier n'existe pas
      */
     public function setViewBase($path)
     {
@@ -65,8 +65,8 @@ class View
     /**
      * Défini la vue à charger
      * @param string $filePath Chemin dans le dossier des vue
-     * @throws BadMethodCallException Si le dossier de base des vues n'est pas défini
-     * @throws InvalidArgumentException Si la vue n'existe pas
+     * @throws \BadMethodCallException Si le dossier de base des vues n'est pas défini
+     * @throws \InvalidArgumentException Si la vue n'existe pas
      */
     public function load($filePath)
     {
@@ -95,9 +95,9 @@ class View
 
     /**
      * Récupère une variable de vue
-     * @param type $key
-     * @return type
-     * @throws InvalidArgumentException Si la clé n'existe pas
+     * @param string $key
+     * @return string
+     * @throws \InvalidArgumentException Si la clé n'existe pas
      */
     public function get($key)
     {
@@ -110,8 +110,8 @@ class View
     /**
      * Raccourcis pour définir une variable de vue.
      * Cette variable sera forcément échapée à l'affichage
-     * @param type $name
-     * @param type $value
+     * @param string $name
+     * @param string $value
      */
     public function __set($name, $value)
     {
@@ -120,7 +120,7 @@ class View
 
     /**
      * Raccourcis pour récupérer une variable de vue
-     * @param type $name
+     * @param string $name
      */
     public function __get($name)
     {
@@ -129,7 +129,7 @@ class View
 
     /**
      * Affiche la vue
-     * @throws BadMethodCallException Si la vue n'as pas été chargée
+     * @throws \BadMethodCallException Si la vue n'as pas été chargée
      */
     public function render()
     {

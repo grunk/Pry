@@ -131,7 +131,7 @@ class Pagination
      * Créer la pagination
      *
      * @access public
-     * @return array
+     * @return mixed
      */
     public function create()
     {
@@ -205,7 +205,7 @@ class Pagination
     /**
      * Construit la pagination avancée
      * @access private
-     * @param unknown_type $pageEnCours
+     * @param int $pageEnCours
      */
     private function buildAdvanced($pageEnCours)
     {

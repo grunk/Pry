@@ -12,7 +12,6 @@
 
 namespace Pry\File;
 
-use Pry\File\Util;
 
 /**
  * Gestion d'accès au fichier
@@ -107,7 +106,7 @@ class FileManager
 
     /**
      * Retourne l'objet file info
-     * @return SplFileInfo
+     * @return \SplFileInfo
      */
     public function getFileInfo()
     {
@@ -211,7 +210,7 @@ class FileManager
             $this->fileHandler->seek($line2read);
             return $this->fileHandler->current();
         }
-        return false;
+
     }
 
     /**
@@ -278,8 +277,7 @@ class FileManager
      * Copie un fichier vers un dossier
      *
      * @param string $pathToCopy Chemin complet du fichier de copié
-     * @param boolean $ecrase
-     * @return unknown
+     * @return bool
      */
     public function copy($pathToCopy)
     {
@@ -364,6 +362,8 @@ class FileManager
      * Ajoute des données à un fichier existant
      * @since 1.0.6
      * @param string $data
+     * @throws \Exception
+     * @return string
      */
     public function append($data)
     {
@@ -376,7 +376,7 @@ class FileManager
     /**
      * Change les permissions d'un fichier
      * @since 1.0.6
-     * @param octal $octal Droits en octal : 0644; 0777 ...
+     * @param int $octal Droits en octal : 0644; 0777 ...
      */
     public function changePermission($octal)
     {

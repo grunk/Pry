@@ -79,6 +79,7 @@ class DegradeCouleur extends Image
      *
      * @param int $width
      * @param int $height
+     * @throws \Pry\Image\Exception
      */
     public function __construct($width, $height)
     {

@@ -67,7 +67,7 @@ class Socket
     /**
      * Création de la socket. Initialise également l'error handler pour transformer les 
      * erreur de socket en exception.
-     * @param type $blocking 
+     * @param bool $blocking
      */
     public function __construct($blocking = true)
     {
@@ -78,11 +78,11 @@ class Socket
 
     /**
      * Connexion de la socket sur $host:$port avec un delay de $timeout
-     * @param type $host
-     * @param type $port
-     * @param type $timeout
+     * @param string $host
+     * @param int $port
+     * @param int $timeout
      * @return boolean
-     * @throws RuntimeException 
+     * @throws \RuntimeException
      */
     public function connect($host, $port, $timeout = 15)
     {
@@ -139,7 +139,7 @@ class Socket
      * Ecrit sur la socket le contenu de $buffer
      * @param string $buffer
      * @return mixed Nombre d'octet ou false en cas d'erreur
-     * @throws InvalidArgumentException 
+     * @throws \InvalidArgumentException
      */
     public function write($buffer)
     {
@@ -154,7 +154,7 @@ class Socket
      * Lecture sur la socket
      * @param int $size nombre d'octet à lire
      * @return boolean
-     * @throws RuntimeException 
+     * @throws \RuntimeException
      */
     public function read($size = 2048)
     {
@@ -167,11 +167,11 @@ class Socket
             }
             else
             {
-                Throw new \RuntimeException("Lecture impossible : " . socket_strerror(socket_last_error($this->socket)));
+                throw new \RuntimeException("Lecture impossible : " . socket_strerror(socket_last_error($this->socket)));
             }
-
-            return false;
         }
+
+        return false;
     }
 
     /**

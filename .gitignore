@@ -2,3 +2,4 @@ api/
 nbproject/
 config.neon
 /vendor
+.idea

@@ -139,7 +139,7 @@ class Router
 
     /**
      * Singleton de la classe
-     * @return Controller_Router
+     * @return Router
      */
     public static function getInstance()
     {
@@ -211,6 +211,7 @@ class Router
             $controller = new $class($this->request);
         }
 
+        /** @var BaseController $controller */
         if (!empty($this->view))
             $controller->setView($this->view);
 

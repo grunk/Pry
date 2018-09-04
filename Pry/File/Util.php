@@ -64,7 +64,7 @@ class Util
      * Retourne le nom dufichier/dossier compris dans un chemin
      *
      * @param string $path
-     * @return unknown
+     * @return string
      */
     public static function getNameFromPath($path)
     {

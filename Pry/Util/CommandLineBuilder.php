@@ -109,7 +109,7 @@ class CommandLineBuilder
     /**
      * Ajoute un nouveau paramètre à la commande
      * @param string $param
-     * @throws InvalidArgumentException si le paramètre existe déjà
+     * @throws \InvalidArgumentException si le paramètre existe déjà
      */
     public function addParameter($param)
     {

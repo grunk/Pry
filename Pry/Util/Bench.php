@@ -62,7 +62,7 @@ class Bench // Amel bench ? ==>[]
     /**
      * Prend un temps intermédiaire.
      *
-     * @param $nom Nom du temps intermédiaire
+     * @param string $nom du temps intermédiaire
      * @return float delay entre début et ajout du flag
      */
     public function add_flag($nom)

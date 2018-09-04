@@ -6,7 +6,15 @@
 	"version": "1.0.0",
     "minimum-stability": "stable",
     "require": {
-		"php": ">=5.6.0"
+		"php": ">=5.6.0",
+        "ext-pdo" : "*",
+        "ext-mbstring" : "*",
+        "ext-calendar" : "*",
+        "ext-dom" : "*",
+        "ext-fileinfo" : "*",
+        "ext-gd" : "*",
+        "ext-sockets" : "*",
+        "ext-iconv" : "*"
 	},
 	"autoload": {
         "psr-4": {"Pry\\" : "Pry"}

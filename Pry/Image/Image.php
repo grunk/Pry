@@ -32,83 +32,70 @@ class Image
     const IMG_TIF = 7;
 
     /**
-     * @access protected
      * @var int
      */
     protected $width;
 
     /**
      * @var int
-     * @access protected
      */
     protected $height;
 
     /**
      * Type de l image : 1 = gif ; 2 = jpeg; 3= png
-     * @var string 
-     * @access protected
+     * @var string
      * 
      */
     protected $type;
 
     /**
      * @var string $mime Type mime de l image
-     * @access protected
      */
     protected $mime;
 
     /**
-     * @var img Fichier image source
-     * @access protected
+     * @var string Fichier image source
      */
     protected $source;
 
     /**
      * @var string Police d'ecriture selectionnee. Defaut verdanna.
-     * @access private
      */
     protected $font;
 
     /**
      * @var ressource Couleur choisi (par defaut bordeau)
-     * @access protected
      */
     protected $couleur;
 
     /**
      * @var array Info de l'image
-     * @access protected
      */
     protected $infoImage;
 
     /**
      * @var int Poids de l'image
-     * @access protected
      */
     protected $poids;
     private $copie;
 
     /**
      * @var \Pry\Image\Image autre image a coller sur l image d origine
-     * @access private
      */
     private $logo;
 
     /**
-     * @var ressource Largeur du logo
-     * @access private
+     * @var int Largeur du logo
      */
     private $widthL;
 
     /**
-     * @var ressource Hauteur du logo
-     * @access private
+     * @var int Hauteur du logo
      */
     private $heightL;
 
     /**
-     * @var ressource Type du logo
-     * @access private
+     * @var string Type du logo
      */
     private $typeL;
 
@@ -117,6 +104,7 @@ class Image
      * @param string $img Chemin vers l'image
      * @param int $w Largeur a fournir si aucune image source
      * @param int $h Hauteur a fournir si aucune image source
+     * @throws \Pry\Image\Exception
      */
     public function __construct($img, $w = null, $h = null)
     {
@@ -124,7 +112,7 @@ class Image
         {
             if (!is_readable($img))
             {
-                throw new Image_Exception('Le fichier n\'est pas ouvert en lecture');
+                throw new Exception('Le fichier n\'est pas ouvert en lecture');
             }
             $info         = getimagesize($img);
             $this->width  = $info[0];
@@ -185,6 +173,7 @@ class Image
      * Ajoute une image en tant que logo
      * @access public
      * @param string chemin vers l'image
+     * @throws \Pry\Image\Exception
      */
     public function addLogo($logo)
     {
@@ -207,6 +196,9 @@ class Image
      */
     public function mergeLogo($pos = 'bd', $opacite = 75)
     {
+        $posX = 0;
+        $posY = 0;
+
         if ($pos == 'hg')
         {
             $posX = 0;
@@ -527,6 +519,7 @@ class Image
      * @param array $rgb Tableau des valeurs rgb array(45,49,176);
      * @since 1.2.0
      * @return string
+     * @throws \Pry\Image\Exception
      */
     public static function RgbToHex($rgb)
     {
@@ -587,12 +580,14 @@ class Image
             else
                 return false;
         }
+
+        return false;
     }
 
     /**
      * Affiche l'image sur la sortie standard
      * @access public
-     * @return img
+     * @return mixed
      */
     public function display($qualite = 100)
     {
@@ -611,6 +606,8 @@ class Image
             header("Content-type: image/png");
             return imagepng($this->source);
         }
+
+        return false;
     }
 
     /**
@@ -629,6 +626,7 @@ class Image
      *
      * @param resource $resource
      * @since 1.3.0
+     * @throws \Pry\Image\Exception
      */
     public function setSource($resource)
     {

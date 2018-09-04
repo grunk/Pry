@@ -13,7 +13,6 @@
 namespace Pry\File;
 
 use Pry\Util\Strings;
-use Pry\File\Util;
 
 /**
  * Classe d'envoi de multiples fichiers.
@@ -141,11 +140,24 @@ class Upload
      */
     private $errors;
 
+    /** Nom temporaire
+     * @var string
+     */
+    private $fileNameTmp;
+
+
+    private $_taille = 0;
+    private $_nom = '';
+    private $_temp = '';
+    private $_mime = '';
+    private $_error = '';
+    private $_ext = '';
+
     /**
      * Constructeur
      * @param string $dir Dossier de destination des fichiers
      * @param string $fieldName Nom des champs d'upload
-     * @param int [$mimeCheck] Mode de v�rification du type (d�faut navigateur)
+     * @param int [$mimeCheck] Mode de vérification du type (défaut navigateur)
      */
     public function __construct($dir, $fieldName, $mimeCheck = 1)
     {
@@ -193,7 +205,7 @@ class Upload
             {
                 if ($this->mimeCheck == self::MIME_CHECK_FINFO)
                 {
-                    $finfo       = new finfo(FILEINFO_MIME, $this->magicFile);
+                    $finfo       = new \finfo(FILEINFO_MIME, $this->magicFile);
                     $this->_mime = $finfo->file(realpath($this->_temp));
                     // Peut retourner des mime du style : "text/plain; charset=utf-8"
                     $posVirgule  = strpos($this->_mime, ';');
@@ -246,7 +258,7 @@ class Upload
      * Défini la taille maximal du fichier.
      * Accepte un int ou une notation du type 500K, 2M
      * @param mixed $size
-     * @return File_Upload
+     * @return Upload
      */
     public function setMaxFileSize($size)
     {
@@ -257,7 +269,7 @@ class Upload
     /**
      * Défini le dossier contenant les fichier magicmime
      * @param string $dir
-     * @return File_Upload
+     * @return Upload
      */
     public function setMagicFile($path)
     {
@@ -266,9 +278,9 @@ class Upload
     }
 
     /**
-     * Défini le mode d'�criture
+     * Défini le mode d'écriture
      * @param int $mode
-     * @return File_Upload
+     * @return Upload
      */
     public function setWriteMode($mode)
     {
@@ -279,7 +291,7 @@ class Upload
     /**
      * Défini si les fichiers sont requis ou non
      * @param int $mode
-     * @return File_Upload
+     * @return Upload
      */
     public function setRequired($mode)
     {
@@ -290,7 +302,7 @@ class Upload
     /**
      * Défini une (string) ou plusieurs (array) extensions autorisées
      * @param mixed $newExt
-     * @return File_Upload
+     * @return Upload
      */
     public function setAllowedExtensions($newExt)
     {
@@ -315,7 +327,7 @@ class Upload
     /**
      * Supprime une extension
      * @param string $extToRm
-     * @return File_Upload
+     * @return Upload
      */
     public function removeExtension($extToRm)
     {
@@ -328,7 +340,7 @@ class Upload
 
     /**
      * Supprime toutes les extensions
-     * @return File_Upload
+     * @return Upload
      */
     public function flushAllowedExtensions()
     {
@@ -339,7 +351,7 @@ class Upload
     /**
      * Défini un (string) ou plusieurs (array) type mime autorisé
      * @param mixed $newMime
-     * @return File_Upload
+     * @return Upload
      */
     public function setAllowedMime($newMime)
     {
@@ -364,7 +376,7 @@ class Upload
     /**
      * Supprime un type mime
      * @param string $mimeToRm
-     * @return File_Upload
+     * @return Upload
      */
     public function removeMime($mimeToRm)
     {
@@ -377,7 +389,7 @@ class Upload
 
     /**
      * Supprime tous les types mime
-     * @return File_Upload
+     * @return Upload
      */
     public function flushAllowedMime()
     {
@@ -388,7 +400,7 @@ class Upload
     /**
      * Défini le nom des fichiers une fois envoyés
      * @param string $name
-     * @return File_Upload
+     * @return Upload
      */
     public function setFileName($name)
     {
@@ -399,7 +411,7 @@ class Upload
     /**
      * Défini le préfix du nom de fichier
      * @param string $prefix
-     * @return File_Upload
+     * @return Upload
      */
     public function setPrefix($prefix)
     {
@@ -410,7 +422,7 @@ class Upload
     /**
      * Défini le suffix du nom de fichier
      * @param string $suffix
-     * @return File_Upload
+     * @return Upload
      */
     public function setSuffix($suffix)
     {
@@ -421,18 +433,18 @@ class Upload
     /**
      * Défini ou non le mode sécurisé qui n'accepte aucun fichier de type application ou jugé dangereux
      * @param boolean $mode
-     * @return File_Upload
+     * @return Upload
      */
     public function setSecureMode($mode)
     {
-        $this->secureMode($mode);
+        $this->secureMode = $mode;
         return $this;
     }
 
     /**
      * Active ou non le nettoyage du nom de fichier
      * @param boolean $bool
-     * @return File_Upload
+     * @return Upload
      */
     public function cleanName($bool)
     {
@@ -442,7 +454,7 @@ class Upload
 
     /**
      * Retourne le tableau d'erreur
-     * @return array
+     * @return mixed
      */
     public function getError()
     {

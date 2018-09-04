@@ -58,7 +58,7 @@ class Gauge extends Image
      * Défini une image de jauge
      *
      * @param string $jauge chemin vers l image
-     * @access public
+     * @throws \Pry\Image\Exception
      */
     public function setGauge($jauge)
     {
@@ -72,7 +72,7 @@ class Gauge extends Image
      * Défini l image de l'aiguille
      *
      * @param string $aiguille Chemin vers l'image de l'aiguille
-     * @access public
+     * @throws \Pry\Image\Exception
      */
     public function setNeedle($aiguille)
     {
@@ -84,7 +84,7 @@ class Gauge extends Image
 
     /**
      * Dessine la jauge
-     * @access public
+     * @throws \Pry\Image\Exception
      */
     public function draw()
     {

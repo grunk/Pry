@@ -74,7 +74,7 @@ class ACL
 
     /**
      * Supprime un role et les permission associées
-     * @param type $name
+     * @param string $name
      * @return boolean 
      */
     public function deleteRole($name)

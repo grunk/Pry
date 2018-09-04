@@ -22,7 +22,7 @@ if(isset($_POST['MAX_FILE_SIZE']))
 	$upload->setAllowedMime('test/prynel');
 	$upload->upload();
 	}
-	catch(Util_ExceptionHandler $e){
+	catch(\Exception $e){
 		echo $e->getError();
 	}
 }

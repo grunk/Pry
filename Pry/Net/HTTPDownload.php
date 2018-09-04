@@ -74,6 +74,12 @@ class HTTPDownload
      */
     protected $seekEnd;
 
+    /**
+     * HTTPDownload constructor.
+     * @param string $path
+     * @param bool $resume
+     * @throws \Exception
+     */
     public function __construct($path, $resume = false)
     {
         if (file_exists($path))
@@ -95,6 +101,7 @@ class HTTPDownload
 
     /**
      * Lance le téléchargement ou la reprise du téléchargement
+     * @throws \Exception
      */
     public function download()
     {

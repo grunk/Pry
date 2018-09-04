@@ -65,7 +65,7 @@ class Feed extends AbstractFeed
 
     /**
      * Créer un élément de flux
-     * @return Feed_Entry
+     * @return Entry
      */
     public function createEntry()
     {
@@ -74,7 +74,7 @@ class Feed extends AbstractFeed
 
     /**
      * Enregistre l'élément créé dans le flux
-     * @param Feed_Entry $entry
+     * @param Entry $entry
      * @return void
      */
     public function setEntry($entry)
@@ -102,6 +102,7 @@ class Feed extends AbstractFeed
         $class = 'Pry\Feed\Writers\\' . $type;
         if (class_exists($class))
         {
+            /** @var \Pry\Feed\Writers\Interfaces $build */
             $build = new $class($this, $file);
             return $build->finalize();
         }

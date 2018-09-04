@@ -129,6 +129,7 @@ class Syslog extends WriterAbstract
      * Ecriture du message vers le serveur syslog
      * @param string $message
      * @param int $level Niveau d'importance
+     * @throws \Exception
      */
     protected function _write($message, $level)
     {

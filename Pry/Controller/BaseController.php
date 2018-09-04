@@ -50,10 +50,10 @@ abstract class BaseController
 
     /**
      * Instanciation du controller
-     * @param Net_Request $requete Requête utilisé
+     * @param \Pry\Net\Request $requete Requête utilisé
      * @param string $codeLangue Code langue. par défaut défini à fr
      */
-    public function __construct($requete, $codeLangue = 'fr')
+    public function __construct(\Pry\Net\Request $requete, $codeLangue = 'fr')
     {
         if (Registry::isRegistered('Db'))
             $this->db = Registry::get('Db');

@@ -12,7 +12,6 @@
 
 namespace Pry\File;
 
-use Pry\File\FileManager;
 
 /**
  * Cryptage / Décryptage de fichier
@@ -20,6 +19,7 @@ use Pry\File\FileManager;
  * @package File
  * @version 0.9
  * @author Olivier ROGER <oroger.fr>
+ * @deprecated Utilise des fonction mcrypt qui ne sont plus maintenu
  */
 class Crypt
 {

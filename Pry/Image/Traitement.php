@@ -55,12 +55,13 @@ class Traitement
      * Constructeur
      * 
      * @param Image $img Objet de l'image
+     * @throws \Exception
      */
     public function __construct(Image &$img)
     {
         if (!is_object($img))
         {
-            throw new Exception('Objet attendu');
+            throw new \Exception('Objet attendu');
         }
 
         $this->objet       = $img;
@@ -73,6 +74,7 @@ class Traitement
     /**
      * Convertit l'image en niveau de gris. Imagefilter remplace les calcul via matrice. 10x plus rapide
      * @access public
+     * @throws \Exception
      */
     public function greyScale()
     {
@@ -82,8 +84,8 @@ class Traitement
 
     /**
      * Ajoute du flou à l'image. Imagefilter remplace les calcul via matrice. 10x plus rapide
-     * @access public
      * @param int $factor Facteur de flou
+     * @throws \Exception
      */
     public function blur($factor)
     {
@@ -93,9 +95,8 @@ class Traitement
 
     /**
      * Ajoute du bruit à l'image. (relativement long a executer puisque traitement px par px)
-     * @access public
      * @param int $factor paramètre de bruit (0-255)
-     * 
+     * @throws \Exception
      */
     public function addNoise($factor)
     {
@@ -116,7 +117,7 @@ class Traitement
 
     /**
      * Netteté
-     * @access public
+     * @throws \Exception
      */
     public function sharppen()
     {
@@ -128,6 +129,7 @@ class Traitement
      * Modifie le contraste de l'image. Imagefilter remplace les calcul via matrice. 10x plus rapide
      * @access public
      * @param int $factor Facteur de flou
+     * @throws \Exception
      */
     public function contrast($factor)
     {
@@ -139,6 +141,7 @@ class Traitement
      * Modifie la luminosité. Imagefilter remplace les calcul via matrice. 10x plus rapide
      * @access private
      * @param int $factor Facteur de flou
+     * @throws \Exception
      */
     public function brightness($factor)
     {

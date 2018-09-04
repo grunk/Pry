@@ -12,7 +12,6 @@
 
 namespace Pry\Date;
 
-use Pry\Date\Ferie;
 
 /**
  * Classe Weeks

@@ -50,6 +50,7 @@ class Captcha extends Image
      * @param int $width
      * @param int $height
      * @access public
+     * @throws \Pry\Image\Exception
      */
     public function __construct($width, $height)
     {

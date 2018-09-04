@@ -103,7 +103,7 @@ class Config implements \Countable, \Iterator
      *
      * @param  string $extendingSection
      * @param  string $extendedSection
-     * @throws Zend_Config_Exception
+     * @throws \Exception
      * @return void
      */
     protected function checkForCircularInheritance($extendingSection, $extendedSection)
@@ -129,7 +129,7 @@ class Config implements \Countable, \Iterator
     {
         $array = array();
         foreach ($this->datas as $key => $value) {
-            if ($value instanceof Config_Config)
+            if ($value instanceof Config)
                 $array[$key] = $value->toArray();
             else
                 $array[$key] = $value;

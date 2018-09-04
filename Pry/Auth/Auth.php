@@ -12,7 +12,6 @@
 
 namespace Pry\Auth;
 
-use Pry\Auth\Bcrypt;
 use Pry\Auth\Interfaces\OnAutoLoginEvent;
 use Pry\Session\Session;
 
@@ -63,7 +62,7 @@ class Auth
     /**
      * Objet pour accès bdd
      * @access private
-     * @var Zend_Db_Adapter_Abstract
+     * @var \PDO
      */
     protected $oDB;
 
@@ -138,15 +137,15 @@ class Auth
     /**
      * Session
      *
-     * @var Session_Session
+     * @var \Pry\Session\Session
      */
     protected $session;
 
     /**
      * Constructeur
      * 
-     * @param PDO $db Objet Zend Db
-     * @param Session_Session $session
+     * @param \PDO $db Objet Zend Db
+     * @param \Pry\Session\Session $session
      * @access public
      */
     public function __construct(Session $session, \PDO $db)
@@ -328,7 +327,7 @@ class Auth
     public function startSession($name = 'acauth')
     {
         if (empty($this->session))
-            $this->session = Session_Session::getInstance($name, $this->timeOutSession);
+            $this->session = Session::getInstance($name, $this->timeOutSession);
     }
 
     /**
@@ -511,7 +510,7 @@ class Auth
 
     /**
      * Défini en seconde la durée de vie de l'authentification
-     * @param type $timeout 
+     * @param int $timeout En seconde
      */
     public function setTimeoutSession($timeout)
     {
@@ -522,7 +521,7 @@ class Auth
      * Défini une instance de classe implémentant 
      * Auth_Interfaces_OnAutoLoginEvent afin d'appeler la méthode onAutoLogin
      * après l'authentification via cookie
-     * @param Auth_Interfaces_OnAutoLoginEvent $event
+     * @param \Pry\Auth\Interfaces\OnAutoLoginEvent $event
      */
     public function setOnAutoLoginEvent(OnAutoLoginEvent $event)
     {

@@ -11,6 +11,7 @@
  */
 
 namespace Pry\Image;
+use Pry\File\FolderManager;
 
 define('FONTFOLDER', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'font');
 
@@ -67,10 +68,11 @@ class Font
      * Liste toutes les polices disponibles dans le dossier font sous forme d'une image
      * <code>echo Image_Font::listFont()</code>
      * @return image
+     * @throws \Pry\Image\Exception
      */
     public static function listFont()
     {
-        $file      = new File_FolderManager(FONTFOLDER . DIRECTORY_SEPARATOR);
+        $file      = new FolderManager(FONTFOLDER . DIRECTORY_SEPARATOR);
         $listeFont = $file->listFile();
 
         $nbPolice = count($listeFont);

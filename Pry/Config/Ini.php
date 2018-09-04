@@ -48,7 +48,8 @@ class Ini extends Config
      * Initialise la lecture d'un fichier de config au format ini
      * @param string $file Chemin vers le fichier à lire
      * @param string $section Section du fichier à lire. Null pour tout lire
-     * @throws RuntimeException 
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function __construct($file, $section = null)
     {
@@ -96,7 +97,8 @@ class Ini extends Config
      * Charge le fichier
      * @param string $file Fichier à charger
      * @return array Données chargée
-     * @throws RuntimeException 
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     private function load($file)
     {
@@ -133,7 +135,7 @@ class Ini extends Config
      * Parse un fichier ini
      * @param string $file Fichier à charger
      * @return array Données parsée
-     * @throws Exception 
+     * @throws \Exception
      */
     private function parse($file)
     {
@@ -151,10 +153,10 @@ class Ini extends Config
      * Parse chaque élément de la section et gère la clé '$inherit' qui permet de détecter un
      * héritage entre section. Passe ensuite les données à parseKey pour gérer les sous propriété
      * @param array $iniArray Tableau des données
-     * @param strng $section Nom de la section
+     * @param string $section Nom de la section
      * @param array $config
      * @return array
-     * @throws Exception 
+     * @throws \Exception
      */
     private function parseSection($iniArray, $section, $config = array())
     {
@@ -191,7 +193,7 @@ class Ini extends Config
      * @param string $value
      * @param array $config
      * @return array
-     * @throws Exception 
+     * @throws \Exception
      */
     private function parseKey($key, $value, $config)
     {

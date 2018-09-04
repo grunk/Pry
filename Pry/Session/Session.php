@@ -72,11 +72,12 @@ class Session
      * @param float $ttl
      * @param boolean $regenerate Force la génération de l'id. A eviter en mode BDD
      * @access private
+     * @throws \Exception
      */
     private function __construct($name = 'PrySess', $ttl = null, $regenerate = true)
     {
         if (isset($_SESSION))
-            throw new Exception('Une session existe déjà');
+            throw new \Exception('Une session existe déjà');
 
         $this->sessionName    = $name;
         $this->sessionTTL     = $ttl;
@@ -111,7 +112,8 @@ class Session
      * @static 
      * @param string $name
      * @param float $ttl
-     * @return Session_Session
+     * @return Session
+     * @throws \Exception
      */
     public static function getInstance($name = 'PrySess', $ttl = null)
     {

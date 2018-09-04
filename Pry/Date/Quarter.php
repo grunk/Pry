@@ -32,7 +32,7 @@ class Quarter
     
     /**
      * Retourne le trimestre suivant
-     * @param Datetime $date Date optionnelle à partir de laquelle calculer le suivant
+     * @param \Datetime $date Date optionnelle à partir de laquelle calculer le suivant
      * @return array Date de début et fin du trimestre
      */
     public static function getNext(\DateTime $date = null)
@@ -58,7 +58,7 @@ class Quarter
     
     /**
      * Retourne le trimestre suivant
-     * @param Datetime $date Date optionnelle à partir de laquelle calculer le précédent
+     * @param \Datetime $date Date optionnelle à partir de laquelle calculer le précédent
      * @return array Date de début et fin du trimestre
      */
     public static function getPrevious(\DateTime $date = null)
@@ -86,11 +86,12 @@ class Quarter
      * Retourne le trimestre associé à une date
      * @param \DateTime $date Date
      * @return array date début et fin
+     * @throws \BadMethodCallException
      */
     public static function getFromDate(\DateTime $date)
     {
         if(empty($date))
-            return new \BadMethodCallException("Date time expected");
+            throw new \BadMethodCallException("Date time expected");
         
         $month = $date->format('n');
         $year  = $date->format('Y');
@@ -185,7 +186,7 @@ class Quarter
             case 4:
                 return Quarter::getQ4($year);
             default:
-                Quarter::getCurrent();
+                return Quarter::getCurrent();
         }
     }
 }

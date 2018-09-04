@@ -36,7 +36,7 @@ class Bd extends WriterAbstract
      * Constructeur
      *
      * @param string $table contenant les logs
-     * @param Zend_Db_Adapter_Abstract Objet sql
+     * @param \PDO $sql
      */
     public function __construct($table, $sql)
     {

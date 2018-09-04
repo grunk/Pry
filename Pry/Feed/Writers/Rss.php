@@ -56,7 +56,7 @@ class Rss implements Interfaces
 
     /**
      * Constructeur. Initialise la construction du flux
-     * @param Feed_Feed $feed Objet Feed
+     * @param Feed $feed Objet Feed
      * @param string $fichier Fichier (optionnel)
      */
     public function __construct(Feed $feed, $fichier = null)
@@ -79,7 +79,7 @@ class Rss implements Interfaces
 
     /**
      * Construit le début du flux avec les informations qui lui sont propres
-     * @param DOMElement $channel
+     * @param \DOMElement $channel
      * @access private
      * @return void
      */
@@ -104,7 +104,7 @@ class Rss implements Interfaces
 
     /**
      * Construit les éléments du flux
-     * @param DOMElement $channel
+     * @param \DOMElement $channel
      * @access private
      * @return void
      */
@@ -183,6 +183,7 @@ class Rss implements Interfaces
     /**
      * (non-PHPdoc)
      * @see Feed/Writers/Feed_Writers_Interface#finalize()
+     * @throws \Exception
      */
     public function finalize()
     {

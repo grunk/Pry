@@ -58,7 +58,7 @@ class Token
     /**
      * Récupère le token
      *
-     * @throws UnexpectedValueException Si aucun token n'est disponible
+     * @throws \UnexpectedValueException Si aucun token n'est disponible
      * @return string
      */
     static public function getToken()
@@ -72,7 +72,7 @@ class Token
     /**
      * Récupère le timestamp de durée de vie
      *
-     * @throws UnexpectedValueException Si aucun token n'est disponible
+     * @throws \UnexpectedValueException Si aucun token n'est disponible
      * @return int
      */
     static public function getTTL()
@@ -87,6 +87,7 @@ class Token
      * Vérifie la validité du token
      *
      * @return boolean
+     * @throws \Exception
      */
     static public function checkToken()
     {
