@@ -91,7 +91,7 @@ class Bench
 
     /**
      * Get current time in milliseconds
-     * @access private
+     * @todo Migrate to hrtime() php 7.3
      * @return Float time in millisecond
      */
     private function get_micro() : float
