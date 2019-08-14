@@ -9,7 +9,7 @@ namespace tests\units\Pry\Util;
 use atoum;
 
 
-require '../../../Pry/Util/Pagination.class.php';
+require_once __DIR__. '../../../Pry/Util/Pagination.class.php';
 /**
  * Description of Pagination
  *

@@ -9,7 +9,7 @@ namespace tests\units\Pry\Util;
 use atoum;
 use \Pry\Util\Token as tk;
 
-require '../../../Pry/Util/Token.class.php';
+require_once __DIR__. '../../../Pry/Util/Token.class.php';
 session_start();
 /**
  * Description of Token

@@ -1,10 +1,10 @@
 <?php
 
-namespace tests\unit\Pry\Util;
+namespace tests\units\Pry\Util;
 
 use atoum;
 
-require '../../../Pry/Util/CommandLineBuilder.class.php';
+require_once __DIR__. '../../../Pry/Util/CommandLineBuilder.php';
 
 /**
  * Test class for CommandLineBuilder.class.

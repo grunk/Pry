@@ -1,11 +1,9 @@
 <?php
 
 namespace tests\units\Pry\Util;
-
 use atoum;
 
-
-require '../../../Pry/Util/Bench.class.php';
+require_once __DIR__. '../../../Pry/Util/Bench.php';
 
 /**
  * Test class for Bench.class.
@@ -22,7 +20,7 @@ class Bench extends atoum {
         $this->variable($start)->isNotNull();
         $this->float($start)->isGreaterThan(0.0);
     }
-    
+
     public function testAdd_flag()
     {
         $bench = new \Pry\Util\Bench;

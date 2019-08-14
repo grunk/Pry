@@ -12,7 +12,7 @@ More information on documentation:
 
 use \mageekguy\atoum;
 
-$report = $script->addDefaultReport();
+//$report = $script->addDefaultReport();
 
 /*
 LOGO

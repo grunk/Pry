@@ -10,7 +10,7 @@ namespace tests\units\Pry\Util;
 use atoum;
 use \Pry\Util\Strings as str;
 
-require '../../../Pry/Util/Strings.class.php';
+require_once __DIR__. '../../../Pry/Util/Strings.class.php';
 
 /**
  * Description of Strings
