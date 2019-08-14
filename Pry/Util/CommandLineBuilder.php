@@ -10,55 +10,51 @@
  * 
  */
 namespace Pry\Util;
-/**
- * Classe CommandLineBuilder. 
- * Permet de créer simplement des lignes de commandes
- * 
- * @category Pry
- * @package Util
- * @version 1.1.0
- * @author Olivier ROGER <oroger.fr>
- *
- */
+use InvalidArgumentException;
 
-define('SPACE',' ');
+/**
+ * CommandLineBuilder.
+ * Let you create some commandline string
+ *
+ * @author Olivier ROGER <oroger.fr>
+ */
 class CommandLineBuilder
 {
-
+    private const SPACE = ' ';
     /**
-     * Nom de la commande à utiliser
+     * Name of the command
      * @var string 
      */
     protected $command;
     
     /**
-     * Liste des paramètres
+     * Parameters list
      * @var array 
      */
     protected $params;
     
     /**
-     * Liste des options et de leur valeur
+     * Options list with values
      * @var array 
      */
     protected $options;
     
     /**
-     * Liste des options longue et de leur valeur
+     * Long options with values
      * @var array 
      */
     protected $longOptions;
     
     /**
-     * Caractère à placer devant les options.
-     * Par défaut : -
+     * Char to prepend to options.
+     * default to : -
      * @var string 
      */
     protected $optionChar = '-';
     
     /**
-     * Caractère à placer devant les options longues.
-     * Par défaut : --
+     * Char to prepend to long options.
+     * default to : --
      * @var string 
      */
     protected $longOptionChar = '--';
@@ -69,9 +65,9 @@ class CommandLineBuilder
     }
     
     /**
-     * Réinitialise la ligne de commande
+     * Reset command line
      */
-    public function clear()
+    public function clear() : void
     {
         $this->command      = '';
         $this->params       = array();
@@ -80,74 +76,74 @@ class CommandLineBuilder
     }
     
     /**
-     * Défini le préfixe des options
+     * Define option prefix
      * @param string $char
      */
-    public function setOptionChar($char)
+    public function setOptionChar(string $char) : void
     {
         $this->optionChar = $char;
     }
     
     /**
-     * Défini le préfixe des options longues
+     * Define long option prefix
      * @param string $longChar
      */
-    public function setLongOptionChar($longChar)
+    public function setLongOptionChar(string $longChar) : void
     {
         $this->longOptionChar = $longChar;
     }
     
     /**
-     * Défini la commande à utiliser
+     * Define command name
      * @param string $cmd
      */
-    public function setCommand($cmd)
+    public function setCommand(string $cmd) : void
     {
         $this->command = $cmd;
     }
     
     /**
-     * Ajoute un nouveau paramètre à la commande
+     * Add a new parameter to the command
      * @param string $param
-     * @throws \InvalidArgumentException si le paramètre existe déjà
+     * @throws InvalidArgumentException if parameter already exists
      */
-    public function addParameter($param)
+    public function addParameter(string $param) : void
     {
         if( in_array($param, $this->params) )
-            throw new \InvalidArgumentException('This argument already exist');
+            throw new InvalidArgumentException('This argument already exist');
                 
         $this->params[] = $param; 
     }
     
     /**
-     * Ajoute une option et sa valeur éventuelle
-     * @param string $name nom de l'option
-     * @param string $value (facultatif) Valeur de l'option
+     * Add an option an its optionnal value
+     * @param string $name Option name
+     * @param string $value (optionnal) option value
      */
-    public function addOption($name,$value='')
+    public function addOption(string $name, string $value='') : void
     {
         if(!empty($name))
             $this->options[$name] = $value;
     }
-    
+
     /**
-     * Ajoute une option longue et sa valeur éventuelle
-     * @param string $name Nom de l'option longue
-     * @param string $value Nom de la valeur
+     * Add a long option an its optionnal value
+     * @param string $name Option name
+     * @param string $value (optionnal) option value
      */
-    public function addLongOption($name,$value='')
+    public function addLongOption(string $name, string $value='') : void
     {
         if(!empty($name))
             $this->longOptions[$name] = $value;
     }
     
     /**
-     * Construit la ligne de commande et la retourne
-     * @param string $order L'ordre des éléments dans la ligne de commande. P pour parameter
-     * O pour option and L pour long options. Par défaut fixé à POL
-     * @return string Ligne de commande
+     * Build command line and returns it
+     * @param string $order Order of element in the commandline. P for parameter
+     * O for option and L for long options. Default to POL
+     * @return string Command line
      */
-    public function get($order = 'POL')
+    public function get(string $order = 'POL') : string
     {
         $command = $this->command;
         
@@ -166,34 +162,34 @@ class CommandLineBuilder
         return $command;
     }
     
-    private function getParams()
+    private function getParams() : string
     {
         $p = '';
         foreach($this->params as $param)
-            $p .= SPACE.$param;
+            $p .= CommandLineBuilder::SPACE.$param;
         
         return $p;
     }
     
-    private function getOptions()
+    private function getOptions() : string
     {
         $o = '';
         foreach ($this->options as $option => $value)
         {
-            $o .= SPACE.$this->optionChar.$option;
+            $o .= CommandLineBuilder::SPACE.$this->optionChar.$option;
             if(!empty($value))
-                $o .= SPACE.$value;
+                $o .= CommandLineBuilder::SPACE.$value;
         }
         
         return $o;
     }
     
-    private function getLongOptions()
+    private function getLongOptions() : string
     {
         $lo = '';
         foreach($this->longOptions as $option => $value)
         {
-            $lo .= SPACE.$this->longOptionChar.$option;
+            $lo .= CommandLineBuilder::SPACE.$this->longOptionChar.$option;
             if(!empty($value))
                 $lo .= '='.$value;
         }
@@ -202,7 +198,7 @@ class CommandLineBuilder
     }
     
     
-    public function __toString()
+    public function __toString() : string
     {
         return $this->get();
     }
