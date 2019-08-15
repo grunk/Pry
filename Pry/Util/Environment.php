@@ -13,96 +13,80 @@
 namespace Pry\Util;
 
 /**
- * Récupération d'information sur l'environnement d'execution de PHP
- *
- * @category Pry
- * @package Util
- * @version 1.0.0
+ * Get environement information
  * @author Olivier ROGER <oroger.fr>
  *  
  */
 class Environment
 {
     /**
-     * PHP est il en 64bits
+     * Are we on 64bit
      * @return boolean
      */
-    public static function is64Bits()
+    public static function is64Bits() : bool
     {
-        if(PHP_INT_SIZE == 8)
-            return true;
-        return false;
+        return PHP_INT_SIZE == 8;
     }
     
     /**
-     * PHP est il 32 bits
+     * Are we on 32bits
      * @return boolean
      */
-    public static function is32Bits()
+    public static function is32Bits() :bool
     {
-        if(PHP_INT_SIZE == 4)
-            return true;
-        return false;
+        return PHP_INT_SIZE == 4;
     }
     
     /**
-     * PHP tourne il sur Windows
+     * Are we on Windows
      * @return boolean
      */
-    public static function isWindows()
+    public static function isWindows() : bool
     {
-        if(self::getOS() == 'Windows')
-            return true;
-        return false;
+        return self::getOS() == 'Windows';
     }
     
     /**
-     * PHP tourne il sur Linux
+     * Are we on linux
      * @return boolean
      */
-    public static function isLinux()
+    public static function isLinux() : bool
     {
-        if(self::getOS() == 'Linux')
-            return true;
-        return false;
+        return self::getOS() == 'Linux';
     }
     
     /**
-     * PHP tourne il sur FreeBSD
+     * Are we on freebsd
      * @return boolean
      */
-    public static function isFreeBSD()
+    public static function isFreeBSD() : bool
     {
-        if(self::getOS() == 'FreeBSD')
-            return true;
-        return false;
+        return self::getOS() == 'FreeBSD';
     }
     
     /**
-     * PHP tourne il sur MACOS
+     * Are we on MACOS
      * @return boolean
      */
     public static function isMacOS()
     {
-        if(self::getOS() == 'Mac OS X')
-            return true;
-        return false;
+        return self::getOS() == 'Mac OS X';
     }
     
     /**
-     * Retourne l'IP du serveur
-     * @return string IP du serveur
+     * Get Server IP
+     * @return string IP
      */
-    public static function getIP()
+    public static function getIP() : ?string
     {
         return $_SERVER['SERVER_ADDR'];
     }
     
     /**
-     * Récupère le système hébergeant PHP
+     * Get current OS
      * @return string Windows|Linux|FreeBSD|Mac OS X| Unknown
      */
-    public static function getOS()
+    public static function getOS() : string
     {
         $osStr = strtoupper(PHP_OS);
         
