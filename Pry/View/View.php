@@ -12,80 +12,75 @@
 
 namespace Pry\View;
 
+use BadMethodCallException;
+use InvalidArgumentException;
+
 /**
- * Classe pour une gestion simple des vues
+ * Simple view template class
  * @category Pry
- * @package View
- * @version 1.0
  * @author Olivier ROGER <roger.olivier@gmail.com>
- * @copyright  2007-2012 Prynel
- *
  */
 class View
 {
-    /** Ne pas echapper la variable */
-
-    const NO_ESCAPE = 1;
+    /** Do not escape variable */
+    public const NO_ESCAPE = 1;
 
     /**
-     * Ensemble des variables utilisable dans la vue
+     * All variables available in view
      * @var array
      */
-    protected $variables = array();
+    protected $variables = [];
 
     /**
-     * Dossier où sont situer les vues
+     * Folder where the views are
      * @var string 
      */
     protected $viewFolder;
 
     /**
-     * Fichier vue à charger
+     * File to load
      * @var string 
      */
     protected $view;
 
-    public function __construct()
-    {
-        
-    }
+    public function __construct(){}
 
     /**
-     * Défini le dossier de base contenant les vues
+     * Set the base folder containing the views
      * @param string $path
-     * @throws \InvalidArgumentException Si le dossier n'existe pas
+     * @throws InvalidArgumentException If folder does not exists
      */
-    public function setViewBase($path)
+    public function setViewBase($path) : void
     {
         if (!file_exists($path))
-            throw new \InvalidArgumentException('Can\'t find ' . $path . 'folder');
+            throw new InvalidArgumentException('Can\'t find ' . $path . 'folder');
         $this->viewFolder = $path;
     }
 
     /**
-     * Défini la vue à charger
-     * @param string $filePath Chemin dans le dossier des vue
-     * @throws \BadMethodCallException Si le dossier de base des vues n'est pas défini
-     * @throws \InvalidArgumentException Si la vue n'existe pas
+     * Set the view to load
+     * @param string $filePath Path of the view
+     * @throws BadMethodCallException If the base folder does not exists
+     * @throws InvalidArgumentException If the view does not exists
      */
-    public function load($filePath)
+    public function load($filePath) : void
     {
         if (empty($this->viewFolder))
-            throw new \BadMethodCallException('No view base defined.You should call setViewBase First.');
+            throw new BadMethodCallException('No view base defined.You should call setViewBase First.');
 
         $this->view = $filePath;
 
         if (!file_exists($this->viewFolder . $this->view))
-            throw new \InvalidArgumentException('Can\'t find the ' . $this->view . 'view');
+            throw new InvalidArgumentException('Can\'t find the ' . $this->view . 'view');
     }
 
     /**
-     * Défini une variable de vue. La variable sera ensuite utilisable dans la vue via sa clé
-     * @param string $key
-     * @param mixed $value
-     * @param int $option
+     * Set a view variable. The variable will then be available in the view
+     * @param string $key Key to use the variable in the view
+     * @param mixed $value Value
+     * @param int $option Set to View::NO_ESCAPE to avoid escaping value.
      */
-    public function set($key, $value, $option = null)
+    public function set(string $key, $value, ?int $option = null) : void
     {
         if ($option === self::NO_ESCAPE)
             $this->variables[$key] = $value;
@@ -94,47 +89,47 @@ class View
     }
 
     /**
-     * Récupère une variable de vue
+     * Get a view variable
      * @param string $key
-     * @return string
-     * @throws \InvalidArgumentException Si la clé n'existe pas
+     * @return mixed
+     * @throws InvalidArgumentException Si la clé n'existe pas
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (!array_key_exists($key, $this->variables))
-            throw new \InvalidArgumentException('No value for this key');
+            throw new InvalidArgumentException('No value for this key');
 
         return $this->variables[$key];
     }
 
     /**
-     * Raccourcis pour définir une variable de vue.
-     * Cette variable sera forcément échapée à l'affichage
+     * Shortcut to define view variable
+     * Will automatically be escaped
      * @param string $name
-     * @param string $value
+     * @param mixed $value
      */
-    public function __set($name, $value)
+    public function __set(string $name, $value) : void
     {
-        $this->set($name, $value, null);
+        $this->set($name, $value);
     }
 
     /**
-     * Raccourcis pour récupérer une variable de vue
+     * Shortcut to get a variable
      * @param string $name
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         $this->get($name);
     }
 
     /**
-     * Affiche la vue
-     * @throws \BadMethodCallException Si la vue n'as pas été chargée
+     * Render the view
+     * @throws BadMethodCallException If the view has not be loaded
      */
-    public function render()
+    public function render() : void
     {
         if (empty($this->viewFolder))
-            throw new \BadMethodCallException('PLease call load() before render()');
+            throw new BadMethodCallException('PLease call load() before render()');
         extract($this->variables);
         include_once $this->viewFolder . $this->view;
     }
