@@ -12,11 +12,13 @@
 
 namespace Pry\Util;
 
+use UnexpectedValueException;
+
 /**
- * Classe permettant de générer une pagination pour un jeu de résultat.
- * Retourne uniquement un array , pas de formatage HTML
+ * Generate a pagination from results set
+ * Only return an array.
  * <code>
- * $pager = new Util_Pagination($total);
+ * $pager = new Pagination($total);
  * $pagin = $pager->create();
  * $data = $sql->query('SELECT id FROM planning LIMIT '.$pager->itemMini.','.$pager->nbItemParPage);
  * foreach($pagin as $tab)
@@ -27,94 +29,80 @@ namespace Pry\Util;
  *      echo' <a href="?p='.$tab['page'].'">'.$tab['page'].'</a> ';
  * }
  * </code>
- * @category Pry
- * @package Util
- * @version 1.1.0
  * @author Olivier ROGER <oroger.fr>
  *       
  */
 class Pagination
 {
-
-    const BASIC    = 1;
-    const ADVANCED = 2;
+    public const BASIC    = 1;
+    public const ADVANCED = 2;
 
     /**
-     * Nombre d'élément total
-     * @access private
+     * Total items
      * @var int
      */
     private $nbItemTotal;
 
     /**
-     * Type de pagination. BASIC/ADVANCED
-     * @access private
+     * Pagination type. BASIC/ADVANCED
      * @var int
      */
     private $pagerType;
 
     /**
-     * Valeur de la page
-     * @access private
+     * Current page
      * @var int
      */
     private $currentPage;
 
     /**
-     * Sortie générée
-     * @access private
+     * Output array
      * @var array
      */
     private $output;
 
     /**
-     * Nombre de page total
-     * @access public
+     * Total number of pages
      * @var int
      */
     public $nbPageTotal;
 
     /**
-     * Nombre d'élément par page
-     * @access public
+     * Number of element per page
      * @var int
      */
     public $nbItemParPage;
 
     /**
-     * Item minimal à utiliser pour la requete
-     * @access public
+     * Minimal item to use
      * @var int
      */
     public $itemMini;
 
     /**
-     * Nombre de page afficher à coter de la page courante
-     * Utilisée en mode avancé uniquement
+     * Number of page to show with the current page
+     * Used only in ADVANCED mode
      *
-     * @access public
      * @var int
      */
     public $pageAdjacente;
 
     /**
-     * Tableau avec les lien précédent/suivant
-     * Utilisé en mode avancé
-     * @access public
+     * Array with previous/next link
+     * Used only in ADVANCED mode
      * @var array
      */
     public $nextPrev;
 
     /**
-     * Constructeur. Initialise la pagination
+     * Init pagination
      *
-     * @access public
-     * @param int $total Nombre total de résultat
-     * @param int $type Type de pagination
-     * @param int $nbParPage Nombre d'éléments par page
-     * @param string $get Nom du paramètre de page
+     * @param int $total Total number of result
+     * @param int $type Pagination type
+     * @param int $nbParPage Item per page
+     * @param string $page Current page
      */
-    public function __construct($total, $type = 1, $nbParPage = 10, $page = 1)
+    public function __construct(int $total, int $type = 1, int $nbParPage = 10, int $page = 1)
     {
         $this->nbItemTotal   = intval($total);
         $this->nbItemParPage = $nbParPage;
@@ -122,15 +110,14 @@ class Pagination
         $this->currentPage = intval($page);
         $this->nbPageTotal = ceil($this->nbItemTotal / $this->nbItemParPage);
         $this->pagerType   = intval($type);
-        $this->output      = array();
-        $this->nextPrev = array();
+        $this->output      = [];
+        $this->nextPrev = [];
         $this->pageAdjacente = 2;
     }
 
     /**
-     * Créer la pagination
-     *
-     * @access public
+     * Create pagination
+     * @throws UnexpectedValueException
      * @return mixed
      */
     public function create()
@@ -174,7 +161,7 @@ class Pagination
                     $this->nextPrev['next'] = '#';
             }
             else
-                throw new \UnexpectedValueException('Le type de pagination doit être BASIC ou ADVANCED');
+                throw new UnexpectedValueException('Le type de pagination doit être BASIC ou ADVANCED');
 
             return $this->output;
         }
@@ -186,11 +173,10 @@ class Pagination
     }
 
     /**
-     * Construit la pagination de base
-     * @access private
-     * @param int $pageEnCours
+     * Build simple pagination
+     * @param int $pageEnCours Current page
      */
-    private function buildSimple($pageEnCours)
+    private function buildSimple(int $pageEnCours) : void
     {
         for ($i = 1; $i <= $this->nbPageTotal; $i++) {
             if ($i == $pageEnCours)
@@ -203,11 +189,10 @@ class Pagination
     }
 
     /**
-     * Construit la pagination avancée
-     * @access private
-     * @param int $pageEnCours
+     * Build advanced pagination
+     * @param int $pageEnCours Current page
      */
-    private function buildAdvanced($pageEnCours)
+    private function buildAdvanced(int $pageEnCours) : void
     {
         //Cas 1 : Début de pagination
         if ($pageEnCours < 2 + (2 * $this->pageAdjacente))
@@ -282,5 +267,4 @@ class Pagination
             }
         }
     }
-
 }
