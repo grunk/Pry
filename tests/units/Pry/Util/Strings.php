@@ -6,11 +6,9 @@
  */
 
 namespace tests\units\Pry\Util;
-
 use atoum;
 use \Pry\Util\Strings as str;
-
-require_once __DIR__. '../../../Pry/Util/Strings.class.php';
+require_once __DIR__. '../../../Pry/Util/Strings.php';
 
 /**
  * Description of Strings
@@ -112,6 +110,6 @@ class Strings extends atoum
     public function testDate2Mysql()
     {
         $this->string(str::date2Mysql("28/12/2014",'d/m/Y'))->isEqualTo('2014-12-28');
-        $this->boolean(str::date2Mysql("14|2014|01",'d|Y|m'))->isFalse();
+        $this->variable(str::date2Mysql("14|2014|01",'d|Y|m'))->isNull();
     }
 }

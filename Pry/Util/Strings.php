@@ -12,14 +12,10 @@
 
 namespace Pry\Util;
 
+use DateTime;
+
 /**
- * Classe String
- *
- * Class de gestion de string
- *
- * @category Pry
- * @package Util
- * @version 1.9.0
+ * Strings utility
  * @author Olivier ROGER <oroger.fr>
  *  
  */
@@ -27,13 +23,11 @@ class Strings
 {
 
     /**
-     * Ajout de slashe. Ajoute des slashes si magiquotes desactivé
-     * @access public
-     * @param string $chaine Chaine à traiter
-     * @static
-     * @return string Chaine complétée par des /
+     * Add slashes if magic_quote is disable
+     * @param string $chaine String to process
+     * @return string String with added slashes
      */
-    public static function slashes($chaine)
+    public static function slashes(string $chaine) : string
     {
         if (!get_magic_quotes_gpc())
             $chaine = addslashes($chaine);
@@ -42,19 +36,17 @@ class Strings
     }
 
     /**
-     * Nettoyage de chaine. Reécrit une chaine pour supprimer espace et caractère spéciaux, accentués ...
-     * @access public
-     * @param string $titre Chaine à traiter
-     * @param string $delimiter Charactère délimiteur
-     * @static
-     * @return string chaine modifiée
+     * Clean a string of space , accent and special char ...
+     * @param string $string String to modify
+     * @param string $delimiter string to replace special char
+     * @return string Cleaned string
      * */
-    public static function clean($string, $delimiter = "_")
+    public static function clean(string $string, string $delimiter = "_") : string
     {
         //Transformation des apostrophe en espace pour avoir :
         // c'est = "c-est" et non pas "cest"
         $string = str_replace("'", ' ', $string);
-
+        $cleanStr = '';
         $cleanStr = iconv('UTF-8', 'ASCII//TRANSLIT', $string); //Suppression accent
         $cleanStr = trim(strtolower($cleanStr));
         $cleanStr = preg_replace("/[^a-z0-9\/_|+ -]/", '', $cleanStr);
@@ -64,15 +56,13 @@ class Strings
     }
 
     /**
-     * Découpe de chaine. Découpe une chaine au nombre de mot souhaité
-     * @access public
-     * @param string $chaine Chaine à traiter
-     * @param int $taillemax Nombre de caractère maxi
-     * @param string $end Caractère affiché en cas  de césure (... par défaut)
-     * @static
-     * @return string Chaine tronquée
+     * Trim a string to max number of char
+     * @param string $chaine String to cut
+     * @param int $taillemax Max char to keep
+     * @param string $end Char to add at the end (... by default)
+     * @return string Cutted string
      */
-    public static function cut($chaine, $taillemax, $end = "...")
+    public static function cut(string $chaine, int $taillemax, string $end = "...") : string
     {
         if (strlen($chaine) >= $taillemax)
         {
@@ -84,14 +74,11 @@ class Strings
     }
 
     /**
-     * Génération "aléatoire". Génère une string de longeur $taille.
-     * La génération favorise les chaines facilement mémorisable
-     * @access public
-     * @param int $taille Taille de la chaine désirée
-     * @static
+     * Generate a random string
+     * @param int $taille Size of the random string
      * @return string
      */
-    public static function generate($taille)
+    public static function generate(int $taille) : string
     {
 
         //Consonnes
@@ -110,23 +97,23 @@ class Strings
     }
 
     /**
-     * Retourne une chaine sous le format camelCase
+     * camelCase a string
      *
      * @param string $string
      * @return string
      */
-    public static function camelize($string)
+    public static function camelize(string $string) : string
     {
         return preg_replace("/[_|\s]([a-z0-9])/e", "strtoupper('\\1')", strtolower($string));
     }
 
     /**
-     * Fonction de geekiserie pour des propos plus intelligents
+     * Geekize a string
      *
      * @param string $string
      * @return string
      */
-    public static function geekize($string)
+    public static function geekize(string $string) : string
     {
         $string = strtolower($string);
         $normal = array('a', 'e', 't', 'l', 's', 'o');
@@ -135,56 +122,44 @@ class Strings
     }
 
     /**
-     * Anti majuscule. Vérifie que la chaine ne comporte pas trop de majuscule (50%)
-     * @access public
-     * @param string $string Chaine à vérifier
-     * @static
-     * @return true si trop de majuscule , false sinon
+     * Check if a string as more than 50% of capital letter
+     * @param string $string String to check
+     * @return true if too much caps
      */
-    public static function hasTooMuchCaps($string)
+    public static function hasTooMuchCaps(string $string) : bool
     {
         $seuil          = strlen($string) / 2;
         $correspondance = similar_text($string, strtolower($string));
-        if ($correspondance < $seuil)
-            return true;
-
-        return false;
+        return $correspondance < $seuil;
     }
 
     /**
-     * Vérifie si une chaine est en majuscule
-     *
-     * @param string $string Chaine d'entrée
+     * Check if string is uppercase
+     * @param string $string String to check
      * @return boolean
      */
-    public static function isUpper($string)
+    public static function isUpper(string $string) : bool
     {
-        if (preg_match("/[a-z]/", $string) > 0)
-            return false;
-        return true;
+        return preg_match("/[a-z]/", $string) == 0;
     }
 
     /**
-     * Vérifie si une chaine est en minuscule
+     * Check if a string is lowercase
      *
-     * @param string $string Chaine d'entrée
+     * @param string $string String to check
      * @return boolean
      */
-    public static function isLower($string)
+    public static function isLower(string $string) : bool
     {
-        if (preg_match("/[A-Z]/", $string) > 0)
-            return false;
-        return true;
+        return preg_match("/[A-Z]/", $string) == 0;
     }
 
     /**
-     * Vérification IP. Vérifie que la chaine est une ip valide
-     * @access public
-     * @param string $ip Adresse Ip à vérifier
-     * @static
+     * Check that the string is a valid IP v4
+     * @param string $ip IP to check
      * @return boolean
      */
-    public static function isIp($ip)
+    public static function isIp(string $ip) : bool
     {
         $motif = '`^([0-9]{1,3}\.){3}[0-9]{1,3}$`';
         if (preg_match($motif, $ip))
@@ -196,18 +171,17 @@ class Strings
 
             return true;
         }
-        else
-            return false;
+
+        return false;
     }
 
     /**
-     * Vérification MAC. Vérifie que la chaine est une adresse MAC valide
-     * @access public
-     * @param string $mac Adresse MAC à vérifier
-     * @static
+     * Check if a string is a valid MAC address
+     * @param string $mac String to check
+     * @param string $separator char used to separate each part of the address. Default to -
      * @return boolean
      */
-    public static function isMac($mac, $separator = '-')
+    public static function isMac(string $mac, string $separator = '-') : bool
     {
         $motif = '`^([[:xdigit:]]{2}\\' . $separator . '){5}[[:xdigit:]]{2}$`';
         if (preg_match($motif, $mac))
@@ -217,14 +191,14 @@ class Strings
     }
 
     /**
-     * Vérifie la syntaxe d'un mail.
-     * Gère également les mail locaux avec domaine simple
+     * Check if string is a valid email
+     * Also handle local email with simple domain
      *
-     * @param string $mail Adresse email
-     * @param boolean $dot Un point obligatoire dans le domaine ?
+     * @param string $mail Email
+     * @param boolean $dot Does a dot is mandatory in the domain ?
      * @return boolean
      */
-    public static function isMail($mail, $dot = true)
+    public static function isMail(string $mail, bool $dot = true) : bool
     {
         if (function_exists('filter_var'))
         {
@@ -271,44 +245,46 @@ class Strings
     }
 
     /**
-     * Vérifie si une chaine est complexe.
-     * Est considérée comme complexe une chaine d'au moins 6 caractères,
-     * une minuscule, une maj , un chiffre et un caractère spécial
+     * Check if a string est complex
+     * A complex string as at least 8 char , 1 upper case, un number and 1 special char
      * @param string $string
      * @return boolean
      */
-    public static function isComplex($string)
+    public static function isComplex(string $string) : bool
     {
-        if (preg_match("`^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$`", $string))
+        if (preg_match("`^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$`", $string))
             return true;
 
         return false;
     }
 
     /**
-     * Conversion de date au format Mysql
+     * Convert a date to sql format Y-m-d H:i:s
      * @param string $date Date
-     * @param string $format Format de la date fournie
-     * @since 1.7.8
-     * @return string Date au format mysql Y-m-d ou false en cas d'erreur
+     * @param string $format Input date format
+     * @return string Formatted date or null in case of error
      */
-    public static function date2Mysql($date, $format)
+    public static function date2Mysql(string $date, string $format) : ?string
     {
-        $dt = \DateTime::createFromFormat($format, $date);
+        $result = false;
+        $dt = DateTime::createFromFormat($format, $date);
         if ($dt)
-            return $dt->format("Y-m-d");
+            $result = $dt->format("Y-m-d");
 
-        return false;
+        if($result != false)
+            return $result;
+
+        return null;
     }
 
     /**
-     * Convertit un datetime en format fr ou en
+     * Convert a date time to fr or en format
      * @param string $datetime
-     * @param string $format Format de langue fr ou en
-     * @param boolean $short Date raccourcie (jjmm hhii) ou non
+     * @param string $format Langue format (fr or en)
+     * @param boolean $short Short date format (jjmm hhii)
      * @return array
      */
-    public static function dateTime2Array($datetime, $format = 'fr', $short = false)
+    public static function dateTime2Array(string $datetime, string $format = 'fr', bool $short = false) : array
     {
         list($date, $heure) = explode(' ', $datetime);
         list($y, $m, $d) = explode('-', $date);
@@ -350,22 +326,21 @@ class Strings
     }
 
     /**
-     * reduceDoubleSlashes
-     * Transforme les // en / sauf sur http://
+     * Transform  // in / except in http://
      * @param string $chaine
      * @return string
      */
-    public static function reduceDoubleSlashes($chaine)
+    public static function reduceDoubleSlashes(string $chaine) : string
     {
         return preg_replace("#(^|[^:])//+#", "\\1/", $chaine);
     }
 
     /**
-     * Convertit une chaine de caractère en sa représentation hexadecimal
+     * convert a string to hexadecimal
      * @param string $str
      * @return string 
      */
-    public function str2hex($str)
+    public function str2hex(string $str) : string
     {
         $retval = '';
         $length = strlen($str);
@@ -377,12 +352,11 @@ class Strings
     }
 
     /**
-     * Retourne une chaine en UTF8
-     * @param string $str Chaine à convertir
-     * @return string Chaine en UTF8
-     * @since 1.8.6 
+     * Convert to UTF8
+     * @param string $str String to convert
+     * @return string String in UTF8
      */
-    public function toUTF8($str)
+    public function toUTF8(string $str) : string
     {
         $encoding = mb_detect_encoding($str, mb_detect_order(), true);
         if ($encoding != 'UTF-8')
