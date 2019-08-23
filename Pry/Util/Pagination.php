@@ -100,7 +100,7 @@ class Pagination
      * @param int $total Total number of result
      * @param int $type Pagination type
      * @param int $nbParPage Item per page
-     * @param string $page Current page
+     * @param int $page Current page
      */
     public function __construct(int $total, int $type = 1, int $nbParPage = 10, int $page = 1)
     {

@@ -19,6 +19,10 @@
  * @version    $Id: Registry.class.php 234 2012-02-02 13:23:06Z oroger $
  */
 namespace Pry\Util;
+use OutOfBoundsException;
+use Exception;
+use ArrayObject;
+
 /**
  * Generic storage class helps to manage global data.
  *
@@ -27,7 +31,7 @@ namespace Pry\Util;
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Registry extends \ArrayObject
+class Registry extends ArrayObject
 {
     /**
      * Class name of the singleton registry object.
@@ -37,16 +41,17 @@ class Registry extends \ArrayObject
 
     /**
      * Registry object provides storage for shared objects.
-     * @var \Pry\Util\Registry
+     * @var Registry
      */
     private static $_registry = null;
 
     /**
      * Retrieves the default registry instance.
      *
-     * @return Zend_Registry
+     * @return Registry
+     * @throws Exception if registry is already initialized.
      */
-    public static function getInstance()
+    public static function getInstance() : Registry
     {
         if (self::$_registry === null) {
             self::init();
@@ -58,15 +63,15 @@ class Registry extends \ArrayObject
     /**
      * Set the default registry instance to a specified instance.
      *
-     * @param Zend_Registry $registry An object instance of type Zend_Registry,
+     * @param Registry $registry An object instance of type Zend_Registry,
      *   or a subclass.
      * @return void
      * @throws Exception if registry is already initialized.
      */
-    public static function setInstance(Registry $registry)
+    public static function setInstance(Registry $registry): void
     {
         if (self::$_registry !== null) {
-            throw new \Exception('Registry is already initialized');
+            throw new Exception('Registry is already initialized');
         }
 
         self::setClassName(get_class($registry));
@@ -75,10 +80,10 @@ class Registry extends \ArrayObject
 
     /**
      * Initialize the default registry instance.
-     *
+     * @throws \Exception if registry is already initialized.
      * @return void
      */
-    protected static function init()
+    protected static function init(): void
     {
         self::setInstance(new self::$_registryClassName());
     }
@@ -93,14 +98,14 @@ class Registry extends \ArrayObject
      * @throws Exception if the registry is initialized or if the
      *   class name is not valid.
      */
-    public static function setClassName($registryClassName = 'Registry')
+    public static function setClassName($registryClassName = 'Registry'): void
     {
         if (self::$_registry !== null) {
-            throw new \Exception('Registry is already initialized');
+            throw new Exception('Registry is already initialized');
         }
 
         if (!is_string($registryClassName)) {
-            throw new \Exception("Argument is not a class name");
+            throw new Exception("Argument is not a class name");
         }
 
         self::$_registryClassName = $registryClassName;
@@ -111,7 +116,7 @@ class Registry extends \ArrayObject
      * Primarily used in tearDown() in unit tests.
      * @returns void
      */
-    public static function _unsetInstance()
+    public static function _unsetInstance(): void
     {
         self::$_registry = null;
     }
@@ -126,13 +131,14 @@ class Registry extends \ArrayObject
      * @param string $index - get the value associated with $index
      * @return mixed
      * @throws OutOfBoundsException if no entry is registerd for $index.
+     * @throws Exception
      */
     public static function get($index)
     {
         $instance = self::getInstance();
 
         if (!$instance->offsetExists($index)) {
-            throw new \OutOfBoundsException("No entry is registered for key '$index'");
+            throw new OutOfBoundsException("No entry is registered for key '$index'");
         }
 
         return $instance->offsetGet($index);
@@ -149,8 +155,9 @@ class Registry extends \ArrayObject
      *   the value.
      * @param mixed $value The object to store in the ArrayObject.
      * @return void
+     * @throws Exception
      */
-    public static function set($index, $value)
+    public static function set($index, $value): void
     {
         $instance = self::getInstance();
         $instance->offsetSet($index, $value);
@@ -161,9 +168,9 @@ class Registry extends \ArrayObject
      * or FALSE if $index was not found in the registry.
      *
      * @param  string $index
-     * @return boolean
+     * @return bool
      */
-    public static function isRegistered($index)
+    public static function isRegistered($index): bool
     {
         if (self::$_registry === null) {
             return false;
@@ -178,7 +185,7 @@ class Registry extends \ArrayObject
      * @param array $array data array
      * @param integer $flags ArrayObject flags
      */
-    public function __construct($array = array(), $flags = parent::ARRAY_AS_PROPS)
+    public function __construct(array $array = [], int $flags = parent::ARRAY_AS_PROPS)
     {
         parent::__construct($array, $flags);
     }
@@ -188,8 +195,9 @@ class Registry extends \ArrayObject
      * @returns mixed
      *
      * Workaround for http://bugs.php.net/bug.php?id=40442 (ZF-960).
+     * @return bool
      */
-    public function offsetExists($index)
+    public function offsetExists($index): bool
     {
         return array_key_exists($index, $this);
     }
