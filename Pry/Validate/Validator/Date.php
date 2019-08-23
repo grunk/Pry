@@ -15,16 +15,12 @@ namespace Pry\Validate\Validator;
 use Pry\Validate\ValidateAbstract;
 
 /**
- * Validateur de date.
- * Permet de valider des date du type fr,us,sql,sqldatetime
- * @category Pry
- * @package Validate
- * @subpackage Validate_Validator
- * @version 1.0.0 
+ * Date validator.
+ * Try to validate date in the following format : fr,us,sql,sqldatetime
  * @author Olivier ROGER <oroger.fr>
  * 
  * <code>
- * $factory = new Validate_Validate();
+ * $factory = new Validate();
  * $factory -> addValidator('Date','fr');
  * </code>
  *       
@@ -33,26 +29,26 @@ use Pry\Validate\ValidateAbstract;
 class Date extends ValidateAbstract
 {
 
-    const DATE_SQL         = 'sql';
-    const DATE_SQLDATETIME = 'sqldatetime';
-    const DATE_FR          = 'fr';
-    const DATE_US          = 'us';
+    public const DATE_SQL         = 'sql';
+    public const DATE_SQLDATETIME = 'sqldatetime';
+    public const DATE_FR          = 'fr';
+    public const DATE_US          = 'us';
 
     private $format;
 
-    public function __construct($format = 'fr')
+    public function __construct(string $format = 'fr')
     {
         $this->errorMsg = "n'est pas une date valide";
         $this->format   = $format;
     }
 
     /**
-     * Valide la date en fonction de son format
+     * Validate date accordinf to it's format
      *
      * @param string $date
-     * @return boolean
+     * @return bool
      */
-    public function isValid($date)
+    public function isValid($date): bool
     {
         switch ($this->format)
         {

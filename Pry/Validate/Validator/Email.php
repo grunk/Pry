@@ -12,24 +12,17 @@
 
 namespace Pry\Validate\Validator;
 
+use Pry\Util\Strings;
 use Pry\Validate\ValidateAbstract;
 
 /**
- * Validateur d'adresse email.
- * @category Pry
- * @package Validate
- * @subpackage Validate_Validator
- * @version 1.0.0 
+ * Email address validator.
  * @author Olivier ROGER <oroger.fr>
  * 
  */
 class Email extends ValidateAbstract
 {
 
-    /**
-     * Constructeur
-     * @access public
-     */
     public function __construct()
     {
         $this->errorMsg = "n'est pas un email valide";
@@ -41,10 +34,10 @@ class Email extends ValidateAbstract
      * @param string $string Elément à valider
      * @return boolean
      */
-    public function isValid($string)
+    public function isValid(string $string): bool
     {
         $string = $this->cleanString((string) $string);
-        return \Pry\Util\Strings::isMail($string);
+        return Strings::isMail($string);
     }
 
 }

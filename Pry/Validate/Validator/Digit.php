@@ -15,10 +15,7 @@ namespace Pry\Validate\Validator;
 use Pry\Validate\ValidateAbstract;
 
 /**
- * Validateur de données numériques
- * @category Pry
- * @package Validate
- * @subpackage Validate_Validator
+ * Numerical validator
  * @version 1.0.0 
  * @author Olivier ROGER <oroger.fr> 
  *
@@ -26,10 +23,6 @@ use Pry\Validate\ValidateAbstract;
 class Digit extends ValidateAbstract
 {
 
-    /**
-     * Constructeur
-     *
-     */
     public function __construct()
     {
         $this->errorMsg = "doit être composé de chiffre uniquement";
@@ -41,7 +34,7 @@ class Digit extends ValidateAbstract
      * @param string $string Element à valider
      * @return boolean
      */
-    public function isValid($string)
+    public function isValid(string $string): bool
     {
         $string  = $this->cleanString((string) $string);
         $pattern = '`^([0-9]+)$`';

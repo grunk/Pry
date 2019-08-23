@@ -15,11 +15,7 @@ namespace Pry\Validate\Validator;
 use Pry\Validate\ValidateAbstract;
 
 /**
- * Validateur d'interval numérique. Inclusif
- * @category Pry
- * @package Validate
- * @subpackage Validate_Validator
- * @version 1.1.0 
+ * Inclusive numercial interval validator
  * @author Olivier ROGER <oroger.fr>
  * @todo Gestion inclusif/strict      
  *
@@ -31,30 +27,29 @@ class Interval extends ValidateAbstract
     private $min;
 
     /**
-     * Constructeur
+     * Constructor
      *
-     * @param array $options
+     * @param array $numbers list of numbers
      * @access public
      */
-    public function __construct(array $options)
+    public function __construct(array $numbers)
     {
-        if (!isset($options[0]) || !isset($options[1]))
+        if (!isset($numbers[0]) || !isset($numbers[1]))
         {
             throw new \InvalidArgumentException('Veuillez fournir les options d\'interval : array(12,24)');
         }
-        $this->max      = max($options);
-        $this->min      = min($options);
+        $this->max      = max($numbers);
+        $this->min      = min($numbers);
         $this->errorMsg = 'La valeur n\'est pas contenu dans l\'interval ' . $this->min . ' - ' . $this->max;
     }
 
     /**
-     * Vérifie si $value est dans l'interval
+     * Check if $value is between $numbers
      *
      * @param int $value
-     * @access public
-     * @return boolean
+     * @return bool
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         if (is_numeric($value))
             if ($value >= $this->min && $value <= $this->max)

@@ -15,7 +15,7 @@ namespace Pry\Validate\Validator;
 use Pry\Validate\ValidateAbstract;
 
 /**
- * Validateur d'égalité
+ * Check equality
  * @category Pry
  * @package Validate
  * @subpackage Validate_Validator
@@ -23,7 +23,7 @@ use Pry\Validate\ValidateAbstract;
  * @author Olivier ROGER <oroger.fr>
  *       
  * <code>
- * $validator = new Validate_Validator_Equal(45);
+ * $validator = new Validator\Equal(45);
  * $validator -> isValid(12); // retourne false
  * $validator -> isValid(45); // retourne true
  * </code>
@@ -33,10 +33,6 @@ class Equal extends ValidateAbstract
 
     private $reference;
 
-    /**
-     * Constructeur
-     *
-     */
     public function __construct($ref)
     {
         $this->reference = $ref;
@@ -49,11 +45,10 @@ class Equal extends ValidateAbstract
      * @param mixed $string Element à valider
      * @return boolean
      */
-    public function isValid($string)
+    public function isValid($string):bool
     {
-        if ($this->reference == $string)
-            return true;
-        return false;
+        return $this->reference == $string;
+
     }
 
 }

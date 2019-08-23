@@ -22,30 +22,30 @@ class Pry
     private static $version = 'Pry';
 
     /**
-     * Retourne la revision du framework
+     * Return the framework version
      *
-     * @return int
+     * @return string
      */
-    public static function getVersion()
+    public static function getVersion() : string
     {
         return self::$version;
     }
 
     /**
-     * Enregistre une fonction dans la pile autoload
+     * Register autoload
      *
      */
-    static public function register()
+    static public function register() : void
     {
         spl_autoload_register(array(new self, 'pryLoader'));
     }
 
     /**
-     * Fonction d'autoload
+     * Autoload
      *
      * @param string $class
      */
-    static public function pryLoader($class)
+    static public function pryLoader(string $class): void
     {
         // project-specific namespace prefix
         $prefix = 'Pry\\';

@@ -15,26 +15,21 @@ namespace Pry\Validate\Validator;
 use Pry\Validate\ValidateAbstract;
 
 /**
- * Validateur Alphabétique.
- * Accepte également le -
- * @category Pry
- * @package Validate
- * @subpackage Validate_Validator
- * @version 1.0.0 
+ * Alphabetical validator
+ * Also allow the -
  * @author Olivier ROGER <oroger.fr>
  */
 class Alpha extends ValidateAbstract
 {
 
     /**
-     * Constructeur. par défaut accepte les espaces
+     * Default constructor
      *
-     * @param boolean $espace
-     * @access public
+     * @param bool $espace Allow space in string or not
      */
-    public function __construct($espace = true)
+    public function __construct(bool $espace = true)
     {
-        $this->espace   = (boolean) $espace;
+        $this->espace   = (bool) $espace;
         $this->errorMsg = "n'est pas une valeur alphabétique";
     }
 
@@ -42,9 +37,9 @@ class Alpha extends ValidateAbstract
      * Vérifie la présence de caractère alphabétique (uniquement)
      *
      * @param string $string
-     * @return boolean
+     * @return bool
      */
-    public function isValid($string)
+    public function isValid(string $string): bool
     {
         $string = $this->cleanString($string);
         //On cherche si on ne trouve pas d alpha. Donc si true = la chaine n'est pas alpha on renvoi false.

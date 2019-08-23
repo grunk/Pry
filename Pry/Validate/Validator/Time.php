@@ -15,7 +15,7 @@ namespace Pry\Validate\Validator;
 use Pry\Validate\ValidateAbstract;
 
 /**
- * Validateur d'heure format sql.
+ * Time validator
  * @category Pry
  * @package Validate
  * @subpackage Validate_Validator
@@ -26,24 +26,20 @@ use Pry\Validate\ValidateAbstract;
 class Time extends ValidateAbstract
 {
 
-    /**
-     * Constructeur
-     * @access public
-     */
     public function __construct()
     {
         $this->errorMsg = "n'est pas une heure valide";
     }
 
     /**
-     * Validation
+     * Validate
      *
      * @param string $string Elément à valider
      * @return boolean
      */
-    public function isValid($string)
+    public function isValid(string $string): bool
     {
-        $string  = $this->cleanString((string) $string);
+        $string  = $this->cleanString($string);
         $pattern = '`^([0-9]{2}:[0-9]{2}:[0-9]{2})$`';
         if (preg_match($pattern, $string))
         {

@@ -12,43 +12,37 @@
 
 namespace Pry\Validate;
 
+use InvalidArgumentException;
 /**
- * Factory de validateur
- * @category Pry
- * @package Validate
- * @version 1.1.0 
+ * Validator factory
  * @author Olivier ROGER <oroger.fr>
  */
 class Validate
 {
 
     /**
-     * Validateurs instanciés
+     * Available validators
      *
      * @var array
-     * @access private
      */
     private $validators;
 
-    /**
-     * Constructeur
-     *
-     */
+
     public function __construct()
     {
-        $this->validators = array();
+        $this->validators = [];
     }
 
     /**
-     * Ajoute un nouveau validateur
+     * Add a new Validator
      *
-     * @param string $nom Nom du validateur
-     * @param array $options Option possible pour le validateur
-     * @param string $message Message d'erreur personalisé
-     * @access public
-     * @return Validate_Validate
+     * @param string $nom Validator name
+     * @param array $options Validator option
+     * @param string $message Custom error message
+     * @return Validate
+     * @throws InvalidArgumentException if a validator does not exist
      */
-    public function addValidator($nom, $options = null, $message = '')
+    public function addValidator(string $nom, ?array $options = null, string $message = '')
     {
         if ($this->validatorExist($nom))
         {
@@ -60,41 +54,41 @@ class Validate
 
             if ($message != '')
             {
-                $objet->setMessage($message);
+                if($objet instanceof ValidateAbstract)
+                    $objet->setMessage($message);
             }
             $this->validators[] = $objet;
             unset($objet);
         }
         else
-            throw new \InvalidArgumentException('Validateur inconnu');
+            throw new InvalidArgumentException('Validateur inconnu');
         return $this;
     }
 
     /**
-     * Validation de la valeur avec les différents validateurs
+     * Validate a value
      *
      * @param string $value
-     * @access public
      * @return mixed Retourne true si valide, message d'erreur sinon
      */
-    public function isValid($value)
+    public function isValid(string $value): bool
     {
         foreach ($this->validators as $validator) {
             if (!$validator->isValid($value))
             {
-                return $validator->getError();
+                return false;
             }
         }
         return true;
     }
 
     /**
-     * Vérifie l'existance du validateur
+     * Check if a validator exists
      *
-     * @param string $nom
+     * @param string $nom name
      * @return boolean
      */
-    private function validatorExist($nom)
+    private function validatorExist($nom): bool
     {
         return file_exists(dirname(__FILE__) . '/Validator/' . $nom . '.class.php');
     }
