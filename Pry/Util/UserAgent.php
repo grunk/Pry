@@ -24,6 +24,7 @@ namespace Pry\Util;
  * @package Util
  * @author          Olivier ROGER <oroger@prynel.com>
  * @version         1.1.6
+ * @deprecated
  *
  */
 class UserAgent
