@@ -35,23 +35,13 @@ class Request
 
     public function __construct()
     {
-        $this->get     = $_GET;
-        $this->post    = $_POST;
-        $this->cookie  = $_COOKIE;
-        $this->file    = $_FILES;
-        $this->request = $_REQUEST;
-        
-        if($this->isPut())
-            parse_str(file_get_contents("php://input"),$this->put);
-        
-        if($this->isDelete())
-            parse_str(file_get_contents("php://input"),$this->delete);
+        $this->reset();
     }
 
     /**
      * Réinitialise l'objet request
      */
-    public function reset()
+    public function reset(): void
     {
         $this->get     = $_GET;
         $this->post    = $_POST;
@@ -71,7 +61,7 @@ class Request
      * Retourne l'ensemble des entêtes de la requête
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         if (empty($this->headers))
             $this->headers = $this->getAllHeaders();
@@ -84,7 +74,7 @@ class Request
      * @param string $name Nom du header
      * @return string Valeur du header ou null si l'entête n'existe pas.
      */
-    public function getHeader($name)
+    public function getHeader(string $name): string
     {
         $name = strtolower($name);
         $this->getHeaders();
@@ -96,7 +86,7 @@ class Request
      * @param string $name Nom de la variable à récupérer. Si null la totalité des variables sera retournée
      * @return mixed Retourne une string en cas de valeur unique un array sinon
      */
-    public function getServer($name = null)
+    public function getServer(?string $name = null)
     {
         if (!empty($name))
             return (isset($_SERVER[$name])) ? $_SERVER[$name] : null;
@@ -110,7 +100,7 @@ class Request
      * @param string $type Type de requête. Peut être get|post|request|cookie
      * @return mixed
      */
-    public function getParam($name, $type = null)
+    public function getParam(string $name, ?string $type = null)
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
 
@@ -129,7 +119,7 @@ class Request
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function getParams($type = null)
+    public function getParams(?string $type = null): array
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
 
@@ -150,7 +140,7 @@ class Request
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function getPost($name, $dataType = null,$flag = null)
+    public function getPost(string $name, ?string $dataType = null,$flag = null)
     {
         return $this->getWithFilter($name, 'post', $dataType, $flag);
     }
@@ -163,7 +153,7 @@ class Request
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function getPut($name, $dataType = null,$flag = null)
+    public function getPut(string $name, ?string $dataType = null,$flag = null)
     {
         return $this->getWithFilter($name, 'put', $dataType, $flag);
     }
@@ -176,7 +166,7 @@ class Request
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function getDelete($name, $dataType = null,$flag = null)
+    public function getDelete(string $name, ?string $dataType = null,$flag = null)
     {
         return $this->getWithFilter($name, 'delete', $dataType, $flag);
     }
@@ -188,7 +178,7 @@ class Request
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function get($name, $dataType = null,$flag = null)
+    public function get(string $name, ?string $dataType = null,$flag = null)
     {
         return $this->getWithFilter($name, 'get', $dataType, $flag);
     }
@@ -196,8 +186,9 @@ class Request
     /**
      * Récupère une variable d'environnement
      * @param string $name
+     * @return mixed
      */
-    public function getEnv($name)
+    public function getEnv(string $name)
     {
         return getenv($name);
     }
@@ -207,7 +198,7 @@ class Request
      * @param string $name nom du file
      * @return array
      */
-    public function getFile($name)
+    public function getFile(string $name): ?array
     {
         return isset($this->file[$name]) ? $this->file[$name] : null;
     }
@@ -216,7 +207,7 @@ class Request
      * Retourne $_FILES
      * @return array
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         return $this->file;
     }
@@ -238,7 +229,7 @@ class Request
      * @return Request
      * @throws \InvalidArgumentException En cas de type invalide
      */
-    public function setFilter(array $filtre, $type = null)
+    public function setFilter(array $filtre, ?string $type = null): Request
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
 
@@ -259,17 +250,17 @@ class Request
      * paramètre de méthode n'est pas fournit
      * @param string $name Nom de la méthode parmis get|post|cookie|request
      */
-    public function setDefaultMethod($name)
+    public function setDefaultMethod(string $name): void
     {
         $this->defaultMethod = strtolower($name);
     }
 
-    public function __get($name)
+    public function __get(string $name)
     {
         return $this->getParam($name);
     }
     
-    public function __isset($name)
+    public function __isset(string $name)
     {
         $tmp = $this->getParam($name);
         return isset($tmp);
@@ -280,7 +271,7 @@ class Request
      * @param mixed $params Valeur à ajouter
      * @param string [$type] Type de requête
      */
-    public function add($params, $type = null)
+    public function add($params, ?string $type = null): void
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
 
@@ -294,7 +285,7 @@ class Request
      * Vérifie si la requête est de type post
      * @return boolean
      */
-    public function isPost()
+    public function isPost(): bool
     {
         if($this->getServer('REQUEST_METHOD') == 'POST') {
             return true;
@@ -307,7 +298,7 @@ class Request
      * Vérifie si la requête est de type put
      * @return boolean
      */
-    public function isPut()
+    public function isPut(): bool
     {
         if($this->getServer('REQUEST_METHOD') == 'PUT') {
             return true;
@@ -320,7 +311,7 @@ class Request
      * Vérifie si la requête est de type Delete
      * @return boolean
      */
-    public function isDelete()
+    public function isDelete(): bool
     {
         if($this->getServer('REQUEST_METHOD') == 'DELETE') {
             return true;
@@ -333,7 +324,7 @@ class Request
      * Vérifie si la requête est de type get
      * @return boolean
      */
-    public function isGet()
+    public function isGet(): bool
     {
         if($this->getServer('REQUEST_METHOD') == 'GET') {
             return true;
@@ -348,7 +339,7 @@ class Request
      * être absent dans certains cas.
      * @return boolean
      */
-    public function isXmlHttpRequest()
+    public function isXmlHttpRequest(): bool
     {
         $xhttp = $this->getServer('HTTP_X_REQUESTED_WITH');
         if(!empty($xhttp) && strtolower($xhttp) == 'xmlhttprequest') {
@@ -363,7 +354,7 @@ class Request
      * @param string $method
      * @return boolean
      */
-    protected function isValidMethod($method)
+    protected function isValidMethod($method): bool
     {
         return in_array($method, array('get', 'post', 'request', 'cookie', 'put', 'delete'));
     }
@@ -374,7 +365,7 @@ class Request
      * @return boolean
      * @throws \RuntimeException Si les filtres échoue
      */
-    protected function applyFilters($type)
+    protected function applyFilters(string $type): bool
     {
         if (empty($this->filters[$type]) || empty($this->$type))
             return false;
@@ -395,8 +386,9 @@ class Request
      * @param string $type Type de paramètre
      * @param string $dataType Type de données attendu
      * @param mixed $flag Flag optionnel à utiliser
+     * @return mixed
      */
-    protected function getWithFilter($name, $type, $dataType,$flag = null)
+    protected function getWithFilter(string $name, ?string $type, ?string $dataType,$flag = null)
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
         if (isset($this->{$type}[$name]))
@@ -451,11 +443,11 @@ class Request
         }
     }
     
-    private function getAllHeaders()
+    private function getAllHeaders(): array
     {
         if (!function_exists('getallheaders')) 
         { 
-            $headers = ''; 
+            $headers = array();
             foreach ($_SERVER as $name => $value) 
             { 
                 if (substr($name, 0, 5) == 'HTTP_') 

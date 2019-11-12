@@ -12,13 +12,14 @@
 
 namespace Pry\Net;
 
+use Exception;
+
 /**
  * Téléchargement de fichier via protocole HTTP
  * Pour des fichiers de taille importante préférer la solution X-SendFile header
  * @category Pry
  * @package Net
  * @see http://www.php.net/manual/en/function.fread.php#84115
- * @version 1.0.2
  * @author Olivier ROGER <oroger.fr>
  *
  */
@@ -78,9 +79,9 @@ class HTTPDownload
      * HTTPDownload constructor.
      * @param string $path
      * @param bool $resume
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __construct($path, $resume = false)
+    public function __construct(string $path, bool $resume = false)
     {
         if (file_exists($path))
         {
@@ -95,15 +96,15 @@ class HTTPDownload
         }
         else
         {
-            throw new \Exception('Fichier innexistant');
+            throw new Exception('Fichier innexistant');
         }
     }
 
     /**
      * Lance le téléchargement ou la reprise du téléchargement
-     * @throws \Exception
+     * @throws Exception
      */
-    public function download()
+    public function download(): void
     {
         header("Cache-Control: cache, must-revalidate");
         header("Pragma: public");
@@ -130,7 +131,7 @@ class HTTPDownload
         $handle = fopen($this->path, 'rb');
         if (!$handle)
         {
-            throw new \Exception('Erreur pendant le téléchargement');
+            throw new Exception('Erreur pendant le téléchargement');
         }
         else
         {
@@ -150,7 +151,7 @@ class HTTPDownload
      * Par défaut le type octet-stream est utilisé
      * @param string $mime
      */
-    public function setMimeType($mime)
+    public function setMimeType(string $mime): void
     {
         $this->mime = $mime;
     }
@@ -159,7 +160,7 @@ class HTTPDownload
      * Renomme le fichier à télécharger
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -169,7 +170,7 @@ class HTTPDownload
      * @see http://tools.ietf.org/id/draft-ietf-http-range-retrieval-00.txt
      * @return void
      */
-    private function getRange()
+    private function getRange(): void
     {
         //Peut être de la forme Range: bytes=0-99,500-1499,4000-
         if (isset($_SERVER['HTTP_RANGE']))
@@ -193,7 +194,7 @@ class HTTPDownload
     /**
      * Tente de déterminer le type mime du fichier
      */
-    private function getMime()
+    private function getMime(): void
     {
         switch ($this->extension)
         {

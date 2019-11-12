@@ -16,7 +16,6 @@ namespace Pry\Net;
  * Wrapper pour l'utilsation de socket
  * @category Pry
  * @package Net
- * @version 1.0
  * @author Olivier ROGER <oroger.fr>
  *
  */
@@ -69,7 +68,7 @@ class Socket
      * erreur de socket en exception.
      * @param bool $blocking
      */
-    public function __construct($blocking = true)
+    public function __construct(bool $blocking = true)
     {
         $this->isBlocking = $blocking;
         \Pry\Net\Exception\Handler::initialize();
@@ -84,7 +83,7 @@ class Socket
      * @return boolean
      * @throws \RuntimeException
      */
-    public function connect($host, $port, $timeout = 15)
+    public function connect(string $host, int $port, int $timeout = 15): bool
     {
         $this->host    = $host;
         $this->port    = $port;
@@ -123,7 +122,7 @@ class Socket
      * Déconnecte la socket
      * @return boolean 
      */
-    public function disconnect()
+    public function disconnect(): bool
     {
         if ($this->isConnected())
         {
@@ -141,7 +140,7 @@ class Socket
      * @return mixed Nombre d'octet ou false en cas d'erreur
      * @throws \InvalidArgumentException
      */
-    public function write($buffer)
+    public function write(string $buffer)
     {
         if ($this->isConnected())
         {
@@ -156,7 +155,7 @@ class Socket
      * @return boolean
      * @throws \RuntimeException
      */
-    public function read($size = 2048)
+    public function read(int $size = 2048): bool
     {
         if ($this->isConnected())
         {
@@ -178,7 +177,7 @@ class Socket
      * Vérifie si la socket est connecté
      * @return boolean 
      */
-    public function isConnected()
+    public function isConnected(): bool
     {
         return (is_resource($this->socket) && $this->state == self::CONNECTED);
     }

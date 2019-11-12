@@ -48,5 +48,4 @@ var_dump($r->get('pager','email'));
 var_dump($r->getPost('pager','url'));
 
 
-
 ?>
