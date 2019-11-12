@@ -12,13 +12,14 @@
 
 namespace Pry\Session;
 
+use Exception;
+
 /**
  *  Wrapper de la gestion de session PHP.
  * 
  * Simplifie l'accès au variable de session via les methodes _get et _set
  * @category Pry
  * @package Session
- * @version 1.0.7
  * @author Olivier ROGER <oroger.fr>
  */
 class Session
@@ -69,20 +70,20 @@ class Session
      * Initialisation de la session (Singleton)
      *
      * @param string $name
-     * @param float $ttl
+     * @param float $ttl Durée de vie en seconde
      * @param boolean $regenerate Force la génération de l'id. A eviter en mode BDD
      * @access private
-     * @throws \Exception
+     * @throws Exception
      */
-    private function __construct($name = 'PrySess', $ttl = null, $regenerate = true)
+    private function __construct(string $name = 'PrySess', float $ttl = null, bool $regenerate = true)
     {
         if (isset($_SESSION))
-            throw new \Exception('Une session existe déjà');
+            throw new Exception('Une session existe déjà');
 
         $this->sessionName    = $name;
         $this->sessionTTL     = $ttl;
         $this->useCookie      = (boolean) ini_get('session.use_cookies');
-        $this->autoRegenerate = $regenerate;
+        $this->regenerate = $regenerate;
 
         session_name($this->sessionName);
 
@@ -113,9 +114,9 @@ class Session
      * @param string $name
      * @param float $ttl
      * @return Session
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function getInstance($name = 'PrySess', $ttl = null)
+    public static function getInstance(string $name = 'PrySess', float $ttl = null)
     {
         if (!isset(self::$instance))
             self::$instance = new Session($name, $ttl);
@@ -141,7 +142,7 @@ class Session
      * @param string $name
      * @return boolean
      */
-    public function __isset($name)
+    public function __isset(string $name)
     {
         return isset($_SESSION[$name]);
     }
@@ -152,7 +153,7 @@ class Session
      * @param string $name
      * @param mixed $value
      */
-    public function __set($name, $value)
+    public function __set(string $name, $value)
     {
         $_SESSION[$name] = $value;
     }
@@ -162,7 +163,7 @@ class Session
      *
      * @param boolean $delete_old
      */
-    public function refresh($delete_old = true)
+    public function refresh(bool $delete_old = true): void
     {
         if(session_id() !== '')
         {
@@ -177,7 +178,7 @@ class Session
      * 
      * @return boolean
      */
-    public function check()
+    public function check(): bool
     {
         $now = time();
         if (is_null($this->sessionTTL) || $this->sessionTTL == -1)
@@ -198,7 +199,7 @@ class Session
      * Suppression d'une valeur dans la session
      * @param string $key Clé de la valeur
      */
-    public function remove($key)
+    public function remove(string $key): void
     {
         if (isset($_SESSION[$key]))
             unset($_SESSION[$key]);

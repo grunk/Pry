@@ -12,20 +12,22 @@
 
 namespace Pry\Session;
 
+use Exception;
+use PDO;
+
 /**
  *  Gestion de session via BDD.
  *
  * Permet de gérer les session PHP via une bdd plutôt que par cookie
  * @category Pry
  * @package Session
- * @version 0.9
  * @author Olivier ROGER <oroger.fr>
  */
 class DbStorage extends Session
 {
 
     /**
-     * @var \PDO 
+     * @var PDO
      */
     private $dbh;
 
@@ -38,11 +40,11 @@ class DbStorage extends Session
 
     /**
      * DbStorage constructor.
-     * @param \PDO $dbh
+     * @param PDO $dbh
      * @param array $opts
      * @param int $ttl
      */
-    private function __construct($dbh, $opts, $ttl)
+    private function __construct(PDO $dbh, array $opts, int $ttl)
     {
         $this->dbh     = $dbh;
         $this->ttl     = $ttl;
@@ -61,12 +63,12 @@ class DbStorage extends Session
 
     /**
      * Singleton
-     * @param \PDO $dbh Objet bdd
+     * @param PDO $dbh Objet bdd
      * @param array $opts Option de config de la table
      * @param int $ttl Durée de vie de la session en seconde
      * @return DbStorage
      */
-    public static function getInstance($dbh, array $opts, $ttl = null)
+    public static function getInstance(PDO $dbh, array $opts, int $ttl = null)
     {
         if (!isset(self::$instance))
             self::$instance = new DbStorage($dbh, $opts, $ttl);
@@ -74,12 +76,12 @@ class DbStorage extends Session
         return self::$instance;
     }
 
-    public function sessionClose()
+    public function sessionClose(): bool
     {
         return true;
     }
 
-    public function sessionOpen($path = null, $name = null)
+    public function sessionOpen(string $path = null, string $name = null)
     {
         
     }
@@ -88,9 +90,9 @@ class DbStorage extends Session
      * Destroy session
      * @param $id
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
-    public function sessionDestroy($id)
+    public function sessionDestroy(int $id): bool
     {
         $db_table  = $this->options['db_table'];
         $db_id_col = $this->options['db_id_col'];
@@ -99,10 +101,10 @@ class DbStorage extends Session
 
         try {
             $stmt = $this->dbh->prepare($sql);
-            $stmt->bindParam(1, $id, \PDO::PARAM_STR);
+            $stmt->bindParam(1, $id, PDO::PARAM_STR);
             $stmt->execute();
         } catch (\PDOException $e) {
-            throw new \Exception(sprintf('Unable to destroy the session. Message: %s', $e->getMessage()));
+            throw new Exception(sprintf('Unable to destroy the session. Message: %s', $e->getMessage()));
         }
 
         return true;
@@ -111,9 +113,9 @@ class DbStorage extends Session
     /**
      * @param $lifetime
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
-    public function sessionGC($lifetime)
+    public function sessionGC($lifetime): bool
     {
         $db_table    = $this->options['db_table'];
         $db_time_col = $this->options['db_time_col'];
@@ -124,7 +126,7 @@ class DbStorage extends Session
         try {
             $this->dbh->query($sql);
         } catch (\PDOException $e) {
-            throw new \Exception(sprintf('Unable to clean expired sessions. Message: %s', $e->getMessage()));
+            throw new Exception(sprintf('Unable to clean expired sessions. Message: %s', $e->getMessage()));
         }
 
         return true;
@@ -133,9 +135,9 @@ class DbStorage extends Session
     /**
      * @param $id
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
-    public function sessionRead($id)
+    public function sessionRead(int $id): bool
     {
         // get table/columns
         $db_table    = $this->options['db_table'];
@@ -146,10 +148,10 @@ class DbStorage extends Session
             $sql = 'SELECT ' . $db_data_col . ' FROM ' . $db_table . ' WHERE ' . $db_id_col . '=?';
 
             $stmt = $this->dbh->prepare($sql);
-            $stmt->bindParam(1, $id, \PDO::PARAM_STR, 255);
+            $stmt->bindParam(1, $id, PDO::PARAM_STR, 255);
 
             $stmt->execute();
-            $sessionRows = $stmt->fetchAll(\PDO::FETCH_NUM);
+            $sessionRows = $stmt->fetchAll(PDO::FETCH_NUM);
 
             if (1 === count($sessionRows))
             {
@@ -162,11 +164,11 @@ class DbStorage extends Session
                 return false;
             }
         } catch (\PDOException $e) {
-            throw new \Exception(sprintf('Unable to read session data. Message: %s', $e->getMessage()));
+            throw new Exception(sprintf('Unable to read session data. Message: %s', $e->getMessage()));
         }
     }
 
-    public function sessionWrite($id, $data)
+    public function sessionWrite(int $id, $data): bool
     {
         // get table/column
         $db_table    = $this->options['db_table'];
@@ -175,7 +177,7 @@ class DbStorage extends Session
         $db_time_col = $this->options['db_time_col'];
 
         $stmt = $this->dbh->prepare('SELECT COUNT(*) FROM '.$db_table.' WHERE '.$db_id_col.' = ?');
-        $stmt->bindParam(1, $id, \PDO::PARAM_STR, 255);
+        $stmt->bindParam(1, $id, PDO::PARAM_STR, 255);
         $stmt->execute();
         $sessionExist = $stmt->fetchColumn(0);
 
@@ -192,7 +194,7 @@ class DbStorage extends Session
                     $db_time_col => $date
                         ), "$db_id_col = '$id'");
             } catch (\PDOException $e) {
-                throw new \Exception(sprintf('Unable to write session data. Message: %s', $e->getMessage()));
+                throw new Exception(sprintf('Unable to write session data. Message: %s', $e->getMessage()));
             }
         }
         else
@@ -203,7 +205,7 @@ class DbStorage extends Session
         return true;
     }
 
-    private function createSession($id, $data)
+    private function createSession(int $id, $data)
     {
         $dt   = new \DateTime('now');
         $dt->modify('+' . $this->ttl . ' seconds');
