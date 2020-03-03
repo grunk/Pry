@@ -38,7 +38,7 @@ class Bcrypt
      */
     public function __construct($rounds = 12)
     {
-        if (PASSWORD_BCRYPT != 1)
+        if (!defined('PASSWORD_BCRYPT'))
             throw new \RuntimeException('Bcrypt not available on your PHP installation');
 
         if ($rounds < 4 || $rounds > 31)
