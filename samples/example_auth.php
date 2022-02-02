@@ -19,8 +19,6 @@ use Pry\Auth\Auth;
 use Pry\Auth\Bcrypt;
 
 require_once('../Pry/Pry.php');
-require_once 'Zend/Loader/Autoloader.php';
-Zend_Loader_Autoloader::getInstance();
 Pry::register();
 
 //Lecture fichier de config
@@ -33,16 +31,21 @@ catch(Exception $e){
 
 
 //Initialisation BDD
-try{
-	$options = $configIni->database->params->toArray();
-	$sql = Zend_Db::factory($configIni->database->adapter,$options);
-	$sql->getConnection();
-	
-	var_dump($sql->fetchAll('SELECT * FROM user'));
-}
-catch(Zend_Db_Adapter_Exception $e){
-	echo $e->getMessage();
-	echo 'error';
+$sql = null;
+try {
+    $options = array(
+        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    );
+    $dbParam = $configIni->database->params->toArray();
+    $sql = new PDO('mysql:host='.$dbParam['host'].';dbname='.$dbParam['dbname'].';charset=utf8',$dbParam['username'],$dbParam['password'],$options);
+    $st = $sql->query('SELECT * FROM user');
+    var_dump($st->fetchAll());
+} catch (Exception $e) {
+    echo $e->getMessage();
+    echo 'error';
 }
 
 $sess 	= Session::getInstance();

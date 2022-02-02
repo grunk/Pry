@@ -35,7 +35,7 @@ class Filter extends \FilterIterator
      * Vérifie qu'un élément peut être listé
      * @return boolean
      */
-    public function accept()
+    public function accept(): bool
     {
         if (empty($this->extensions))
             return true;

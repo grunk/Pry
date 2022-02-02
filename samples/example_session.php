@@ -31,16 +31,14 @@ catch(Exception $e){
 	echo $e->getError();
 }
 
-//BDD
-try{
-	//var_dump($configIni->database->toArray());
-	$sql = Zend_Db::factory($configIni->database);
-	$sql->getConnection();
-	
-}
-catch(Zend_Db_Adapter_Exception $e){
-	echo $e->getError();
-}
+$options = array(
+    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+    PDO::ATTR_EMULATE_PREPARES => false,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+);
+$dbParam = $configIni->database->params->toArray();
+$sql = new PDO('mysql:host='.$dbParam['host'].';dbname='.$dbParam['dbname'].';charset=utf8',$dbParam['username'],$dbParam['password'],$options);
 
 $sessionTable = array(
 	'db_table'    => 'php_sessions',
