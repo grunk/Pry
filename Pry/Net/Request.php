@@ -146,11 +146,11 @@ class Request
      * Récupère une valeur POST
      * @param string $name Nom de la valeur POST
      * @param string $dataType Type de données pour appliquer un filtres.
-     * @param mixed $flag Flag optionnel à utiliser pour le filtre
+     * @param array|int $flag Flag optionnel à utiliser pour le filtre
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function getPost($name, $dataType = null,$flag = null)
+    public function getPost($name, $dataType = null,$flag = 0)
     {
         return $this->getWithFilter($name, 'post', $dataType, $flag);
     }
@@ -159,11 +159,11 @@ class Request
      * Récupère une valeur PUT
      * @param string $name Nom de la valeur PUT
      * @param string $dataType Type de données pour appliquer un filtres.
-     * @param mixed $flag Flag optionnel à utiliser pour le filtre
+     * @param array|int $flag Flag optionnel à utiliser pour le filtre
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function getPut($name, $dataType = null,$flag = null)
+    public function getPut($name, $dataType = null,$flag = 0)
     {
         return $this->getWithFilter($name, 'put', $dataType, $flag);
     }
@@ -172,11 +172,11 @@ class Request
      * Récupère une valeur DELETE
      * @param string $name Nom de la valeur DELETE
      * @param string $dataType Type de données pour appliquer un filtres.
-     * @param mixed $flag Flag optionnel à utiliser pour le filtre
+     * @param array|int $flag Flag optionnel à utiliser pour le filtre
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function getDelete($name, $dataType = null,$flag = null)
+    public function getDelete($name, $dataType = null,$flag = 0)
     {
         return $this->getWithFilter($name, 'delete', $dataType, $flag);
     }
@@ -188,7 +188,7 @@ class Request
      * Types autorisés int,float,string,email,url,ip
      * @return mixed
      */
-    public function get($name, $dataType = null,$flag = null)
+    public function get($name, $dataType = null,$flag = 0)
     {
         return $this->getWithFilter($name, 'get', $dataType, $flag);
     }
@@ -394,9 +394,9 @@ class Request
      * @param string $name Nom du paramètre
      * @param string $type Type de paramètre
      * @param string $dataType Type de données attendu
-     * @param mixed $flag Flag optionnel à utiliser
+     * @param array|int $flag Flag optionnel à utiliser
      */
-    protected function getWithFilter($name, $type, $dataType,$flag = null)
+    protected function getWithFilter($name, $type, $dataType,$flag = 0)
     {
         $type = empty($type) ? $this->defaultMethod : strtolower($type);
         if (isset($this->{$type}[$name]))
@@ -409,7 +409,7 @@ class Request
                 case 'float' :
                     return floatval($param);
                 case 'string' :
-                    $str = filter_var($param, FILTER_SANITIZE_STRING,$flag);
+                    $str = filter_var($param, FILTER_SANITIZE_FULL_SPECIAL_CHARS,$flag);
                     return ($str != false) ? $str : null;
                 case 'email' :
                     $str =  filter_var($param, FILTER_VALIDATE_EMAIL,$flag);
@@ -437,7 +437,7 @@ class Request
                 case 'stringarray':
                 {
                     if(is_array($param))
-                        return filter_var($param,FILTER_SANITIZE_STRING,FILTER_REQUIRE_ARRAY);
+                        return filter_var($param,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_REQUIRE_ARRAY);
                     else
                         return array();
                 }

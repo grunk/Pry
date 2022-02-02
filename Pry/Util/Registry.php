@@ -189,7 +189,7 @@ class Registry extends \ArrayObject
      *
      * Workaround for http://bugs.php.net/bug.php?id=40442 (ZF-960).
      */
-    public function offsetExists($index)
+    public function offsetExists($index): bool
     {
         return array_key_exists($index, (array)$this);
     }

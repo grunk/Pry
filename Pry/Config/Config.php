@@ -202,23 +202,23 @@ class Config implements \Countable, \Iterator
         $this->skipNextIteration = true;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->datas);
     }
 
-    public function current()
+    public function current(): mixed
     {
         $this->skipNextIteration = false;
         return current($this->datas);
     }
 
-    public function key()
+    public function key(): mixed
     {
         return key($this->datas);
     }
 
-    public function next()
+    public function next(): void
     {
         if ($this->skipNextIteration)
         {
@@ -229,14 +229,14 @@ class Config implements \Countable, \Iterator
         $this->index++;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->_skipNextIteration = false;
         reset($this->datas);
         $this->index              = 0;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->index < count($this->datas);
     }
